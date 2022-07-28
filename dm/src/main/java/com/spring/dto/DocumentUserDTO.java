@@ -1,5 +1,7 @@
 package com.spring.dto;
 
+import com.spring.model.Authority;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +15,9 @@ public class DocumentUserDTO {
 	
 	private Long documentNo;
 	
-	private Byte important;
+	private Integer important;
 	
-	private Byte recycleBin;
+	private Integer recycleBin;
 	
+	private Authority authority;
 }

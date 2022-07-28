@@ -1,6 +1,6 @@
 package com.spring.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +15,9 @@ public class DocumentDTO {
 
 	private Long userNo;
 	
-	private Date registerDate;
+	private Timestamp registerDate;
 
-	private Date modifyDate;
+	private Timestamp modifyDate;
 	
 	private String content;
 	
