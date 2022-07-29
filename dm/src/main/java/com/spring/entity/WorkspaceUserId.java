@@ -1,17 +1,13 @@
-package com.spring.dto;
+package com.spring.entity;
+
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class WorkspaceUserDTO {
-	
+public class WorkspaceUserId implements Serializable{
 	private Long workspaceNo;
-	
 	private Long userNo;
 }

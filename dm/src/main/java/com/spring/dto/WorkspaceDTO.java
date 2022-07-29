@@ -1,14 +1,16 @@
 package com.spring.dto;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class WorkspaceDTO {
 	
 	private Long workspaceNo;
@@ -18,10 +20,10 @@ public class WorkspaceDTO {
 	private String title;
 	
 	private String content;
-
-	private Timestamp regisetDate;
 	
-	private Timestamp modifyDate;
+	private LocalDateTime registerDate;
+	
+	private LocalDateTime modifyDate;
 	
 	
 }

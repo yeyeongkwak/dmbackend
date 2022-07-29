@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.UserDTO;
-import com.spring.mapper.UserMapper;
+import com.spring.entity.User;
+import com.spring.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,31 +14,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 	
-	private final UserMapper userMapper;
+	private final UserRepository userRepository;
 
 	@Override
-	public String getUserNoByUserNo(Long userNo) {
-		return userMapper.getUserNoByUserNo(userNo);
+	public User getUserByUserNo(Long userNo) {
+		return userRepository.getUserByUserNo(userNo);
 	}
 
 	@Override
-	public UserDTO getUserByUserNo(Long userNo) {
-		return userMapper.getUserByUserNo(userNo);
+	public List<User> getAllUser() {
+		return userRepository.findAll();
 	}
 
 	@Override
-	public List<UserDTO> getAllUser() {
-		return userMapper.getAllUser();
-	}
-
-	@Override
-	public void insertUser(UserDTO user) {
-		userMapper.insertUser(user);
+	public void insertUser(User user) {
+		userRepository.save(user);
 	}
 
 	@Override
 	public void deleteUserByUserNo(Long userNo) {
-		userMapper.deleteUserByUserNo(userNo);
+		userRepository.deleteById(userNo);
 	}
 
 }

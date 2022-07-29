@@ -1,12 +1,15 @@
 package com.spring.dto;
 
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class NoticeDTO {
 
 	private Long noticeNo;
