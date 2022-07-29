@@ -8,5 +8,7 @@ import com.spring.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 	public User getUserByUserNo(Long userNo);
+	
+	public User getUserById(String id);
 
 }

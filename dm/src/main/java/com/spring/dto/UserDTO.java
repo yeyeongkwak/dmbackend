@@ -3,6 +3,7 @@ package com.spring.dto;
 
 
 import java.sql.Date;
+import com.spring.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,9 @@ public class UserDTO {
 
 	private Long userNo;
 	
-	private Long deptNo;
+	private DepartmentDTO dept;
+	
+	private String id;
 	
 	private String id;
 	
@@ -30,5 +33,38 @@ public class UserDTO {
 	private Date registerDate;
 	
 	private String profile;
+	
+	public User toEntity(UserDTO userDTO) {
+		User user = User.builder()
+					.userNo(userDTO.getUserNo())
+					.dept(userDTO.getDept().toEntity(userDTO.getDept()))
+					.id(userDTO.getId())
+					.password(userDTO.getPassword())
+					.name(userDTO.getName())
+					.email(userDTO.getEmail())
+					.registerDate(userDTO.getRegisterDate())
+					.profile(userDTO.getProfile())
+					.build();
+		return user;
+	}
+	
+	public UserDTO(UserDTO newUser,UserDTO oldUser) {
+		userNo = oldUser.getUserNo();
+		dept = oldUser.getDept();
+		id = oldUser.getId();
+		name = oldUser.getName();
+		email = oldUser.getEmail();
+		registerDate = oldUser.getRegisterDate();
+		if(newUser.getPassword() != null) {
+			password = newUser.getPassword();
+		}else {
+			password = oldUser.getPassword();
+		}
+		if(newUser.getProfile() != null) {
+			profile = newUser.getProfile();
+		}else {
+			profile = oldUser.getProfile();
+		}
+	}
 	
 }

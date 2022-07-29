@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.spring.dto.DepartmentDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,4 +27,12 @@ public class Department {
 	@Column(name="dept_name")
 //	@Size(max = 20)
 	private String deptName;
+	
+	public DepartmentDTO toDTO(Department department) {
+		DepartmentDTO departmentDTO = DepartmentDTO.builder()
+										.deptNo(department.getDeptNo())
+										.deptName(department.getDeptName())
+										.build();
+		return departmentDTO;
+	}
 }

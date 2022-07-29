@@ -16,6 +16,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.spring.dto.WorkspaceDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +40,7 @@ public class Workspace {
 	
 	@ManyToOne
 	@JoinColumn(name="user_no")
-	private User user;
+	private User master;
 	
 	@Size(max = 50)
 	private String title;
@@ -52,5 +54,16 @@ public class Workspace {
 	@LastModifiedDate
 	private LocalDateTime modifyDate;
 	
+	public WorkspaceDTO toDTO(Workspace workspace) {
+		WorkspaceDTO workspaceDTO = WorkspaceDTO.builder()
+									.workspaceNo(workspace.getWorkspaceNo())
+									.master(workspace.getMaster().toDTO(workspace.getMaster()))
+									.title(workspace.getTitle())
+									.content(workspace.getContent())
+									.registerDate(workspace.getRegisterDate())
+									.modifyDate(workspace.getModifyDate())
+									.build();
+		return workspaceDTO;
+	}
 	
 }

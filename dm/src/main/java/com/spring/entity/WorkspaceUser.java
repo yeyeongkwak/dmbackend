@@ -6,6 +6,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.spring.dto.WorkspaceUserDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,4 +32,12 @@ public class WorkspaceUser{
 	@ManyToOne
 	@JoinColumn(name = "user_no")
 	private User userNo;
+	
+	public WorkspaceUserDTO toDTO(WorkspaceUser workspaceUser) {
+		WorkspaceUserDTO workspaceUserDTO = WorkspaceUserDTO.builder()
+											.workspaceNo(workspaceUser.getWorkspaceNo().toDTO(workspaceUser.getWorkspaceNo()))
+											.userNo(workspaceUser.getUserNo().toDTO(workspaceUser.getUserNo()))
+											.build();
+		return workspaceUserDTO;
+	}
 }
