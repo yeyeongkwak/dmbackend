@@ -17,6 +17,8 @@ public class UserDTO {
 	
 	private Long deptNo;
 	
+	private String id;
+	
 	private String password;
 	
 	private String name;
