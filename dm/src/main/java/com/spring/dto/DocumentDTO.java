@@ -1,6 +1,7 @@
 package com.spring.dto;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +16,11 @@ public class DocumentDTO {
 	
 	private Long documentNo; 
 
-	private Long userNo;
+	private UserDTO user;
 	
-	private Timestamp registerDate;
+	private LocalDateTime registerDate;
 
-	private Timestamp modifyDate;
+	private LocalDateTime modifyDate;
 	
 	private String content;
 	
@@ -28,4 +29,31 @@ public class DocumentDTO {
 	private String filePath;
 	
 	private String originalName;
+	
+	
+	public DocumentDTO(DocumentDTO orginalDTO, DocumentDTO newDTO) {
+		documentNo = orginalDTO.getDocumentNo();
+		user = orginalDTO.getUser();
+		registerDate = orginalDTO.getRegisterDate();
+		if(newDTO.getContent() != null) {
+			content = newDTO.getContent();
+		}else {
+			content = orginalDTO.getContent();
+		}
+		if(newDTO.getFileName() != null) {
+			fileName = newDTO.getFileName();
+		}else {
+			fileName = orginalDTO.getFileName();
+		}
+		if(newDTO.getFilePath() != null) {
+			filePath = newDTO.getFilePath();
+		}else {
+			filePath = orginalDTO.getFilePath();
+		}
+		if(newDTO.getOriginalName() != null) {
+			originalName = newDTO.getOriginalName();
+		}else {
+			originalName = orginalDTO.getOriginalName();
+		}
+	}
 }

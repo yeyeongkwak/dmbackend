@@ -16,6 +16,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.spring.dto.DocumentDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,4 +64,17 @@ public class Document {
 	@Column(name = "original_name")
 	@Size(max = 50)
 	private String originalName;
+	
+	public DocumentDTO toDTO(Document document) {
+		User user = document.getUser();
+		DocumentDTO documentDTO = DocumentDTO.builder().documentNo(document.getDocumentNo())
+													   .registerDate(document.getRegisterDate())
+													   .modifyDate(document.getModifyDate())
+													   .content(document.getContent())
+													   .fileName(document.getFileName())
+													   .filePath(document.getFilePath())
+													   .originalName(document.getOriginalName())
+													   .build();
+		return documentDTO;
+	}
 }
