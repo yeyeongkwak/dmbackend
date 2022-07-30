@@ -1,6 +1,9 @@
 package com.spring.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.spring.entity.User;
 import com.spring.entity.Workspace;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +28,8 @@ public class WorkspaceDTO {
 	private LocalDateTime registerDate;
 	
 	private LocalDateTime modifyDate;
+	
+	private List<UserDTO> userList;
   
 	public Workspace toEntity(WorkspaceDTO workspaceDTO) {
 		Workspace workspace = Workspace.builder()

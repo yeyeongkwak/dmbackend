@@ -25,6 +25,7 @@ public class UserController {
 	
 	@GetMapping(value = "/user/{userNo}")
 	public UserDTO getUserByUserNo(@PathVariable Long userNo) {
+		System.out.println(userNo);
 		UserDTO userDTO = userService.getUserByUserNo(userNo);
 		return userDTO;
 	}
@@ -45,10 +46,10 @@ public class UserController {
 		userService.insertUser(userDTO);	
 	}
 	
-	@PutMapping(value = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateProfile(@RequestBody UserDTO userDTO) {
+	@PutMapping(value = "/profile/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateProfile(@RequestBody UserDTO userDTO,@PathVariable Long userNo) {
+		userDTO.setUserNo(userNo);
 		userService.updateUser(userDTO);
-
 	}
 	
 }

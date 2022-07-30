@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDTO getUserById(String id) {
 		User user = userRepository.getUserById(id);
-		return user.toDTO(user);
+		return user == null?null:user.toDTO(user);
 	}
 
 	@Override
@@ -38,7 +38,9 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void insertUser(UserDTO userDTO) {
+		System.out.println(userDTO);
 		if(getUserById(userDTO.getId()) == null) {
+			userDTO.toEntity(userDTO);
 			userRepository.save(userDTO.toEntity(userDTO));
 		}
 	}
@@ -50,8 +52,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public void updateUser(UserDTO userDTO) {
-		UserDTO oldUserDTO = getUserById(userDTO.getId());
+		UserDTO oldUserDTO = getUserByUserNo(userDTO.getUserNo());
 		if(oldUserDTO != null) {
+			System.out.println("11");
 			UserDTO newUserDTO = new UserDTO(userDTO,oldUserDTO);
 			userRepository.save(newUserDTO.toEntity(newUserDTO));
 		}

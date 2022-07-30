@@ -39,7 +39,7 @@ public class Workspace {
 	private Long workspaceNo;
 	
 	@ManyToOne
-	@JoinColumn(name="user_no")
+	@JoinColumn(name="master")
 	private User master;
 	
 	@Size(max = 50)

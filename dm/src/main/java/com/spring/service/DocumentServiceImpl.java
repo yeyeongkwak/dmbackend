@@ -57,7 +57,7 @@ public class DocumentServiceImpl implements DocumentService{
 	public void insertDocument(DocumentDTO documentDTO) {
 		Document document = documentRepository.findDocumentByDocumentNo(documentDTO.getDocumentNo());
 		if(document == null) {
-			document = documentDTO.toEntity(documentDTO);
+//			document = documentDTO.toEntity(documentDTO);
 			documentRepository.save(document);
 		}	
 	}
@@ -68,7 +68,7 @@ public class DocumentServiceImpl implements DocumentService{
 		DocumentDTO orginalDTO = getDocumentByDocumentNo(documentDTO.getDocumentNo());
 		if(orginalDTO != null) {
 			DocumentDTO newDTO = new DocumentDTO(orginalDTO, documentDTO);
-			documentRepository.save(newDTO.toEntity(newDTO));
+//			documentRepository.save(newDTO.toEntity(newDTO));
 			
 		}
 	}
