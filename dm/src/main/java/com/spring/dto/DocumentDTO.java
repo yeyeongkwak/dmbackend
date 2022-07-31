@@ -3,6 +3,9 @@ package com.spring.dto;
 
 import java.time.LocalDateTime;
 
+import com.spring.entity.Document;
+import com.spring.entity.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +33,19 @@ public class DocumentDTO {
 	
 	private String originalName;
 	
+	public Document toEntity(DocumentDTO dto) {
+		UserDTO user = dto.getUser();
+		Document document = Document.builder().documentNo(dto.getDocumentNo())
+											  .user(user != null ? user.toEntity(user) : null)
+											  .registerDate(dto.getRegisterDate())
+											  .modifyDate(dto.getModifyDate())
+											  .content(dto.getContent())
+											  .fileName(dto.getFileName())
+											  .filePath(dto.getFilePath())
+											  .originalName(dto.getOriginalName())
+											  .build();
+		return document;										  
+	}
 	
 	public DocumentDTO(DocumentDTO orginalDTO, DocumentDTO newDTO) {
 		documentNo = orginalDTO.getDocumentNo();

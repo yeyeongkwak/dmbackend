@@ -9,6 +9,7 @@ import com.spring.entity.Document;
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 	
 	public Document findDocumentByDocumentNo(Long documentNo);
+	
 	@Transactional
 	public void deleteDocumentByDocumentNo(Long documentNo);
 }
