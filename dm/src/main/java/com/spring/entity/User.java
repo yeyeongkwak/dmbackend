@@ -32,6 +32,7 @@ import lombok.ToString;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @ToString
+
 public class User {
 	
 	@Id
@@ -72,6 +73,8 @@ public class User {
 							.registerDate(user.getRegisterDate())
 							.profile(user.getProfile())
 							.build();
-		return userDTO;
+		
+		return userDTO;		
+
 	}
 }

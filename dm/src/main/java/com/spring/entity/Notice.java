@@ -29,11 +29,11 @@ public class Notice {
 	private Long noticeNo;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name="sender")
 	private User sender;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name="receiver")
 	private User receiver;
 	
 	@Size(min=1, max = 200)
