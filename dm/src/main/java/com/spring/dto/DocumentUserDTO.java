@@ -38,23 +38,23 @@ public class DocumentUserDTO {
 		return documentUser;										  
 	}
 	
-	public DocumentUserDTO(DocumentUserDTO orginalDTO, DocumentUserDTO newDTO) {
-		documentNo = orginalDTO.getDocumentNo();
-		userNo = orginalDTO.getUserNo();
+	public DocumentUserDTO(DocumentUserDTO oldDTO, DocumentUserDTO newDTO) {
+		documentNo = oldDTO.getDocumentNo();
+		userNo = oldDTO.getUserNo();
 		if(newDTO.getImportant() != null) {
 			important = newDTO.getImportant();
 		}else {
-			important = orginalDTO.getImportant();
+			important = oldDTO.getImportant();
 		}
 		if(newDTO.getRecycleBin() != null) {
 			recycleBin = newDTO.getRecycleBin();
 		}else {
-			recycleBin = orginalDTO.getRecycleBin();
+			recycleBin = oldDTO.getRecycleBin();
 		}
 		if(newDTO.getAuthority() != null) {
 			authority = newDTO.getAuthority();
 		}else {
-			authority = orginalDTO.getAuthority();
+			authority = oldDTO.getAuthority();
 		}
 	}
 }

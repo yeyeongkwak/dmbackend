@@ -62,7 +62,7 @@ public class DocumentController {
 	
 	// 문서 조회
 	@GetMapping(value = "/document/{documentNo}")
-	public DocumentDTO sellectDocument(@PathVariable Long documentNo){
+	public DocumentDTO selectDocument(@PathVariable Long documentNo){
 		return documentService.selectDocument(documentNo);
 	}
 	

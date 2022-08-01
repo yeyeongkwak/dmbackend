@@ -10,12 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.spring.dto.DocumentDTO;
 import com.spring.dto.DocumentUserDTO;
 import com.spring.model.Authority;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -40,13 +43,15 @@ public class DocumentUser {
 	private Document documentNo;
 	
 	@Size(max = 1)
+	@Column(insertable = false)
 	private Integer important;
 	
 	@Size(max = 1)
+	@Column(insertable = false)
 	private Integer recycleBin;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(columnDefinition = "enum('read','write','master')")
+//	@Column(columnDefinition = "enum('READ','WRITE','MASTER')")
 	private Authority authority;
 	
 	public DocumentUserDTO toDTO(DocumentUser documentUser) {
