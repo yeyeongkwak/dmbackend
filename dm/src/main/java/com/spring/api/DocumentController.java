@@ -1,6 +1,11 @@
 package com.spring.api;
 
+
+import java.io.BufferedOutputStream;
+
 import java.io.File;
+import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.Date;
@@ -37,62 +42,70 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor
 public class DocumentController {
-	
-	private final DocumentServiceImpl documentService;
-	private final DocumentRepository documentRepository;
-	@GetMapping("/download/{documentNo}")
-	  public void download(HttpServletResponse response, @PathVariable Long documentNo) throws IOException {
 
-		DocumentDTO document = documentService.selectDocument(documentNo);
-		String finalPath = document.getFilePath() + "\\" + document.getFileName();
-	    String path = "C://Users//ju390//Downloads/a2ff3d73-4fed-4b37-9513-5bc98a07178a_sick.png";
-	    
-	    
-	    
-	    byte[] fileByte = FileUtils.readFileToByteArray(new File(finalPath));
+    
+   private final DocumentServiceImpl documentService;
+//   private final DocumentRepository documentRepository;
+//   
+//   
+//   @GetMapping("/download/{documentNo}")
+//     public void download(HttpServletResponse response, @PathVariable Long documentNo) throws IOException {
+//
+//      DocumentDTO document = documentService.selectDocument(documentNo);
+////      String finalPath = document.getFilePath() + "//" + document.getFileName();
+//       
+//      String filePath = System.getProperty("user.home");
+////      System.out.println(filePath);
+//      BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(document.getOriginalName()));
+//
+////       
+////       
+//       byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
+//
+//       response.setContentType("application/octet-stream");
+//       response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(document.getOriginalName(), "UTF-8")+"\";");
+//       response.setHeader("Content-Transfer-Encoding", "binary");
+//
+//       response.getOutputStream().write(fileByte);
+//       response.getOutputStream().flush();
+//       response.getOutputStream().close();
+//     }
+   
+   // 문서 조회
+   @GetMapping(value = "/document/{documentNo}")
+   public DocumentDTO sellectDocument(@PathVariable Long documentNo){
 
-	    response.setContentType("application/octet-stream");
-	    response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode("sick.png", "UTF-8")+"\";");
-	    response.setHeader("Content-Transfer-Encoding", "binary");
+      return documentService.selectDocument(documentNo);
+   }
+   
+   // 문서 다운로드
+   @GetMapping(value = "/document/download/{documentNo}")
+   public DocumentDTO downloadDocument(@PathVariable Long documentNo){
+      return documentService.downloadDocument(documentNo);
 
-	    response.getOutputStream().write(fileByte);
-	    response.getOutputStream().flush();
-	    response.getOutputStream().close();
-	  }
-	
-	// 문서 조회
-	@GetMapping(value = "/document/{documentNo}")
-	public DocumentDTO selectDocument(@PathVariable Long documentNo){
-		return documentService.selectDocument(documentNo);
-	}
-	
-	// 문서 다운로드
-	@GetMapping(value = "/document/download/{documentNo}")
-	public void downloadDocument(@PathVariable Long documentNo){
-		documentService.downloadDocument(documentNo);
-	}
-	
-	// 문서 작성
-	@PostMapping(value = "/document",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
-		documentService.insertDocument(documentDTO, multipart);	
-	}
-	
-	// 문서 수정(파일, 문서 내용)
-	@PostMapping(value="/document/{documentNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void updateDocument(@PathVariable Long documentNo, @RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
-		documentService.updateDocument(documentNo, documentDTO, multipart);
-	}
-	
-	// 문서 수정(문서 내용)
-	@PutMapping(value="/document/{documentNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateDocument(@PathVariable Long documentNo, @RequestBody DocumentDTO documentDTO) {
-		documentService.updateDocument(documentNo, documentDTO);
-	}
-	
-	// 문서 삭제
-	@DeleteMapping(value = "/document/{documentNo}")
-	public void deleteDocument(@PathVariable Long documentNo) {
-		documentService.deleteDocument(documentNo);
-	}
+   }
+   
+   // 문서 작성
+   @PostMapping(value = "/document",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+   public void insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
+      documentService.insertDocument(documentDTO, multipart);   
+   }
+   
+   // 문서 수정(파일, 문서 내용)
+   @PostMapping(value="/document/{documentNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+   public void updateDocument(@PathVariable Long documentNo, @RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
+      documentService.updateDocument(documentNo, documentDTO, multipart);
+   }
+   
+   // 문서 수정(문서 내용)
+   @PutMapping(value="/document/{documentNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
+   public void updateDocument(@PathVariable Long documentNo, @RequestBody DocumentDTO documentDTO) {
+      documentService.updateDocument(documentNo, documentDTO);
+   }
+   
+   // 문서 삭제
+   @DeleteMapping(value = "/document/{documentNo}")
+   public void deleteDocument(@PathVariable Long documentNo) {
+      documentService.deleteDocument(documentNo);
+   }
 }
