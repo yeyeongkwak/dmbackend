@@ -1,19 +1,5 @@
 package com.spring.api;
 
-
-import java.io.BufferedOutputStream;
-
-import java.io.File;
-import java.io.FileOutputStream;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.sql.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,73 +8,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
-import com.spring.dto.PageRequestDTO;
-import com.spring.dto.PageResultDTO;
-import com.spring.dto.UserDTO;
-import com.spring.entity.Document;
-import com.spring.repository.DocumentRepository;
 import com.spring.service.DocumentServiceImpl;
-import com.spring.service.UserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor
+
+
+
+
+
+
 public class DocumentController {
 
-    
    private final DocumentServiceImpl documentService;
-//   private final DocumentRepository documentRepository;
-//   
-//   
-//   @GetMapping("/download/{documentNo}")
-//     public void download(HttpServletResponse response, @PathVariable Long documentNo) throws IOException {
-//
-//      DocumentDTO document = documentService.selectDocument(documentNo);
-////      String finalPath = document.getFilePath() + "//" + document.getFileName();
-//       
-//      String filePath = System.getProperty("user.home");
-////      System.out.println(filePath);
-//      BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(document.getOriginalName()));
-//
-////       
-////       
-//       byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
-//
-//       response.setContentType("application/octet-stream");
-//       response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(document.getOriginalName(), "UTF-8")+"\";");
-//       response.setHeader("Content-Transfer-Encoding", "binary");
-//
-//       response.getOutputStream().write(fileByte);
-//       response.getOutputStream().flush();
-//       response.getOutputStream().close();
-//     }
    
    // 문서 조회
    @GetMapping(value = "/document/{documentNo}")
-   public DocumentDTO sellectDocument(@PathVariable Long documentNo){
-
+   public DocumentDTO selectDocument(@PathVariable Long documentNo){
       return documentService.selectDocument(documentNo);
    }
    
    // 문서 다운로드
    @GetMapping(value = "/document/download/{documentNo}")
    public DocumentDTO downloadDocument(@PathVariable Long documentNo){
-      return documentService.downloadDocument(documentNo);
-
+      return documentService.selectDocument(documentNo);
    }
    
    // 문서 작성
    @PostMapping(value = "/document",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public void insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
-      documentService.insertDocument(documentDTO, multipart);   
+	   System.out.println(documentDTO);
+      documentService.insertDocument(documentDTO, multipart);
    }
    
    // 문서 수정(파일, 문서 내용)

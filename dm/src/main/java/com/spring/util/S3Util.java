@@ -4,6 +4,13 @@ import java.io.IOException;
 
 
 import java.io.InputStream;
+import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.spring.dto.DocumentDTO;
+import com.spring.exception.UploadFailedException;
 
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
@@ -21,9 +28,7 @@ import software.amazon.awssdk.services.s3.waiters.S3Waiter;
 
 public class S3Util {
    
-
    public static final String BUCKET = "test-busan";
-   public static final String DOWNLOAD = "https://" + BUCKET + ".s3.ap-northeast-2.amazonaws.com/";
 
    
    public static void uploadFile(String fileName, InputStream inputStream) throws S3Exception, AwsServiceException, SdkClientException, IOException {
@@ -57,5 +62,28 @@ public class S3Util {
             
       client.deleteObject(request);
    }
+   
+   public static String getFileUrl(String fileName) {
+	      AmazonS3Client s3Client = (AmazonS3Client) AmazonS3Client.builder().build();
+	      return s3Client.getResourceUrl(BUCKET,fileName);
+	   }
+   
+   // S3 파일 업로드
+   public static DocumentDTO S3Upload(MultipartFile multipart, DocumentDTO documentDTO) throws UploadFailedException {   
+      String originalFileName =  multipart.getOriginalFilename();
+      String filename = UUID.randomUUID().toString() + "_" + originalFileName;   
+      
+      try {
+         S3Util.uploadFile(filename, multipart.getInputStream());
+         documentDTO.setOriginalName(originalFileName);
+         documentDTO.setFileName(filename);
+         documentDTO.setFilePath(S3Util.getFileUrl(filename));
+         
+         return documentDTO;
+      } catch (Exception e) {
+          throw new UploadFailedException(e.getMessage());
+      }
+   };
+   
 
 }

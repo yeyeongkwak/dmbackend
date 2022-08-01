@@ -3,7 +3,6 @@ package com.spring.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import com.spring.dto.DepartmentDTO;
 

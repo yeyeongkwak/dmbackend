@@ -3,7 +3,6 @@ package com.spring.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.spring.entity.User;
 import com.spring.entity.Workspace;
 
 import lombok.AllArgsConstructor;

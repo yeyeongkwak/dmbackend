@@ -1,54 +1,27 @@
 package com.spring.service;
 
-import java.io.BufferedOutputStream;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
+import com.spring.dto.DocumentUserDTO;
 import com.spring.entity.Document;
+import com.spring.exception.UploadFailedException;
 import com.spring.repository.DocumentRepository;
 import com.spring.util.S3Util;
 
 import lombok.RequiredArgsConstructor;
-import software.amazon.awssdk.core.ResponseInputStream;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService{
    
    private final DocumentRepository documentRepository;
-   
-//   @Override
-//   public List<DocumentDTO> getAllDocuments() {
-//      List<Document> documents = documentRepository.findAll();
-//      List<DocumentDTO> documentDTOs = new ArrayList<DocumentDTO>();
-//      for (Document document : documents) {
-//         documentDTOs.add(document.toDTO(document));
-//      }
-//      return documentDTOs;
-//   }
-   
-//   public PageResultDTO<DocumentDTO, Document> getList(PageRequestDTO pageRequestDTO) {
-//      Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-//      
-//      Page<Document> result = documentRepository.findAll(pageable);
-//      
-//      // entity -> dto
-//      Function<Document, DocumentDTO> function = (Document -> Document.toDTO(Document));
-//      
-//      return new PageResultDTO<DocumentDTO, Document>(result, function);
-//   }
-   
+   private final DocumentUserServiceImpl documentUserService;
    
    // 문서 조회 
    @Override
@@ -57,68 +30,26 @@ public class DocumentServiceImpl implements DocumentService{
       return document == null ? null : document.toDTO(document);
    }
    
-   // 문서 다운로드
-   public DocumentDTO downloadDocument(Long documentNo) {
-
-      DocumentDTO documentDTO = selectDocument(documentNo);
-      return documentDTO != null ? documentDTO : null;
-//      if(documentDTO != null) {
-//         try {
-//         String bucketName = S3Util.BUCKET;
-//         String keyName = documentDTO.getFileName();
-//         
-//         S3Client client = S3Client.builder().build();
-//         
-//         GetObjectRequest request = GetObjectRequest.builder()
-//               .bucket(bucketName)
-//               .key(keyName)
-//               .build();
-//         
-//         ResponseInputStream<GetObjectResponse> inputStream = client.getObject(request);
-//         
-//         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(documentDTO.getOriginalName()));
-//         
-//         byte[] buffer = new byte[4096];
-//         int bytesRead = -1;
-//         
-//         while ((bytesRead = inputStream.read(buffer))!= -1) {
-//            outputStream.write(buffer, 0, bytesRead);
-//         }
-//         
-//         inputStream.close();
-//         outputStream.close();
-//         }catch (Exception e) {
-//            System.out.println(e.getMessage());
-//         }
-//         return documentDTO;
-//      }
-//      return null;
-   }
-   
    // 문서 작성
-   // S3 파일 업로드
-   public DocumentDTO S3Upload(MultipartFile multipart, DocumentDTO documentDTO) {   
-      
-      String originalFileName =  multipart.getOriginalFilename();
-      String filename = UUID.randomUUID().toString() + "_" + originalFileName;   
-
-      try {
-         S3Util.uploadFile(filename, multipart.getInputStream());
-      } catch (Exception e) {
-          System.out.println(e.getMessage());
-      }         
-      documentDTO.setOriginalName(originalFileName);
-      documentDTO.setFileName(filename);
-      documentDTO.setFilePath(S3Util.DOWNLOAD + documentDTO.getFileName());
-      
-      return documentDTO;
-   };
+   
    
    // DB INSERT
    @Override
+   @Transactional
    public void insertDocument(DocumentDTO documentDTO ,MultipartFile multipart) {   
-         documentDTO = S3Upload(multipart, documentDTO);
-         documentRepository.save(documentDTO.toEntity(documentDTO));
+         try {
+			S3Util.S3Upload(multipart, documentDTO);
+			Document document = documentRepository.save(documentDTO.toEntity(documentDTO));
+			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();
+			documentDTO.getUserList().forEach(v->documentUserDTOs.add(
+															DocumentUserDTO.builder()
+															.documentNo(document.toDTO(document))
+															.userNo(v)
+															.build()));
+			documentUserService.insertDocumentUser(documentUserDTOs);
+		} catch (UploadFailedException e) {
+			e.printStackTrace();
+		}
       }   
    
    // 문서 수정(파일, 문서 내용)
@@ -129,10 +60,13 @@ public class DocumentServiceImpl implements DocumentService{
       if(orginalDTO != null) {
          S3Util.deleteFile(orginalDTO.getFileName());
          
-         documentDTO = S3Upload(multipart, documentDTO);
-         
-         DocumentDTO newDTO = new DocumentDTO(orginalDTO, documentDTO);
-         documentRepository.save(newDTO.toEntity(newDTO));
+         try {
+			documentDTO = S3Util.S3Upload(multipart, documentDTO);
+			DocumentDTO newDTO = new DocumentDTO(orginalDTO, documentDTO);
+			documentRepository.save(newDTO.toEntity(newDTO));
+		} catch (UploadFailedException e) {
+			e.printStackTrace();
+		}
       }
    }
    

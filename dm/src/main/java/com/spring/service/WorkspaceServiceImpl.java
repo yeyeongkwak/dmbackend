@@ -1,13 +1,12 @@
 package com.spring.service;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.dto.WorkspaceDTO;
 import com.spring.entity.Workspace;
 import com.spring.repository.WorkspaceRepository;
-import com.spring.repository.WorkspaceUserRepository;
 
 import lombok.RequiredArgsConstructor;
 

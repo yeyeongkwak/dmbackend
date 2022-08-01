@@ -2,9 +2,9 @@ package com.spring.dto;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.spring.entity.Document;
-import com.spring.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +32,8 @@ public class DocumentDTO {
    private String filePath;
    
    private String originalName;
+   
+   private List<UserDTO> userList;
    
    public Document toEntity(DocumentDTO dto) {
       UserDTO user = dto.getUser();

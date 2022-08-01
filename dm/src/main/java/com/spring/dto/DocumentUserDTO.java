@@ -1,8 +1,6 @@
 package com.spring.dto;
 
-import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
-import com.spring.entity.User;
 import com.spring.model.Authority;
 
 import lombok.AllArgsConstructor;
