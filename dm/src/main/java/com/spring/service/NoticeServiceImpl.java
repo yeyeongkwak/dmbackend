@@ -61,6 +61,15 @@ public class NoticeServiceImpl implements NoticeService{
 				.collect(Collectors.toList());
 		return noticeList;
 	}
+	@Override
+	public void updateNotice(Long noticeNo, NoticeRequest noticeDTO) {
+		Notice notice = noticeRepository.findByNoticeNo(noticeNo);
+		if(notice.getNoticeNo().equals(noticeNo)){
+			notice.updateNotice(noticeDTO.getIsRead()==null?notice.getIsRead():noticeDTO.getIsRead());
+		}
+		noticeRepository.save(notice);
+		
+	}
 
 
 }

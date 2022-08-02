@@ -1,6 +1,7 @@
 package com.spring.dto;
 
 
+import com.spring.entity.Document;
 import com.spring.entity.Notice;
 import com.spring.entity.User;
 
@@ -25,6 +26,12 @@ public class NoticeDTO {
 	
 	private String content;
 	
+	private Byte isRead;
+	
+	private String relatedUrl;
+	
+	private DocumentDTO document;
+	
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -38,11 +45,20 @@ public class NoticeDTO {
 		
 		private String content;
 		
+		private Integer isRead;
+		
+		private String relatedUrl;
+		
+		private Document document;
+		
 		public Notice toEntity() {
 			Notice notice = Notice.builder()
 							.sender(sender)
 							.receiver(receiver)
 							.content(content)
+							.isRead(isRead)
+							.relatedUrl("/document/"+document.getDocumentNo()) //insert시 해당 document url로 바로 이동하기 위해 값을 미리 지정
+							.document(document)
 							.build();
 			return notice;
 			
@@ -60,11 +76,20 @@ public class NoticeDTO {
 		
 		private final String content;
 		
+		private final Integer isRead;
+		
+		private final String relatedUrl;
+		
+		private final Document document;
+		
 		public NoticeResponse(Notice notice) {
 			this.noticeNo=notice.getNoticeNo();
 			this.sender=notice.getSender().getName(); //바로 이름 출력하려고 getName 사용
 			this.receiver=notice.getReceiver().getName(); //바로 이름 출력하려고 getName 사용
 			this.content=notice.getContent();
+			this.isRead=notice.getIsRead();
+			this.relatedUrl=notice.getRelatedUrl();
+			this.document=notice.getDocument();
 		}
 	}
 	

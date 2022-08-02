@@ -19,4 +19,6 @@ public interface NoticeService {
 	
 	public void deleteNotice(Long noticeNo);
 	
+	public void updateNotice(Long noticeNo, NoticeRequest noticeDTO);
+	
 }

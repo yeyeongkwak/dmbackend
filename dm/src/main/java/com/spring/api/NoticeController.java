@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,5 +55,11 @@ public class NoticeController {
 	@DeleteMapping("/notice/{noticeNo}")
 	public void deleteNotice(@PathVariable Long noticeNo) {
 		noticeService.deleteNotice(noticeNo);
-	}	
+	}
+	
+	//notice번호로 알림 읽음 표시하기
+	@PutMapping("/notice/{noticeNo}")
+	public void updateNotice(@PathVariable Long noticeNo, @RequestBody NoticeRequest noticeDTO) {
+		noticeService.updateNotice(noticeNo, noticeDTO);
+	}
 }
