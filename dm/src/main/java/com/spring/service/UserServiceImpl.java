@@ -3,6 +3,7 @@ package com.spring.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.UserDTO;
@@ -16,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService{
 	
 	private final UserRepository userRepository;
-
+	BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
+	
 	@Override
 	public UserDTO getUserByUserNo(Long userNo) {
 		User user = userRepository.getUserByUserNo(userNo);
@@ -40,7 +42,9 @@ public class UserServiceImpl implements UserService{
 	public void insertUser(UserDTO userDTO) {
 		System.out.println(userDTO);
 		if(getUserById(userDTO.getId()) == null) {
+			String newPassword = pwEncoder.encode(userDTO.getPassword());
 			userDTO.toEntity(userDTO);
+			userDTO.setPassword(newPassword);
 			userRepository.save(userDTO.toEntity(userDTO));
 		}
 	}
@@ -59,5 +63,7 @@ public class UserServiceImpl implements UserService{
 			userRepository.save(newUserDTO.toEntity(newUserDTO));
 		}
 	}
+	
+	
 
 }

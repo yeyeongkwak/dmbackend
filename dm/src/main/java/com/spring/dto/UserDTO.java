@@ -4,6 +4,9 @@ package com.spring.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import com.spring.entity.User;
 
 import lombok.AllArgsConstructor;

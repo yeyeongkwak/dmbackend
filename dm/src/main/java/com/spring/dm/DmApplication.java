@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.spring.service","com.spring.api"})
+@ComponentScan(basePackages = {"com.spring.service","com.spring.api","com.spring.security", "com.spring.config",  "com.spring.controller"})
 @EntityScan(basePackages = {"com.spring.entity"})
 @EnableJpaRepositories(basePackages = {"com.spring.repository"})
 @EnableJpaAuditing
