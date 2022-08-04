@@ -1,13 +1,22 @@
 package com.spring.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
+import com.spring.dto.PageRequestDTO;
+import com.spring.dto.PageResultDTO;
+import com.spring.entity.Document;
+import com.spring.entity.User;
 
 public interface DocumentService {
    
 //   public List<DocumentDTO> getAllDocuments();
    
+   // 내 문서 리스트
+	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO);
+	
    // 문서 조회 
    public DocumentDTO selectDocument(Long documentNo);
    

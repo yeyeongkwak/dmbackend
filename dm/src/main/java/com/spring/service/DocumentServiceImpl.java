@@ -2,14 +2,21 @@ package com.spring.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
 import com.spring.dto.DocumentUserDTO;
+import com.spring.dto.PageRequestDTO;
+import com.spring.dto.PageResultDTO;
 import com.spring.entity.Document;
+import com.spring.entity.User;
 import com.spring.exception.UploadFailedException;
 import com.spring.repository.DocumentRepository;
 import com.spring.util.S3Util;
@@ -22,7 +29,20 @@ public class DocumentServiceImpl implements DocumentService{
    
    private final DocumentRepository documentRepository;
    private final DocumentUserServiceImpl documentUserService;
+    
+   @Override
+	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+		
+		Page<Document> result =  documentRepository.findDocumentByUser(userNo, pageable);
+		
+		// entity -> dto
+		Function<Document, DocumentDTO> function = (Document -> Document.toDTO(Document));
+		
+		return new PageResultDTO<DocumentDTO, Document>(result, function);
+	}
    
+
    // 문서 조회 
    @Override
    public DocumentDTO selectDocument(Long documentNo) {

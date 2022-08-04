@@ -33,7 +33,6 @@ public class DocumentUserController {
 	private final UserServiceImpl userService;
 		
 		
-		
 		// 유저 문서 조회
 		@GetMapping(value = "/document/user/{userNo}")
 		public List<DocumentUserDTO> selectDocumentUser(@PathVariable Long userNo){
