@@ -14,5 +14,8 @@ public interface WorkspaceUserService {
 
 	public void insertAllWorkspaceUserService(List<UserDTO> userDTOList,WorkspaceDTO workspaceDTO);
 
+	public void deleteWorkspaceUser(Long userNo, Long workspaceNo);
+	
+	
 	
 }

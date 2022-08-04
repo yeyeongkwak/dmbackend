@@ -3,6 +3,7 @@ package com.spring.api;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,11 @@ public class WorkspaceUserController {
 	public void addWorkspaceUser(@RequestBody List<UserDTO> userDTOs,@PathVariable Long workspaceNo){
 		WorkspaceDTO workspaceDTO = workspaceService.getWorkspaceByWorkspaceNo(workspaceNo);
 		workspaceUserService.insertAllWorkspaceUserService(userDTOs,workspaceDTO);
+	}
+	
+	@DeleteMapping(value = "/workspace/user/{userNo}/{workspaceNo}")
+	public void deleteWorkspaceUser(@PathVariable Long userNo,@PathVariable Long workspaceNo) {
+		
+		workspaceUserService.deleteWorkspaceUser(userNo, workspaceNo);
 	}
 }

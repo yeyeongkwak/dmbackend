@@ -3,6 +3,8 @@ package com.spring.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.UserDTO;
@@ -20,11 +22,13 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 	private final WorkspaceUserRepository workspaceUserRepository;
 
 	@Override
+	@Transactional
 	public void insertWorkspaceUserService(WorkspaceUserDTO workspaceUserDTO) {
 		workspaceUserRepository.save(workspaceUserDTO.toEntity(workspaceUserDTO));
 	}
 	
 	@Override
+	@Transactional
 	public void insertAllWorkspaceUserService(List<UserDTO> userDTOList,WorkspaceDTO workspaceDTO) {
 		List<WorkspaceUser> workspaceUsers = new ArrayList<WorkspaceUser>();
 		userDTOList.forEach(v->workspaceUsers.add(WorkspaceUser.builder().workspaceNo(workspaceDTO.toEntity(workspaceDTO)).userNo(v.toEntity(v)).build()));
@@ -32,11 +36,18 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 	}
 
 	@Override
+	@Transactional
 	public List<WorkspaceUserDTO> getAllWorkspaceUserByUser(Long userNo) {
 		List<WorkspaceUser> workspaceUserList = workspaceUserRepository.findAllByUserNoUserNo(userNo);
 		List<WorkspaceUserDTO> workspaceUserDTOList = new ArrayList<WorkspaceUserDTO>();
 		workspaceUserList.forEach(v->workspaceUserDTOList.add(v.toDTO(v)));
 		return workspaceUserDTOList; 
+	}
+	
+	@Override
+	@Transactional
+	public void deleteWorkspaceUser(Long userNo, Long workspaceNo) {
+		workspaceUserRepository.deleteByUserNoUserNoAndWorkspaceNoWorkspaceNo(userNo, workspaceNo);
 	}
 
 }

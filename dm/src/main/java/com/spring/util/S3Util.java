@@ -78,7 +78,6 @@ public class S3Util {
          documentDTO.setOriginalName(originalFileName);
          documentDTO.setFileName(filename);
          documentDTO.setFilePath(S3Util.getFileUrl(filename));
-         
          return documentDTO;
       } catch (Exception e) {
           throw new UploadFailedException(e.getMessage());
