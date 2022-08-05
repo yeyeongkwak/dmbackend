@@ -17,6 +17,7 @@ import com.spring.dto.PageRequestDTO;
 import com.spring.dto.PageResultDTO;
 import com.spring.entity.Document;
 import com.spring.entity.User;
+import com.spring.entity.WorkspaceUser;
 import com.spring.exception.UploadFailedException;
 import com.spring.repository.DocumentRepository;
 import com.spring.util.S3Util;
@@ -103,8 +104,11 @@ public class DocumentServiceImpl implements DocumentService{
    
    // 문서 삭제
    @Override
-   public void deleteDocument(Long documentNo) {
-      S3Util.deleteFile(selectDocument(documentNo).getFileName());
-      documentRepository.deleteDocumentByDocumentNo(documentNo);
+   public void deleteDocument(List<Long> documentNo) {
+	   for (int i = 0; i < documentNo.size(); i++) {
+		 S3Util.deleteFile(selectDocument(documentNo.get(i)).getFileName());
+		 documentRepository.deleteById(documentNo.get(i));
+	}
+
    }
 }

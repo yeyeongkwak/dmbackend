@@ -31,6 +31,6 @@ public interface DocumentService {
    public void updateDocument(Long documentNo, DocumentDTO documentDTO);
    
    // 문서 삭제
-   public void deleteDocument(Long documentNo);
+   public void deleteDocument(List<Long> documentNo);
    
 }

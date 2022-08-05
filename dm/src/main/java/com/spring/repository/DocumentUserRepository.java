@@ -2,11 +2,21 @@ package com.spring.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
+import com.spring.entity.User;
 
 public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long>{
+	
+	public Page<DocumentUser> findDocumentUserByUserNoUserNo(Long userNo, Pageable pageable);
+
+	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(Long userNo, Pageable pageable, Integer important, Integer recycle);
+	
+	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndRecycleBin(Long userNo, Pageable pageable, Integer recycle);
 	
 	public List<DocumentUser> findDocumentUserByUserNoUserNo(Long userNo);
 	

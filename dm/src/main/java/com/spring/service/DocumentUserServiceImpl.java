@@ -2,11 +2,20 @@ package com.spring.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.spring.dto.DocumentDTO;
 import com.spring.dto.DocumentUserDTO;
+import com.spring.dto.PageRequestDTO;
+import com.spring.dto.PageResultDTO;
+import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
+import com.spring.entity.User;
 import com.spring.repository.DocumentUserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +25,46 @@ import lombok.RequiredArgsConstructor;
 public class DocumentUserServiceImpl implements DocumentUserService {
 	
 	private final DocumentUserRepository documentUserRepository;
+	
+	@Override
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+		recycle = 0;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
+		
+		// entity -> dto
+		
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+		
+		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+	}
+	
+	@Override
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageRequestDTO, Integer important, Integer recycle) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+		important = 1;
+		recycle = 0;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, important, recycle);
+		
+		// entity -> dto
+		
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+		
+		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+	}
+	
+	@Override
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+		recycle = 1;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
+		
+		// entity -> dto
+		
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+		
+		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+	}
 	
 	@Override
 	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo) {
@@ -46,13 +95,17 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public void updateDocumentUser(DocumentUserDTO documentUserDTO) {
-		DocumentUserDTO oldDocumentUserDTO = getDocumentUserByUserNoAndDocumentNo(documentUserDTO.getUserNo().getUserNo(),
-																			documentUserDTO.getDocumentNo().getDocumentNo());
-		if(oldDocumentUserDTO != null) {
-			DocumentUserDTO newDocumentUserDTO = new DocumentUserDTO(oldDocumentUserDTO,documentUserDTO);
+	public void updateDocumentUser(List<DocumentUserDTO> documentUserDTO) {
+		for (int i = 0; i < documentUserDTO.size(); i++) {
+			DocumentUserDTO oldDocumentUserDTO 
+			= getDocumentUserByUserNoAndDocumentNo(documentUserDTO.get(i).getUserNo().getUserNo(),
+					documentUserDTO.get(i).getDocumentNo().getDocumentNo());
+			if(oldDocumentUserDTO != null) {
+			DocumentUserDTO newDocumentUserDTO = new DocumentUserDTO(oldDocumentUserDTO,documentUserDTO.get(i));
 			documentUserRepository.save(newDocumentUserDTO.toEntity(newDocumentUserDTO));
+			}
 		}
+		
 	}
 
 }
