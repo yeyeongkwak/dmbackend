@@ -41,16 +41,10 @@ public class Notice {
 	
 	@Column(name = "is_read", columnDefinition = "TINYINT(1) default 0")
 	private Integer isRead;
-	
-	@Column(name="related_url")
-	private String relatedUrl;
-	
-	@ManyToOne
-	@JoinColumn(name="document_no")
-	private Document document;
-	
+		
 	public void updateNotice(Integer isRead) {
 		this.isRead = isRead;
 	
 	}
 }
+
