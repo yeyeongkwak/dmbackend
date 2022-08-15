@@ -57,7 +57,7 @@ public class SecurityConfig {
 
                 .and()
                 .headers()
-                .frameOptions()
+                .frameOptions()	
                 .sameOrigin()
 
                 .and()

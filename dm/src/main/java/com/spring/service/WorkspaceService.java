@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.dto.WorkspaceDTO;
 
 public interface WorkspaceService {
@@ -10,7 +12,8 @@ public interface WorkspaceService {
 	
 	public WorkspaceDTO getWorkspaceByWorkspaceNo(Long workspaceNo);
 
-	public void updateWorkspace(WorkspaceDTO workspaceDTO);
+	public void updateWorkspace(WorkspaceDTO workspaceNo);
 
-	
+	void updateWorkspace(MultipartFile multipart, Long workspaceNo);
+
 }

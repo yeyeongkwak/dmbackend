@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -45,23 +46,25 @@ public class Workspace {
 	@Size(max = 50)
 	private String title;
 	
-	@Column(columnDefinition = "TEXT")
-	private String content;
-	
 	@CreatedDate
 	private LocalDateTime registerDate;
 	
 	@LastModifiedDate
 	private LocalDateTime modifyDate;
 	
+	@OneToOne
+	@JoinColumn(name="temp_file")
+	private TempFile tempFile;
+	
+	
 	public WorkspaceDTO toDTO(Workspace workspace) {
 		WorkspaceDTO workspaceDTO = WorkspaceDTO.builder()
 									.workspaceNo(workspace.getWorkspaceNo())
 									.master(workspace.getMaster().toDTO(workspace.getMaster()))
 									.title(workspace.getTitle())
-									.content(workspace.getContent())
 									.registerDate(workspace.getRegisterDate())
 									.modifyDate(workspace.getModifyDate())
+									.tempFile(workspace.getTempFile() == null?null:workspace.getTempFile().toDTO(workspace.getTempFile()))
 									.build();
 		return workspaceDTO;
 	}

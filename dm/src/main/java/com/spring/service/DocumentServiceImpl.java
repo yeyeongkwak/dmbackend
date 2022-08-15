@@ -61,6 +61,7 @@ public class DocumentServiceImpl implements DocumentService{
          try {
 			S3Util.S3Upload(multipart, documentDTO);
 			Document document = documentRepository.save(documentDTO.toEntity(documentDTO));
+			System.out.println(document);
 			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();
 			documentDTO.getUserList().forEach(v->documentUserDTOs.add(
 															DocumentUserDTO.builder()

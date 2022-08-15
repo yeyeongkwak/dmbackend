@@ -22,11 +22,11 @@ public class WorkspaceDTO {
 	
 	private String title;
 	
-	private String content;
-	
 	private LocalDateTime registerDate;
 	
 	private LocalDateTime modifyDate;
+	
+	private TempFileDTO tempFile;
 	
 	private List<UserDTO> userList;
   
@@ -35,9 +35,8 @@ public class WorkspaceDTO {
 								.workspaceNo(workspaceDTO.getWorkspaceNo())
 								.master(workspaceDTO.getMaster().toEntity(workspaceDTO.getMaster()))
 								.title(workspaceDTO.getTitle())
-								.content(workspaceDTO.getTitle())
 								.registerDate(workspaceDTO.getRegisterDate())
-								.modifyDate(workspaceDTO.getModifyDate())
+								.tempFile(workspaceDTO.getTempFile() == null?null :workspaceDTO.getTempFile().toEntity(workspaceDTO.getTempFile()))
 								.build();
 		return workspace;
 	}
@@ -51,12 +50,11 @@ public class WorkspaceDTO {
 		}else {
 			title = oldWorkspaceDTO.getTitle();
 		}
-		if(newWorkspaceDTO.getContent() != null) {
-			content = newWorkspaceDTO.getContent();
+		if(newWorkspaceDTO.getTempFile() != null) {
+			tempFile = newWorkspaceDTO.getTempFile();
 		}else {
-			content = oldWorkspaceDTO.getContent();
+			tempFile = oldWorkspaceDTO.getTempFile();
 		}
-		
 	}
 	
 }
