@@ -72,6 +72,8 @@ public class S3Util {
    public static DocumentDTO S3Upload(MultipartFile multipart, DocumentDTO documentDTO) throws UploadFailedException {   
       String originalFileName =  multipart.getOriginalFilename();
       String filename = UUID.randomUUID().toString() + "_" + originalFileName;   
+//      String filename = originalFileName;   
+
       
       try {
          S3Util.uploadFile(filename, multipart.getInputStream());

@@ -53,7 +53,7 @@ public class UserController {
 					Date.from(LocalDateTime.now().plusHours(2).atZone(ZoneId.systemDefault()).toInstant()));
 
 			Cookie createCookie = new Cookie("accessToken", jwtAuthToken.getToken());
-			createCookie.setMaxAge(3 * 60 * 60);
+			createCookie.setMaxAge(24 * 60 * 60);
 			createCookie.setPath("/");
 			response.addCookie(createCookie);
 			oldUserDTO.setPassword(null);

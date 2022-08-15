@@ -31,7 +31,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
 		recycle = 0;
 		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
-		
+
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
 		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
