@@ -27,8 +27,6 @@ import com.spring.service.DocumentServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 
-@CrossOrigin(origins = "*")
-
 @RestController
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor

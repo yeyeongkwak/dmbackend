@@ -69,6 +69,35 @@ public class DocumentUserController {
 				
 		}
 		
+		// 유저 휴지통 리스트
+		@GetMapping("/documents/user/recycle/{userNo}")
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
+			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+							
+			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getRecycleList(userNo, pageRequestDTO, recycle);
+							
+			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+							
+			return pageResultDTO;
+						
+		}
+		
+		
+		// 유저 중요 문서 리스트
+		@GetMapping("/documents/user/important/{userNo}")
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer important, Integer recycle){
+			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+					
+			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getImportantList(userNo, pageRequestDTO, important, recycle);
+					
+			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+					
+			return pageResultDTO;
+				
+		}
+		
 		// 유저 휴지통 문서 리스트
 		@GetMapping("/documents/user/recycle/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
@@ -117,11 +146,10 @@ public class DocumentUserController {
 		}
 		
 		// 문서 삭제
-		@DeleteMapping(value = "/document/{documentNo}/{userNo}")
+		@DeleteMapping(value = "/document/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
 		@Transactional
-		public void deleteDocument(@PathVariable Long documentNo, @PathVariable Long userNo) {
-			DocumentUserDTO documentUserDTO = documentUserService.getDocumentUserByUserNoAndDocumentNo(userNo, documentNo);
-			documentUserService.deleteDocumentUser(documentUserDTO);
+		public void deleteDocument(@RequestBody List<Long> documentNo, @PathVariable Long userNo) {
+			documentUserService.deleteDocumentUser(documentNo, userNo);
 		}
 	
 }

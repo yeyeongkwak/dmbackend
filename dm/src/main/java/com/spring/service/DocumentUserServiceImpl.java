@@ -32,8 +32,6 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		recycle = 0;
 		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
 		
-		// entity -> dto
-		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
 		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
@@ -46,8 +44,6 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		recycle = 0;
 		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, important, recycle);
 		
-		// entity -> dto
-		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
 		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
@@ -58,8 +54,6 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
 		recycle = 1;
 		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
-		
-		// entity -> dto
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
@@ -90,8 +84,11 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public void deleteDocumentUser(DocumentUserDTO documentUserDTO) {
-		documentUserRepository.delete(documentUserDTO.toEntity(documentUserDTO));
+	public void deleteDocumentUser(List<Long> documentNo, Long userNo) {
+		for (int i = 0; i < documentNo.size(); i++) {
+//			documentUserRepository.delete(documentNo.get(i).toEntity(documentNo.get(i)));
+			documentUserRepository.deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(userNo, documentNo.get(i));
+		}
 	}
 	
 	@Override
