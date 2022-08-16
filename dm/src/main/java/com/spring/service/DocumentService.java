@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
+import com.spring.dto.DocumentUserDTO;
 import com.spring.dto.PageRequestDTO;
 import com.spring.dto.PageResultDTO;
 import com.spring.entity.Document;
@@ -21,7 +22,7 @@ public interface DocumentService {
    public DocumentDTO selectDocument(Long documentNo);
    
    // 문서 작성
-   public void insertDocument(DocumentDTO documentDTO, MultipartFile multipartFile);
+   public void insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
    
 
    // 문서 수정(파일, 문서 내용)

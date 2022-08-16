@@ -99,4 +99,8 @@ public class UserController {
 		userService.updateUser(userDTO);
 	}
 	
+	@GetMapping(value = "/user/name/{name}")
+	public List<UserDTO> findByName(@PathVariable String name){
+		return userService.findByName(name);
+	}
 }

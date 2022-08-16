@@ -64,6 +64,12 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
-	
+	@Override
+	public List<UserDTO> findByName(String name){
+		List<User> userList = userRepository.findAllByName(name);
+		List<UserDTO> userDTOList = new ArrayList<UserDTO>();
+		userList.forEach(v->userDTOList.add(v.toDTO(v)));
+		return userDTOList;
+	}
 
 }

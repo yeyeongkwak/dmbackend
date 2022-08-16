@@ -57,18 +57,19 @@ public class DocumentServiceImpl implements DocumentService{
    // DB INSERT
    @Override
    @Transactional
-   public void insertDocument(DocumentDTO documentDTO ,MultipartFile multipart) {   
+   public void insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {   
          try {
 			S3Util.S3Upload(multipart, documentDTO);
 			Document document = documentRepository.save(documentDTO.toEntity(documentDTO));
 			System.out.println(document);
-			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();
-			documentDTO.getUserList().forEach(v->documentUserDTOs.add(
-															DocumentUserDTO.builder()
-															.documentNo(document.toDTO(document))
-															.userNo(v)
-															.build()));
-			documentUserService.insertDocumentUser(documentUserDTOs);
+//			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();
+//			documentDTO.getUserList().forEach(v->documentUserDTOs.add(
+//															DocumentUserDTO.builder()
+//															.documentNo(document.toDTO(document))
+//															.userNo(v)
+//															.build()));
+			documentUserList.forEach(v->v.setDocumentNo(document.toDTO(document)));
+			documentUserService.insertDocumentUser(documentUserList);
 		} catch (UploadFailedException e) {
 			e.printStackTrace();
 		}

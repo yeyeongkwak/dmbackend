@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.DocumentDTO;
+import com.spring.dto.DocumentUserDTO;
 import com.spring.dto.PageRequestDTO;
 import com.spring.dto.PageResultDTO;
 import com.spring.entity.Document;
@@ -62,9 +63,10 @@ public class DocumentController {
    
    // 문서 작성
    @PostMapping(value = "/document",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-   public void insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
-	   System.out.println(documentDTO);
-      documentService.insertDocument(documentDTO, multipart);
+   public void insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO,@RequestPart("documentUser") List<DocumentUserDTO> documentUserList, @RequestPart("file") MultipartFile multipart) {
+//	   System.out.println(documentDTO);
+//	   System.out.println(documentUserList);
+      documentService.insertDocument(documentDTO, documentUserList, multipart);
    }
    
    // 문서 수정(파일, 문서 내용)

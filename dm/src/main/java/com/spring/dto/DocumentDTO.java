@@ -33,7 +33,7 @@ public class DocumentDTO {
    
    private String originalName;
    
-   private List<UserDTO> userList;
+//   private List<UserDTO> userList;
    
    public Document toEntity(DocumentDTO dto) {
       UserDTO user = dto.getUser();
