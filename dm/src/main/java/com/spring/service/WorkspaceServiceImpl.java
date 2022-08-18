@@ -1,12 +1,15 @@
 package com.spring.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.TempFileDTO;
 import com.spring.dto.WorkspaceDTO;
+import com.spring.dto.WorkspaceUserDTO;
 import com.spring.entity.Workspace;
 import com.spring.repository.WorkspaceRepository;
 
@@ -42,19 +45,21 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 	// 제목변경시 사용
 	@Override
 	@Transactional
-	public void updateWorkspace(WorkspaceDTO workspaceDTO) {
+	public List<WorkspaceUserDTO> updateWorkspace(WorkspaceDTO workspaceDTO) {
 		WorkspaceDTO oldWorkspace = getWorkspaceByWorkspaceNo(workspaceDTO.getWorkspaceNo());
 		if(oldWorkspace != null) {
 			WorkspaceDTO newWorkspaceDTO = new WorkspaceDTO(workspaceDTO,oldWorkspace);
 			workspaceRepository.save(newWorkspaceDTO.toEntity(newWorkspaceDTO));
+			return workspaceUserService.getAllWorkspaceUserByUser(oldWorkspace.getMaster().getUserNo());
 		}
+		return null;
 	}
 
 	// 파일 임시저장되었을시
 	@Override
 	@Transactional
-	public void updateWorkspace(MultipartFile multipart,Long workspaceNo) {
-		WorkspaceDTO workspaceDTO = getWorkspaceByWorkspaceNo(workspaceNo);
+	public void updateWorkspace(MultipartFile multipart,WorkspaceDTO workspaceDTO) {
+		
 		TempFileDTO tempFileDTO = tempFileService.insertTempFile(multipart,workspaceDTO.getTempFile());	
 		if(tempFileDTO != null) {
 			workspaceDTO.setTempFile(tempFileDTO);

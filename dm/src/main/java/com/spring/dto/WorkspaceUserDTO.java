@@ -1,5 +1,7 @@
 package com.spring.dto;
 
+import java.util.List;
+
 import com.spring.entity.WorkspaceUser;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +18,8 @@ public class WorkspaceUserDTO {
 	private WorkspaceDTO workspaceNo;
 	
 	private UserDTO userNo;
+	
+	private List<String> member;
 	
 	public WorkspaceUser toEntity(WorkspaceUserDTO workspaceUserDTO) {
 		WorkspaceUser workspaceUser = WorkspaceUser.builder()

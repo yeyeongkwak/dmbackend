@@ -37,12 +37,16 @@ public class TempFile {
 	private Long fileNo;
 	
 	@Column(name = "file_name")
-	@Size(max = 50)
+	@Size(max = 255)
 	private String fileName;
 	
 	@Column(name = "file_path")
 	@Size(max = 255)
 	private String filePath;
+	
+	@Column(name = "original_name")
+	@Size(max = 50)
+	private String originalName;
 	
 	
 	public TempFileDTO toDTO(TempFile tempFile) {
@@ -50,6 +54,7 @@ public class TempFile {
 									.fileNo(tempFile.getFileNo())
 									.fileName(tempFile.getFileName())
 									.filePath(tempFile.getFilePath())
+									.originalName(tempFile.getOriginalName())
 									.build();
 		return tempFileDTO;
 	}

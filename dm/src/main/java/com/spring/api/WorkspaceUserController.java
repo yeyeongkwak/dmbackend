@@ -33,14 +33,20 @@ public class WorkspaceUserController {
 	
 	//해야함
 	@PostMapping(value = "/workspace/user/{workspaceNo}" , consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addWorkspaceUser(@RequestBody List<UserDTO> userDTOs,@PathVariable Long workspaceNo){
+	public List<WorkspaceUserDTO> addWorkspaceUser(@RequestBody List<UserDTO> userDTOs,@PathVariable Long workspaceNo){
 		WorkspaceDTO workspaceDTO = workspaceService.getWorkspaceByWorkspaceNo(workspaceNo);
-		workspaceUserService.insertAllWorkspaceUserService(userDTOs,workspaceDTO);
+		return workspaceUserService.insertAllWorkspaceUserService(userDTOs,workspaceDTO);
 	}
 	
 	@DeleteMapping(value = "/workspace/user/{userNo}/{workspaceNo}")
-	public void deleteWorkspaceUser(@PathVariable Long userNo,@PathVariable Long workspaceNo) {
+	public List<WorkspaceUserDTO> deleteWorkspaceUser(@PathVariable Long userNo,@PathVariable Long workspaceNo) {
+
+		return workspaceUserService.deleteWorkspaceUser(userNo, workspaceNo);
+	}
+	
+	@PostMapping(value = "/workspace/user/all/{userNo}",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<WorkspaceUserDTO> deleteAllWorksapceUser(@RequestBody List<Long> workspaceNoList, @PathVariable Long userNo){
+		return workspaceUserService.deleteAllWorkspaceUser(workspaceNoList,userNo);
 		
-		workspaceUserService.deleteWorkspaceUser(userNo, workspaceNo);
 	}
 }

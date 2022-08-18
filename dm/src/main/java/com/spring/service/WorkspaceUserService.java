@@ -12,9 +12,11 @@ public interface WorkspaceUserService {
 	
 	public List<WorkspaceUserDTO> getAllWorkspaceUserByUser(Long userNo);
 
-	public void insertAllWorkspaceUserService(List<UserDTO> userDTOList,WorkspaceDTO workspaceDTO);
+	public List<WorkspaceUserDTO> insertAllWorkspaceUserService(List<UserDTO> userDTOList,WorkspaceDTO workspaceDTO);
 
-	public void deleteWorkspaceUser(Long userNo, Long workspaceNo);
+	public List<WorkspaceUserDTO> deleteWorkspaceUser(Long userNo, Long workspaceNo);
+
+	public List<WorkspaceUserDTO> deleteAllWorkspaceUser(List<Long> workspaceNoList, Long userNo);
 	
 	
 	

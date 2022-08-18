@@ -1,6 +1,7 @@
 package com.spring.service;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,25 +25,23 @@ public class TempFileServiceImpl implements TempFileService {
 	@Override
 	@Transactional
 	public TempFileDTO insertTempFile(MultipartFile multipart,TempFileDTO tempFileDTO) {
-		String fileName = "temp/"+multipart.getOriginalFilename();
+		String fileName = "temp/"+UUID.randomUUID().toString()+"_"+multipart.getOriginalFilename();
+		TempFile tempFile = null;
 		try {
 			if(tempFileDTO != null) {
-				System.out.println("111");
-				S3Util.deleteFile(fileName);
-			}
-			else{
-				TempFileDTO newTempFileDTO = TempFileDTO.builder()
-						.fileName(multipart.getOriginalFilename())
-						.filePath(S3Util.getFileUrl(fileName))
-						.build();
-				TempFile tempFile =tempFileRepository.save(newTempFileDTO.toEntity(newTempFileDTO));
-				return tempFile.toDTO(tempFile);
-			}
+				S3Util.deleteFile(tempFileDTO.getFileName());
+			}	
 			S3Util.uploadFile(fileName, multipart.getInputStream());
+				TempFileDTO newTempFileDTO = TempFileDTO.builder()
+						.fileName(fileName)
+						.filePath(S3Util.getFileUrl(fileName))
+						.originalName(multipart.getOriginalFilename())
+						.build();
+				tempFile =tempFileRepository.save(newTempFileDTO.toEntity(newTempFileDTO));
 		} catch (Exception e ) {
 			e.printStackTrace();
 		}
-		return null;
+		return tempFile == null ? null : tempFile.toDTO(tempFile);
 	}
 	
 	@Override

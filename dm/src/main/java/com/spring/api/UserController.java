@@ -103,4 +103,9 @@ public class UserController {
 	public List<UserDTO> findByName(@PathVariable String name){
 		return userService.findByName(name);
 	}
+	
+	@PostMapping(value ="/user/member", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<UserDTO> getMemberList(@RequestBody List<Long> userNoList){
+		return userService.findByIdList(userNoList);
+	}
 }

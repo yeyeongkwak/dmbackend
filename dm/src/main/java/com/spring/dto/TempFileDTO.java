@@ -21,12 +21,15 @@ public class TempFileDTO {
 	
 	private String filePath;
 	
+	private String originalName;
+	
 	
 	public TempFile toEntity(TempFileDTO tempFileDTO) {
 		TempFile tempFile = TempFile.builder()
 							.fileNo(tempFileDTO.getFileNo())
 							.fileName(tempFileDTO.getFileName())
 							.filePath(tempFileDTO.getFilePath())
+							.originalName(tempFileDTO.getOriginalName())
 							.build();
 		return tempFile;
 	}

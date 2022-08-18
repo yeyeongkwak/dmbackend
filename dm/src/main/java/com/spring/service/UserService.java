@@ -20,4 +20,6 @@ public interface UserService {
 
 	public List<UserDTO> findByName(String name);
 
+	public List<UserDTO> findByIdList(List<Long> userNoList);
+
 }
