@@ -57,6 +57,7 @@ public class Document {
    @Size(max = 255)
    private String fileName;
    
+   // 타입 바꿔야함!!!!!!!!!!!
    @Column(name = "file_path")
    @Size(max = 255)
    private String filePath;

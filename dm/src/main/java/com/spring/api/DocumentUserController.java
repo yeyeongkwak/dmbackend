@@ -39,7 +39,7 @@ public class DocumentUserController {
 	private final UserServiceImpl userService;
 		
 	
-		// 유저 문서 리스트
+		// 유저 문서 리스트(내  문서함)
 		@GetMapping("/documents/user/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
 			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(20).build();
@@ -52,6 +52,20 @@ public class DocumentUserController {
 			
 			return pageResultDTO;
 			
+		}
+		
+		// 유저 문서 리스트(공유 문서함)
+		@GetMapping("/documents/user/share/{userNo}")
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
+			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(20).build();
+
+					
+			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getShareList(userNo, pageRequestDTO, recycle);
+					
+			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+					
+			return pageResultDTO;	
 		}
 		
 		// 유저 중요 문서 리스트

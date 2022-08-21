@@ -9,12 +9,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
 import com.spring.entity.User;
+import com.spring.model.Authority;
 
 public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long>{
 	
 	public Page<DocumentUser> findDocumentUserByUserNoUserNo(Long userNo, Pageable pageable);
+	
+	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(Long userNo, Pageable pageable, Integer recycle, Authority authority);
+
 
 	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(Long userNo, Pageable pageable, Integer important, Integer recycle);
+	
+	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(Long userNo, Pageable pageable, Integer recycle, Authority authority);
 	
 	public Page<DocumentUser> findDocumentUserByUserNoUserNoAndRecycleBin(Long userNo, Pageable pageable, Integer recycle);
 	

@@ -16,6 +16,7 @@ import com.spring.dto.PageResultDTO;
 import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
 import com.spring.entity.User;
+import com.spring.model.Authority;
 import com.spring.repository.DocumentUserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,20 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
 		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
 		recycle = 0;
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
+		
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(userNo, pageable, recycle, Authority.MASTER);
+
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+		
+		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+	}
+	
+	@Override
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+		recycle = 0;
+		
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(userNo, pageable, recycle, Authority.MASTER);
 
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
