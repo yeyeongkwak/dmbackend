@@ -32,4 +32,5 @@ public interface DocumentUserService {
 
 
 	public List<DocumentUserDTO> getMemberList(Long documentNo);
+	
 }

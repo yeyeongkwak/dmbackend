@@ -7,9 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
-import com.spring.entity.User;
 import com.spring.model.Authority;
 
 public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long>{
