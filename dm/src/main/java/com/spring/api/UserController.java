@@ -50,7 +50,7 @@ public class UserController {
 		UserDTO oldUserDTO= userService.getUserById(userDTO.getId());
 		if (passwordencoder.matches(userDTO.getPassword(),oldUserDTO.getPassword())) {
 			JwtAuthToken jwtAuthToken = jwtAuthProvider.createAuthToken(userDTO.getId(), "MN00001",
-					Date.from(LocalDateTime.now().plusHours(2).atZone(ZoneId.systemDefault()).toInstant()));
+					Date.from(LocalDateTime.now().plusHours(12).atZone(ZoneId.systemDefault()).toInstant()));
 
 			Cookie createCookie = new Cookie("accessToken", jwtAuthToken.getToken());
 			createCookie.setMaxAge(24 * 60 * 60);
