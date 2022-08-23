@@ -1,7 +1,19 @@
 package com.spring.api;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +21,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.NoticeDTO.NoticeRequest;
 import com.spring.dto.NoticeDTO.NoticeResponse;
 import com.spring.entity.Notice;
+import com.spring.repository.NoticeRepository;
 import com.spring.service.NoticeServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +39,8 @@ import lombok.RequiredArgsConstructor;
 public class NoticeController {
 	
 	private final NoticeServiceImpl noticeService;
+	private final SimpMessagingTemplate simpMessagingTemplate;
+	private final NoticeRepository noticeRepository;
 	
 	//모든 알림 리스트 조회
 	@GetMapping(value = "/notice/all")
@@ -62,4 +78,17 @@ public class NoticeController {
 	public void updateNotice(@PathVariable Long noticeNo, @RequestBody NoticeRequest noticeDTO) {
 		noticeService.updateNotice(noticeNo, noticeDTO);
 	}
+	
+	@MessageMapping("/sharedocs")
+	public void getDocsNotice(NoticeRequest notice) {
+		noticeService.sendDocsNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+	}
+	
+	@MessageMapping("/workspace")
+	public void getWorkSpaceMessage(NoticeRequest notice) {
+		NoticeRequest newNotice = new NoticeRequest(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+		simpMessagingTemplate.convertAndSend("/queue/workspace/"+notice.getReceiver().getId(),newNotice);
+		noticeRepository.save(newNotice.toEntity());		
+	};
+	
 }

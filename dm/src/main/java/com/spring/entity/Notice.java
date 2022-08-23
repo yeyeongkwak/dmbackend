@@ -42,6 +42,7 @@ public class Notice {
 	@Column(name = "is_read", columnDefinition = "TINYINT(1) default 0")
 	private Integer isRead;
 		
+	
 	public void updateNotice(Integer isRead) {
 		this.isRead = isRead;
 	

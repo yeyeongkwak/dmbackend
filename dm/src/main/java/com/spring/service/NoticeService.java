@@ -2,9 +2,12 @@ package com.spring.service;
 
 import java.util.List;
 
+import org.hibernate.annotations.Sort;
+
 import com.spring.dto.NoticeDTO.NoticeRequest;
 import com.spring.dto.NoticeDTO.NoticeResponse;
 import com.spring.entity.Notice;
+import com.spring.entity.User;
 
 public interface NoticeService {
 	
@@ -21,4 +24,8 @@ public interface NoticeService {
 	
 	public void updateNotice(Long noticeNo, NoticeRequest noticeDTO);
 	
+	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead);
+
+	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead);
+
 }

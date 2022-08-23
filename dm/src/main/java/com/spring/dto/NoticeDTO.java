@@ -1,6 +1,7 @@
 package com.spring.dto;
 
 
+import com.spring.entity.Document;
 import com.spring.entity.Notice;
 import com.spring.entity.User;
 
@@ -26,6 +27,8 @@ public class NoticeDTO {
 	private String content;
 	
 	private Integer isRead;
+	
+	private DocumentDTO document;
 	
 	@Data
 	@AllArgsConstructor
