@@ -67,4 +67,12 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 		return getAllWorkspaceUserByUser(userNo);
 	}
 
+	@Override
+	public List<WorkspaceUserDTO> getMemberList(Long workspaceNo) {
+		List<WorkspaceUser> workspaceUserList = workspaceUserRepository.findAllByWorkspaceNoWorkspaceNo(workspaceNo);
+		List<WorkspaceUserDTO> workspaceUserDTOList = new ArrayList<WorkspaceUserDTO>();
+		workspaceUserList.forEach(v->workspaceUserDTOList.add(v.toDTO(v)));
+		return workspaceUserDTOList;
+	}
+
 }

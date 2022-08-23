@@ -29,4 +29,6 @@ public interface DocumentUserService {
 	public void deleteDocumentUser(List<Long> documentNo, Long userNo);
 
 	public void updateDocumentUser(List<DocumentUserDTO> documentUserDTO);
+
+	public List<DocumentUserDTO> getMemberList(Long documentNo);
 }

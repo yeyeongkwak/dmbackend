@@ -9,7 +9,7 @@ import com.spring.dto.WorkspaceUserDTO;
 
 public interface WorkspaceService {
 	
-	public void insertWorkspace(WorkspaceDTO workspaceDTO);
+	public List<WorkspaceUserDTO> insertWorkspace(WorkspaceDTO workspaceDTO);
 	
 	public void deleteWorkspace(Long workspaceNo);
 	

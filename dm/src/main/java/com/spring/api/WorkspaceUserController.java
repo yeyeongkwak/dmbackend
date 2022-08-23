@@ -49,4 +49,10 @@ public class WorkspaceUserController {
 		return workspaceUserService.deleteAllWorkspaceUser(workspaceNoList,userNo);
 		
 	}
+	
+	@GetMapping(value = "/workspace/member/{workspaceNo}")
+	public List<WorkspaceUserDTO> getMemberList(@PathVariable Long workspaceNo){
+		return workspaceUserService.getMemberList(workspaceNo);
+	}
+	
 }

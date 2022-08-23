@@ -93,7 +93,14 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	public void insertDocumentUser(List<DocumentUserDTO> documentUserDTOs) {
 		List<DocumentUser> documentUsers = new ArrayList<DocumentUser>();
 		
-		documentUserDTOs.forEach(v-> documentUsers.add(v.toEntity(v)));
+//		documentUserDTOs.forEach(v->getDocumentUserByUserNoAndDocumentNo(v., documentNo));
+		documentUserDTOs.forEach(v->{DocumentUserDTO oldDocumentUserDTO = getDocumentUserByUserNoAndDocumentNo(v.getUserNo().getUserNo(), v.getDocumentNo().getDocumentNo());
+									if(oldDocumentUserDTO != null) {
+										DocumentUserDTO newDocumentDTO = new DocumentUserDTO(oldDocumentUserDTO,v);
+										documentUsers.add(newDocumentDTO.toEntity(newDocumentDTO));
+									}else{
+										documentUsers.add(v.toEntity(v));
+									}});
 		documentUserRepository.saveAll(documentUsers);
 	}
 	
@@ -117,6 +124,14 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 			}
 		}
 		
+	}
+	
+	@Override
+	public List<DocumentUserDTO> getMemberList(Long documentNo) {
+		List<DocumentUser> documentUserList = documentUserRepository.findAllByDocumentNoDocumentNo(documentNo);
+		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+		documentUserList.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+		return documentUserDTOList;
 	}
 
 }

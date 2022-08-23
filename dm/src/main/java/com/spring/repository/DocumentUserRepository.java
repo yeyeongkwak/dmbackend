@@ -29,4 +29,6 @@ public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long
 	public DocumentUser findDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(Long userNo,Long documentNo);
 
 	public void deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(Long userNo, Long documentNo);
+
+	public List<DocumentUser> findAllByDocumentNoDocumentNo(Long documentNo);
 }

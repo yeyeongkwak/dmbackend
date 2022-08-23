@@ -25,10 +25,10 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 
 	@Override
 	@Transactional
-	public void insertWorkspace(WorkspaceDTO workspaceDTO) {
+	public List<WorkspaceUserDTO> insertWorkspace(WorkspaceDTO workspaceDTO) {
 		Workspace workspace = workspaceRepository.save(workspaceDTO.toEntity(workspaceDTO));
 		workspaceDTO.getUserList().add(workspaceDTO.getMaster());
-		workspaceUserService.insertAllWorkspaceUserService(workspaceDTO.getUserList(),workspace.toDTO(workspace));
+		return workspaceUserService.insertAllWorkspaceUserService(workspaceDTO.getUserList(),workspace.toDTO(workspace));
 	}
 
 	@Override

@@ -114,7 +114,8 @@ public class DocumentUserController {
 		// 문서 작성
 		@PostMapping(value = "/document/authority",consumes = MediaType.APPLICATION_JSON_VALUE)
 		public void insertDocument(@RequestBody List<DocumentUserDTO> documentUserDTOs) {
-			documentUserService.insertDocumentUser(documentUserDTOs);	
+			System.out.println(documentUserDTOs);
+			documentUserService.insertDocumentUser(documentUserDTOs);
 		}
 		
 		// 문서 수정
@@ -135,6 +136,11 @@ public class DocumentUserController {
 		@Transactional
 		public void deleteDocument(@RequestBody List<Long> documentNo, @PathVariable Long userNo) {
 			documentUserService.deleteDocumentUser(documentNo, userNo);
+		}
+		
+		@GetMapping(value="/document/member/{documentNo}")
+		public List<DocumentUserDTO> getMemberList(@PathVariable Long documentNo){
+			return documentUserService.getMemberList(documentNo);
 		}
 	
 }
