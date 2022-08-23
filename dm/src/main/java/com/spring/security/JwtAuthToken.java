@@ -17,7 +17,7 @@ public class JwtAuthToken implements authToken<Claims> {
     private final String token;
     private final Key key;
 
-    private static final String AUTHORITIES_KEY = "user_auth_cd";
+    private static final String AUTHORITIES_KEY = "user_auth_cd";//보안권한
 
     JwtAuthToken(String token, Key key) {
         this.token = token;
@@ -61,7 +61,6 @@ public class JwtAuthToken implements authToken<Claims> {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiredDate)
                 .compact();
-
         return Optional.ofNullable(token);
     }
 

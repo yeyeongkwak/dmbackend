@@ -35,14 +35,8 @@ public class JwtFilter extends GenericFilterBean {
 
     private static final String AUTHORIZATION_HEADER = "accessToken";
 
+ // 실제 JWT 검증을 실행하는 Provider
     private JwtAuthTokenProvider jwtAuthTokenProvider;
-
-    private static long LOGIN_RETENTION_HOUR;
-
-    private static long LOGIN_REFRESH_HOUR;
-
-    private static Integer cookieTime;
-
 
 
     JwtFilter(JwtAuthTokenProvider jwtAuthTokenProvider) {

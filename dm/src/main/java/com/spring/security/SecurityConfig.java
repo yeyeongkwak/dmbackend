@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,9 +37,10 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
-    public PasswordEncoder passwordEncorder() {
-    	return new BCryptPasswordEncoder();
+    public Pbkdf2PasswordEncoder passwordEncorder() {
+    	return new Pbkdf2PasswordEncoder();
     }
+    
     
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
@@ -54,7 +56,6 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationErrorHandler)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-
                 .and()
                 .headers()
                 .frameOptions()	
@@ -65,28 +66,34 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .authorizeRequests()
+                .authorizeRequests() // 인증절차에 대한 진행
                 .antMatchers("/**").permitAll()
+                .antMatchers("/mail/**").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/successlogin").authenticated()
+                .antMatchers("/api/findidpw").permitAll()
+                .antMatchers("/main").authenticated()
+                .antMatchers("/api/logout").authenticated()
                 .anyRequest().authenticated()
                 
                 .and()
+                .formLogin()
+                .loginPage("/").permitAll()
+                .defaultSuccessUrl("/api/main", true)
+                
+                .and()
                 .logout()
-                .logoutUrl("/api/logout").permitAll()
-                .logoutSuccessUrl("/api/signup")
-                .invalidateHttpSession(true)
+                .logoutUrl("/api/logout")
+                .logoutSuccessUrl("/")
                 .deleteCookies("accessToken")
+                .invalidateHttpSession(true)
+                
              
-
                 .and()
                 .apply(securityConfigurerAdapter());
-
+        
         return http.build();
     }
-
-
 
     private JwtConfigurer securityConfigurerAdapter() {
         return new JwtConfigurer(jwtAuthTokenProvider);
