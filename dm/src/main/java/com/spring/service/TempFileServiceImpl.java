@@ -21,6 +21,7 @@ import software.amazon.awssdk.core.exception.SdkClientException;
 public class TempFileServiceImpl implements TempFileService {
 	
 	private final TempFileRepository tempFileRepository;
+	private final S3Util s3Util;
 	
 	@Override
 	@Transactional
@@ -29,12 +30,12 @@ public class TempFileServiceImpl implements TempFileService {
 		TempFile tempFile = null;
 		try {
 			if(tempFileDTO != null) {
-				S3Util.deleteFile(tempFileDTO.getFileName());
+				s3Util.deleteFile(tempFileDTO.getFileName());
 			}	
-			S3Util.uploadFile(fileName, multipart.getInputStream());
+			s3Util.uploadFile(fileName, multipart.getInputStream());
 				TempFileDTO newTempFileDTO = TempFileDTO.builder()
 						.fileName(fileName)
-						.filePath(S3Util.getFileUrl(fileName))
+						.filePath(s3Util.getFileUrl(fileName))
 						.originalName(multipart.getOriginalFilename())
 						.build();
 				tempFile =tempFileRepository.save(newTempFileDTO.toEntity(newTempFileDTO));
@@ -48,7 +49,7 @@ public class TempFileServiceImpl implements TempFileService {
 	public void deleteTempFile(Long fileNo) {
 		TempFileDTO tempFileDTO = getTempFile(fileNo);
 		if(tempFileDTO != null) {
-			S3Util.deleteFile("temp/"+tempFileDTO.getFileName());
+			s3Util.deleteFile("temp/"+tempFileDTO.getFileName());
 			tempFileRepository.deleteById(fileNo);
 			
 		}

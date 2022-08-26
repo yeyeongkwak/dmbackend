@@ -21,7 +21,7 @@ import com.spring.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value="/mail")
+@RequestMapping(value="/api/mail")
 @RequiredArgsConstructor
 public class MailController {
 
@@ -30,7 +30,7 @@ public class MailController {
 	private final MailServiceImpl mailService;
 	private final UserServiceImpl userService;
 	
-	@CrossOrigin(origins = { "http://localhost:3000" })
+//	@CrossOrigin(origins = { "http://localhost:3000" })
 	@GetMapping("/send")
 	public String sendMail(@RequestParam(value = "email") String email) {
 		MailDTO mailDTO = new MailDTO();
@@ -53,7 +53,7 @@ public class MailController {
 		return newCode;
 	}
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+//	@CrossOrigin(origins = { "http://localhost:3000" })
 	@GetMapping("/verify")
 	public boolean verifyMail(@RequestParam(value = "verifyMail") String verifyMail,
 			@RequestParam(value = "compareVerify") String compareVerify) {
@@ -70,14 +70,14 @@ public class MailController {
 	
 	}
 	
-	@CrossOrigin(origins = { "http://localhost:3000" })
+//	@CrossOrigin(origins = { "http://localhost:3000" })
 	@GetMapping("/finduser")
 	public List<UserDTO> findUser(@RequestParam(value="name") String name, @RequestParam(value = "email") String email) {
 		List<UserDTO> UserDTO = userService.findByNameAndEmail(name, email);
 		return UserDTO;
 	}
 	
-	@CrossOrigin(origins = { "http://localhost:3000"})
+//	@CrossOrigin(origins = { "http://localhost:3000"})
 	@GetMapping("/findpassword")
 	public List<UserDTO> findPassword(@RequestParam(value="id") String id, @RequestParam(value="email") String email) {
 		List<UserDTO> UserDTO = userService.findByIdAndEmail(id, email);				

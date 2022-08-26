@@ -43,7 +43,7 @@ public class UserController {
 	private final JwtAuthTokenProvider jwtAuthProvider;
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+	
 	@PostMapping("/signup")
 	public String insertUser(@Valid @RequestBody UserDTO user) {
 		try {
@@ -54,7 +54,7 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+	
 	@PostMapping("/login")
 	public UserDTO loginUser(@RequestBody UserDTO userDTO, HttpServletResponse response) {
 		UserDTO oldUserDTO = userService.getUserById(userDTO.getId());
@@ -81,7 +81,7 @@ public class UserController {
 		return userDTO;
 	}
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+	
 	@GetMapping("/bringcookie")
 	public Map<String, Object> bringCookie(@CookieValue(name = "accessToken") Cookie showCookie) {
 		JwtAuthToken jwtAuth = jwtAuthProvider.convertAuthToken(showCookie.getValue()); // 토큰 가져와서 복호화
@@ -100,7 +100,7 @@ public class UserController {
 //	}
 
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

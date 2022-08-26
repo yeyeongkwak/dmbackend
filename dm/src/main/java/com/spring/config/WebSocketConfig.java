@@ -14,7 +14,6 @@ import com.spring.dm.UserHandshakeHandler;
 @EnableWebSocketMessageBroker // WebScoket message handling을 허용해준다 
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	
-
   @Override // MessageBroker는 송신자에게 수신자의 이전 메세지 프로토콜로 변환해주는 모듈 중 하나
             // 요청이 오면 그에 해당하는 통신 채널로 전송, 응답 또한 같은 경로로 가서 응답한다.
   public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -27,9 +26,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   public void registerStompEndpoints(StompEndpointRegistry registry) {// 최초 소켓 연결 시 endpoint
     registry.addEndpoint("/ws-dm")  //SocketJs 연결 주소
 //    client.send(`/dm/notice/보낼주소`,{},JSON.stringify(보낼데이터))
-    		.setAllowedOrigins("http://localhost:8080", "https://apic.app", "http://localhost:3000")
+    		.setAllowedOrigins("http://localhost:3000")
+    		.setAllowedOrigins("http://3.39.189.222:3000")
     		.setHandshakeHandler(new UserHandshakeHandler())
-    		.withSockJS(); // javascript에서 SockJS생성자를 통해 연결
+    		.withSockJS(); // javascript에서 SockJS생성자를 통해 연결.
     
   
   }

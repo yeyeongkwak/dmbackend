@@ -10,13 +10,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.spring.service","com.spring.api","com.spring.security", "com.spring.config",  "com.spring.controller"})
+@ComponentScan(basePackages = {"com.spring.service","com.spring.api","com.spring.security", "com.spring.config",  "com.spring.controller","com.spring.util"})
 @EntityScan(basePackages = {"com.spring.entity"})
 @EnableJpaRepositories(basePackages = {"com.spring.repository"})
 @EnableJpaAuditing
 //@MapperScan(basePackages = {"com.spring.mapper"})
 public class DmApplication {
-
+	
+	static {
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DmApplication.class, args);
 	}
