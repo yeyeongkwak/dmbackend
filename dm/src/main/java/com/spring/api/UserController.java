@@ -1,0 +1,147 @@
+package com.spring.api;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.spring.dto.UserDTO;
+import com.spring.security.JwtAuthToken;
+import com.spring.security.JwtAuthTokenProvider;
+import com.spring.service.UserServiceImpl;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping(value = "/api")
+@RequiredArgsConstructor
+public class UserController {
+
+	private final UserServiceImpl userService;
+	private final JwtAuthTokenProvider jwtAuthProvider;
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	
+	@PostMapping("/signup")
+	public String insertUser(@Valid @RequestBody UserDTO user) {
+		try {
+			userService.insertUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";
+	}
+
+	
+	@PostMapping("/login")
+	public UserDTO loginUser(@RequestBody UserDTO userDTO, HttpServletResponse response) {
+		UserDTO oldUserDTO = userService.getUserById(userDTO.getId());
+		try {
+			if (passwordEncoder.matches(userDTO.getPassword(), oldUserDTO.getPassword())) {
+				JwtAuthToken jwtAuthToken = jwtAuthProvider.createAuthToken(userDTO.getId(), "MN00001", // 나중에 role바꿔야됨
+						Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()));
+						//위에 이게 토큰 시간
+
+				Cookie createCookie = new Cookie("accessToken", jwtAuthToken.getToken());
+				createCookie.setMaxAge(24 * 60 * 60); // 쿠키 지속 시간
+				createCookie.setPath("/"); // 모든 경로에서 사용하겠다는 뜻
+				response.addCookie(createCookie);
+				oldUserDTO.setPassword(null);
+				return oldUserDTO;
+			} else {
+				System.out.println("failed");
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return userDTO;
+	}
+
+	
+	@GetMapping("/bringcookie")
+	public Map<String, Object> bringCookie(@CookieValue(name = "accessToken") Cookie showCookie) {
+		JwtAuthToken jwtAuth = jwtAuthProvider.convertAuthToken(showCookie.getValue()); // 토큰 가져와서 복호화
+		System.out.println(jwtAuth.getData());
+		String printCookie = jwtAuth.getData().getSubject();
+		return null;
+	}
+
+	
+//쿠키값 호출해서 id추출,이후 마이페이지로돌릴애들
+//	@CrossOrigin(origins = { "http://localhost:3000" })
+//	@GetMapping("/printall")
+//	public Map<String, Object> printAll (Cookie showCookie){
+//		
+//		return null;
+//	}
+
+
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.isAuthenticated()) {
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			System.out.println("로그아웃");
+		}
+		return null;
+
+	}
+
+	@GetMapping(value = "/user/{userNo}")
+	public UserDTO getUserByUserNo(@PathVariable Long userNo) {
+		UserDTO userDTO = userService.getUserByUserNo(userNo);
+		return userDTO;
+	}
+
+	@GetMapping(value = "/user/id/{id}")
+	public UserDTO getUserById(@PathVariable String id) {
+		return userService.getUserById(id);
+	}
+
+	@GetMapping(value = "/alluser")
+	public List<UserDTO> getAllUser() {
+
+		return userService.getAllUser();
+	}
+
+	@PutMapping(value = "/profile/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateProfile(@RequestBody UserDTO userDTO, @PathVariable Long userNo) {
+		userDTO.setUserNo(userNo);
+		userService.updateUser(userDTO);
+	}
+
+	@GetMapping(value = "/user/name/{name}")
+	public List<UserDTO> findByName(@PathVariable String name) {
+		return userService.findByName(name);
+	}
+	
+	@PostMapping(value ="/user/member", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<UserDTO> getMemberList(@RequestBody List<Long> userNoList){
+		return userService.findByIdList(userNoList);
+	}
+}
