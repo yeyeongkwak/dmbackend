@@ -3,6 +3,8 @@ jdk:
   - openjdk11
 
 install:
+  - openssl aes-256-cbc -K $encrypted_d5bbb2a1111b_key -iv $encrypted_d5bbb2a1111b_iv
+  -in dm.tar.enc -out dm.tar -d
   - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   
