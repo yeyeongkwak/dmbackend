@@ -8,7 +8,7 @@ install:
 
 before_install:
   - cd ./dm
-  - "openssl aes-256-cbc -K $encrypted_d5bbb2a1111b_key -iv $encrypted_d5bbb2a1111b_iv -in dm.tar.enc -out dm.tar -d"
+  - openssl aes-256-cbc -K $encrypted_d5bbb2a1111b_key -iv $encrypted_d5bbb2a1111b_iv -in dm.tar.enc -out dm.tar -d
   - tar xvf dm.tar
   - chmod +x mvnw
 
@@ -41,6 +41,8 @@ deploy:
     acl: private # zip 파일 접근을 private으로
     local_dir: deploy # before_deploy에서 생성한 디렉토리
     wait-until-deployed: true
+    on: 
+      all_branches: true
 
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
