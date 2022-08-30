@@ -6,6 +6,9 @@ install:
 - mvn -N io.takari:maven:wrapper
 - ./dm/mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
+before_install:
+  - chmod +x mvnw
+
 branches:
   only:
     - main
