@@ -7,7 +7,7 @@ install:
 - ./dm/mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 before_install:
-  - chmod +x mvnw
+  - chmod +x ./dm/mvnw
 
 branches:
   only:
