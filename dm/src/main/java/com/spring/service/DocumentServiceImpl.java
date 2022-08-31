@@ -2,6 +2,7 @@ package com.spring.service;
 
 
 
+import java.io.Console;
 import java.util.List;
 import java.util.function.Function;
 
@@ -57,12 +58,23 @@ public class DocumentServiceImpl implements DocumentService{
    @Override
    @Transactional
 
-   public void insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
-	   	try {
+   public Boolean insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
+	   if(documentSize(documentDTO.getUser().getUserNo()) + Math.round((((double)multipart.getSize()/1024))*100)/100.0 > 10485760.00) {
+//		   10485760
+		   System.out.println(multipart.getContentType());
+		   return false;
+	   }
+	   try {
 			s3Util.S3Upload(multipart, documentDTO);
 		} catch (UploadFailedException e) {
 			e.printStackTrace();
 		}
+	  
+        Document document = documentRepository.save(documentDTO.toEntity(documentDTO));
+        documentUserList.forEach(v->v.setDocumentNo(document.toDTO(document)));
+        documentUserService.insertDocumentUser(documentUserList);
+	  
+        return true;
 			
 			
 //			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();
@@ -72,9 +84,7 @@ public class DocumentServiceImpl implements DocumentService{
 //															.userNo(v)
 //															.build()));
 
-         Document document = documentRepository.save(documentDTO.toEntity(documentDTO));
-         documentUserList.forEach(v->v.setDocumentNo(document.toDTO(document)));
-         documentUserService.insertDocumentUser(documentUserList);
+
          
          
          
