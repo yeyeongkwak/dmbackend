@@ -47,7 +47,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 public class S3Util {
 	
    
-   public final String BUCKET = "test-busan";
+//   public final String BUCKET = "test-busan";
    
    private AmazonS3 s3Client;
    

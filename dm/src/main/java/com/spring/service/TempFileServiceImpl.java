@@ -21,7 +21,7 @@ import software.amazon.awssdk.core.exception.SdkClientException;
 public class TempFileServiceImpl implements TempFileService {
 	
 	private final TempFileRepository tempFileRepository;
-	private final S3Util s3Util;
+	private S3Util s3Util;
 	
 	@Override
 	@Transactional
