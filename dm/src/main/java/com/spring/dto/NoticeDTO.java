@@ -1,6 +1,10 @@
 package com.spring.dto;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.entity.Document;
 import com.spring.entity.Notice;
 import com.spring.entity.User;
@@ -28,7 +32,7 @@ public class NoticeDTO {
 	
 	private Integer isRead;
 	
-	private DocumentDTO document;
+	private LocalDateTime sendDate;
 	
 	@Data
 	@AllArgsConstructor
@@ -44,6 +48,7 @@ public class NoticeDTO {
 		private String content;
 		
 		private Integer isRead;
+		
 		
 		public Notice toEntity() {
 			Notice notice = Notice.builder()
@@ -62,21 +67,25 @@ public class NoticeDTO {
 		
 		private final Long noticeNo;
 		
-		private final String sender;
+		private final User sender;
 		
-		private final String receiver;
-		
+		private final User receiver;
+
 		private final String content;
 		
 		private final Integer isRead;
 		
+		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
+		private final LocalDateTime sendDate;
+		
 		public NoticeResponse(Notice notice) {
 			this.noticeNo=notice.getNoticeNo();
-			this.sender=notice.getSender().getName(); //바로 이름 출력하려고 getName 사용
-			this.receiver=notice.getReceiver().getName(); //바로 이름 출력하려고 getName 사용
+			this.sender=notice.getSender(); 
+			this.receiver=notice.getReceiver(); 
 			this.content=notice.getContent();
 			this.isRead=notice.getIsRead();
-		}
+			this.sendDate = notice.getSendDate();
+			}
 	}
 	
 }
