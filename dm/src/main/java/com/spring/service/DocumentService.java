@@ -34,4 +34,8 @@ public interface DocumentService {
    // 문서 삭제
    public void deleteDocument(List<Long> documentNo);
    
+   // 내 문서 용량
+   public double documentSize(Long userNo);
+   
+   
 }

@@ -1,5 +1,7 @@
 package com.spring.service;
 
+
+
 import java.util.List;
 import java.util.function.Function;
 
@@ -19,6 +21,7 @@ import com.spring.entity.User;
 import com.spring.exception.UploadFailedException;
 import com.spring.repository.DocumentRepository;
 import com.spring.util.S3Util;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -53,6 +56,7 @@ public class DocumentServiceImpl implements DocumentService{
    // DB INSERT
    @Override
    @Transactional
+
    public void insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
 	   	try {
 			s3Util.S3Upload(multipart, documentDTO);
@@ -114,4 +118,11 @@ public class DocumentServiceImpl implements DocumentService{
 	}
 
    }
+
+   // 문서 용량
+	@Override
+	public double documentSize(Long userNo) {
+	    return documentRepository.findDocumentSize(userNo);
+		
+	}
 }

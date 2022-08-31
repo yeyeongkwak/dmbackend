@@ -26,11 +26,19 @@ public interface DocumentUserService {
 
 	public void insertDocumentUser(List<DocumentUserDTO> documentUserDTOs);
 
-	public void deleteDocumentUser(List<Long> documentNo, Long userNo);
+	public void deleteDocumentUser(List<DocumentUserDTO> documentDTOList, Long userNo);
 
 	public void updateDocumentUser(List<DocumentUserDTO> documentUserDTO);
 
 
 	public List<DocumentUserDTO> getMemberList(Long documentNo);
 	
+	public List<DocumentUserDTO> getDocumentSearchList(Long userNo, String originalName);
+	
+	public List<DocumentUserDTO> getShareDocumentSearchList(Long userNo, String originalName);
+
+	public List<DocumentUserDTO> getImportantDocumentSearchList(Long userNo, String originalName);
+
+	public List<DocumentUserDTO> getRecycleDocumentSearchList(Long userNo, String originalName);
+
 }
