@@ -4,6 +4,8 @@ import java.io.IOException;
 
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +26,19 @@ import com.spring.exception.UploadFailedException;
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.core.waiters.WaiterResponse;
+import software.amazon.awssdk.services.s3.S3Client;
+
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectTaggingRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectTaggingResponse;
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.model.Tag;
+import software.amazon.awssdk.services.s3.waiters.S3Waiter;
 
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
@@ -36,6 +51,7 @@ public class S3Util {
    
    private AmazonS3 s3Client;
    
+
 	private final AmazonS3Client amazonS3Client;
 	
 	@Value("${cloud.aws.credentials.access-key}")
@@ -81,6 +97,7 @@ public class S3Util {
 //      waiterResponse.matched().response().ifPresent(x -> {
 //         System.out.println("The file " + fileName + " is now ready");
 //      });
+
    }
 
    // s3파일 삭제
@@ -116,6 +133,9 @@ public class S3Util {
          uploadFile(filename, multipart.getInputStream());
          documentDTO.setOriginalName(originalFileName);
          documentDTO.setFileName(filename);
+         System.out.println(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
+//         documentDTO.setFileSize(Math.round(((((double)multipart.getSize()/1024)/1024))*100)/100.0);
+         documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
          documentDTO.setFilePath(getFileUrl(filename));
          System.out.println(documentDTO);
          return documentDTO;

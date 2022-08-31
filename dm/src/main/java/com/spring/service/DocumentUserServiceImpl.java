@@ -134,4 +134,36 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		return documentUserDTOList;
 	}
 
+	@Override
+	public List<DocumentUserDTO> getDocumentSearchList(Long userNo, String originalName) {
+		List<DocumentUser> documentUsers = documentUserRepository.findAllByMyBox(userNo, originalName);
+		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+		return documentUserDTOList;
+	}
+	
+	@Override
+	public List<DocumentUserDTO> getShareDocumentSearchList(Long userNo, String originalName) {
+		List<DocumentUser> documentUsers = documentUserRepository.findAllByShareBox(userNo, originalName);
+		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+		return documentUserDTOList;
+	}
+	
+	@Override
+	public List<DocumentUserDTO> getImportantDocumentSearchList(Long userNo, String originalName) {
+		List<DocumentUser> documentUsers = documentUserRepository.findAllByImportantBox(userNo, originalName);
+		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+		return documentUserDTOList;
+	}
+	
+	@Override
+	public List<DocumentUserDTO> getRecycleDocumentSearchList(Long userNo, String originalName) {
+		List<DocumentUser> documentUsers = documentUserRepository.findAllByRecycleBox(userNo, originalName);
+		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+		return documentUserDTOList;
+	}
+
 }

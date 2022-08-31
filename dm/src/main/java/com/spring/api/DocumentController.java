@@ -88,4 +88,10 @@ public class DocumentController {
       documentService.deleteDocument(documentNo);
 //	   System.out.println(documentNo);
    }
+   
+   @GetMapping(value="/documents/size/{userNo}")
+   public double documentSize(@PathVariable Long userNo) {
+	   return documentService.documentSize(userNo);
+   }
+   
 }

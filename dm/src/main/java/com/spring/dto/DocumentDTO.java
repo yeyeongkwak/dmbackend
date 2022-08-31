@@ -33,6 +33,7 @@ public class DocumentDTO {
    
    private String originalName;
    
+   private Double fileSize;
 //   private List<UserDTO> userList;
    
    public Document toEntity(DocumentDTO dto) {
@@ -45,6 +46,7 @@ public class DocumentDTO {
                                    .fileName(dto.getFileName())
                                    .filePath(dto.getFilePath())
                                    .originalName(dto.getOriginalName())
+                                   .fileSize(dto.getFileSize())
                                    .build();
       return document;                                
    }
@@ -53,6 +55,7 @@ public class DocumentDTO {
       documentNo = orginalDTO.getDocumentNo();
       user = orginalDTO.getUser();
       registerDate = orginalDTO.getRegisterDate();
+      fileSize = orginalDTO.getFileSize();
       if(newDTO.getContent() != null) {
          content = newDTO.getContent();
       }else {

@@ -2,6 +2,7 @@ package com.spring.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,29 @@ public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long
 	public void deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(Long userNo, Long documentNo);
 
 	public List<DocumentUser> findAllByDocumentNoDocumentNo(Long documentNo);
+	
+	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
+			+ " AND recycle_bin = '0'"
+			+ " AND authority = 'MASTER'"
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
+	public List<DocumentUser> findAllByMyBox(Long userNo, String originalName);
+	
+	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
+			+ " AND recycle_bin = '0'"
+			+ " AND NOT authority = 'MASTER'"
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
+	public List<DocumentUser> findAllByShareBox(Long userNo, String originalName);
+	
+	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
+			+ " AND recycle_bin = '0'"
+			+ " AND important = '1'"
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
+	public List<DocumentUser> findAllByImportantBox(Long userNo, String originalName);
+	
+	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
+			+ " AND recycle_bin = '1'"
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
+	public List<DocumentUser> findAllByRecycleBox(Long userNo, String originalName);
+	
+
 }

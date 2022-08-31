@@ -142,5 +142,28 @@ public class DocumentUserController {
 		public List<DocumentUserDTO> getMemberList(@PathVariable Long documentNo){
 			return documentUserService.getMemberList(documentNo);
 		}
+		
+		// 문서 검색
+		@GetMapping(value = "/document/{userNo}/{originalName}")
+		public List<DocumentUserDTO> getDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
+			return documentUserService.getDocumentSearchList(userNo, originalName);
+		}
+		
+		// 공유 문서 검색
+		@GetMapping(value = "/document/share/{userNo}/{originalName}")
+		public List<DocumentUserDTO> getShareDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
+			return documentUserService.getShareDocumentSearchList(userNo, originalName);
+		}
+		
+		// 중요 문서 검색
+		@GetMapping(value = "/document/important/{userNo}/{originalName}")
+		public List<DocumentUserDTO> getImportantDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
+			return documentUserService.getImportantDocumentSearchList(userNo, originalName);
+		}
+		
+		@GetMapping(value = "/document/recycle/{userNo}/{originalName}")
+		public List<DocumentUserDTO> getRecycleDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
+			return documentUserService.getRecycleDocumentSearchList(userNo, originalName);
+		}
 	
 }

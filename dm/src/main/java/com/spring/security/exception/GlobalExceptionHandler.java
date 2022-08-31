@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<Object> handleInsufficientAuthenticationException(InsufficientAuthenticationException e) throws URISyntaxException {
 
         log.info("handleInsufficientAuthenticationException");
-
+        
 //        CommonResponse response = CommonResponse.builder()
 //                .code(ErrorCode.AUTHENTICATION_FAILED.getCode())
 //                .message(ErrorCode.AUTHENTICATION_FAILED.getMessage())
