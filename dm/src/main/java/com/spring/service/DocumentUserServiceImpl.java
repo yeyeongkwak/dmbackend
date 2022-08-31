@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,6 +19,7 @@ import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
 import com.spring.entity.User;
 import com.spring.model.Authority;
+import com.spring.repository.DocumentRepository;
 import com.spring.repository.DocumentUserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class DocumentUserServiceImpl implements DocumentUserService {
 	
 	private final DocumentUserRepository documentUserRepository;
+	private final DocumentRepository documentRepository;
 	
 	@Override
 	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
@@ -105,11 +109,19 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public void deleteDocumentUser(List<Long> documentNo, Long userNo) {
-		for (int i = 0; i < documentNo.size(); i++) {
+	@Transactional
+	public void deleteDocumentUser(List<DocumentUserDTO> documentDTOList, Long userNo) {
+		documentDTOList.forEach(documentDTO -> {
+			if(documentDTO.getAuthority().equals(Authority.MASTER)){
+				documentRepository.deleteById(documentDTO.getDocumentNo().getDocumentNo());
+			}else {
+				documentUserRepository.deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(userNo, documentDTO.getDocumentNo().getDocumentNo());
+			}
+					});
+//		for (int i = 0; i < documentNo.size(); i++) {
 //			documentUserRepository.delete(documentNo.get(i).toEntity(documentNo.get(i)));
-			documentUserRepository.deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(userNo, documentNo.get(i));
-		}
+//			documentUserRepository.deleteDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(userNo, documentNo.get(i));
+//		}
 	}
 	
 	@Override

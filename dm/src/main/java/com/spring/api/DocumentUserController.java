@@ -134,8 +134,9 @@ public class DocumentUserController {
 		// 문서 삭제
 		@DeleteMapping(value = "/document/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
 		@Transactional
-		public void deleteDocument(@RequestBody List<Long> documentNo, @PathVariable Long userNo) {
-			documentUserService.deleteDocumentUser(documentNo, userNo);
+		public void deleteDocument(@RequestBody List<DocumentUserDTO> documentDTO, @PathVariable Long userNo) {
+			System.out.println(documentDTO);
+			documentUserService.deleteDocumentUser(documentDTO, userNo);
 		}
 		
 		@GetMapping(value="/document/member/{documentNo}")
