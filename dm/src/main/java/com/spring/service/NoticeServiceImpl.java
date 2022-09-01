@@ -80,19 +80,23 @@ public class NoticeServiceImpl implements NoticeService{
 		
 	}
 	
-//	@Override
-//	public void sendGlobalNotice(User sender, User receiver, String content, Integer isRead) {
-//		NoticeRequest newNotice = new NoticeRequest(sender,receiver, content, isRead );
-//		messagingTemplate.convertAndSend("/topic/notice", newNotice);
-//		noticeRepository.save(newNotice.toEntity());
-//	}
-//	
-//	@Override
-//	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead) {
-//		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
-//		messagingTemplate.convertAndSend("/queue/workspace/"+receiver.getId(),newNotice);
-//		noticeRepository.save(newNotice.toEntity());		
-//	}
+	@Override
+	public void updateAllNotice(Long receiverNo, List<NoticeRequest> noticeDTOList) {
+		List<Notice> noticeList = noticeRepository.findAllNoticeByReceiverUserNo(receiverNo);
+	//해당 회원이 가지고 있는 알림에서 isRead를 전부 1로 바꿔야 함.
+		noticeList.forEach((v)->{
+			noticeDTOList.forEach((noticeDTO)->{
+				if(v.getReceiver().getUserNo().equals(noticeDTO.getReceiver().getUserNo()) && v.getIsRead()==0){
+					v.updateNotice(noticeDTO.getIsRead()==null?v.getIsRead():noticeDTO.getIsRead());
+				}
+				noticeRepository.save(v);
+			});
+			
+		});
+		
+	}
+	
+	
 	@Override
 	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead) {
 		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
@@ -108,34 +112,20 @@ public class NoticeServiceImpl implements NoticeService{
 		noticeRepository.save(newNotice.toEntity());		
 		System.out.println("id:"+receiver.getId());
 	}
-//	@Override
-//	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
-//	@Override
-//	public void sendWorkSpaceNoticeById(String receiverId, User sender, User receiver, String content, Integer isRead) {
-//		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
-//		messagingTemplate.convertAndSendToUser(receiver.getId(), "/queue/workspace/notice", newNotice);
-//		System.out.println(receiver.getId());
-//		System.out.println(receiver.getUserNo().toString());
-//		System.out.println(receiver.getName());
-//		noticeRepository.save(newNotice.toEntity());
-//	}
-//	@Override
-//	public void sendWorkSpaceNoticeById(User sender, User receiver, String content, Integer isRead) {
-//		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
-//		messagingTemplate.convertAndSend("/queue/workspace-notice",  newNotice);
-//		System.out.println(receiver.getId());
-//		System.out.println(receiver.getUserNo().toString());
-//		System.out.println(receiver.getName());
-//		noticeRepository.save(newNotice.toEntity());
-//	}
 	
 	
+	@Override
+	public void deleteAllNotice(Long receiverNo) {
+		List<Notice> noticeList = noticeRepository.findAllNoticeByReceiverUserNo(receiverNo);
+		noticeList.forEach((v)->{noticeRepository.delete(v);});
+		
+	}
+	@Override
+	public void sendAddMember(User sender, User receiver, String content, Integer isRead) {
+		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
+		messagingTemplate.convertAndSend("/queue/workspace/member/"+receiver.getId(), newNotice);
+		noticeRepository.save(newNotice.toEntity());
+	}
 	
-
-
-
+	
 }

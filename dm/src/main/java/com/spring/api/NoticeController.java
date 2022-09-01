@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityListeners;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -36,11 +39,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 
+
 public class NoticeController {
 	
 	private final NoticeServiceImpl noticeService;
-	private final SimpMessagingTemplate simpMessagingTemplate;
-	private final NoticeRepository noticeRepository;
 	
 	//모든 알림 리스트 조회
 	@GetMapping(value = "/notice/all")
@@ -86,9 +88,22 @@ public class NoticeController {
 	
 	@MessageMapping("/workspace")
 	public void getWorkSpaceMessage(NoticeRequest notice) {
-		NoticeRequest newNotice = new NoticeRequest(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
-		simpMessagingTemplate.convertAndSend("/queue/workspace/"+notice.getReceiver().getId(),newNotice);
-		noticeRepository.save(newNotice.toEntity());		
+		noticeService.sendWorkSpaceNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+			
 	};
 	
+	@MessageMapping("/workspace/add")
+	public void getExtraMember(NoticeRequest notice) {
+		noticeService.sendAddMember(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+	}
+	
+	@DeleteMapping("/notice/receiver/{receiverNo}/all")
+	public void deleteAllNotices(@PathVariable Long receiverNo) {
+		noticeService.deleteAllNotice(receiverNo);
+	}
+	
+	@PutMapping("/notice/receiver/{receiverNo}/all")
+	public void updateAllNotices(@PathVariable Long receiverNo, @RequestBody List<NoticeRequest> noticeDTOList) {
+		noticeService.updateAllNotice(receiverNo, noticeDTOList);
+	}
 }
