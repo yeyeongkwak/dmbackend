@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     registry.addEndpoint("/ws-dm")  //SocketJs 연결 주소
 //    client.send(`/dm/notice/보낼주소`,{},JSON.stringify(보낼데이터))
     		.setAllowedOrigins("http://localhost:3000")
-    		.setAllowedOrigins("http://3.39.189.222:3000")
+    		.setAllowedOrigins("http://3.39.189.222")
     		.setHandshakeHandler(new UserHandshakeHandler())
     		.withSockJS(); // javascript에서 SockJS생성자를 통해 연결.
     
