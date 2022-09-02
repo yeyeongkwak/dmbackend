@@ -13,7 +13,7 @@ function find_idle_profile()
     else
         CURRENT_PROFILE=$(curl -s http://localhost:8081/profile)
     fi
-
+    echo "${CURRENT_PROFILE}"
     if [ ${CURRENT_PROFILE} == real1 ]
     then
       IDLE_PROFILE=real2
