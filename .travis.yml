@@ -8,8 +8,14 @@ install:
 
 before_install:
   - cd ./dm
+  - mkdir -p ./src/main/resources
+
   - openssl aes-256-cbc -K $encrypted_d5bbb2a1111b_key -iv $encrypted_d5bbb2a1111b_iv -in dm.tar.enc -out dm.tar -d
-  - tar xvf dm.tar
+  - openssl aes-256-cbc -K $encrypted_d461651ec084_key -iv $encrypted_d461651ec084_iv -in dm1.tar.enc -out dm1.tar -d
+  - openssl aes-256-cbc -K $encrypted_7899e3bd41a8_key -iv $encrypted_7899e3bd41a8_iv -in dm2.tar.enc -out dm2.tar -d
+  - tar xvf dm.tar -C ./src/main/resources
+  - tar xvf dm1.tar -C ./src/main/resources
+  - tar xvf dm2.tar -C ./src/main/resources
   - chmod +x mvnw
 
 branches:

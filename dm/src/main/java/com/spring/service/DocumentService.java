@@ -22,7 +22,7 @@ public interface DocumentService {
    public DocumentDTO selectDocument(Long documentNo);
    
    // 문서 작성
-   public void insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
+   public Boolean insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
    
 
    // 문서 수정(파일, 문서 내용)
