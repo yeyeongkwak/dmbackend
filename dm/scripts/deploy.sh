@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ubuntu/dm/step2
+REPOSITORY=/home/ubuntu/dm
 PROJECT_NAME=dm
 
 echo "> Build 파일 복사"
