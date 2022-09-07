@@ -36,18 +36,18 @@ public class DocumentController {
 
    private final DocumentServiceImpl documentService;
    
-   @GetMapping("/documents/{userNo}")
-	public PageResultDTO<DocumentDTO, Document> getDocuments(@PathVariable User userNo, PageRequestDTO pageDTO){
-		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
-		
-		PageResultDTO<DocumentDTO, Document> pageResultDTO = documentService.getList(userNo, pageRequestDTO);
-		
-		List<DocumentDTO> resultBoards = new ArrayList<DocumentDTO>(); 
-		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
-		
-		return pageResultDTO;
-		
-	}
+//   @GetMapping("/documents/{userNo}")
+//	public PageResultDTO<DocumentDTO, Document> getDocuments(@PathVariable User userNo, PageRequestDTO pageDTO){
+//		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+//		
+//		PageResultDTO<DocumentDTO, Document> pageResultDTO = documentService.getList(userNo, pageRequestDTO);
+//		
+//		List<DocumentDTO> resultBoards = new ArrayList<DocumentDTO>(); 
+//		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+//		
+//		return pageResultDTO;
+//		
+//	}
    
    // 문서 조회
    @GetMapping(value = "/document/{documentNo}")
@@ -64,7 +64,7 @@ public class DocumentController {
    // 문서 작성
   
    @PostMapping(value = "/document",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-   public Boolean insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO,@RequestPart("documentUser") List<DocumentUserDTO> documentUserList, @RequestPart("file") MultipartFile multipart) {
+   public int insertDocument(@RequestPart("documentDTO") DocumentDTO documentDTO,@RequestPart("documentUser") List<DocumentUserDTO> documentUserList, @RequestPart("file") MultipartFile multipart) {
       return documentService.insertDocument(documentDTO, documentUserList, multipart);
    }
 
@@ -89,7 +89,7 @@ public class DocumentController {
    }
    
    @GetMapping(value="/documents/size/{userNo}")
-   public double documentSize(@PathVariable Long userNo) {
+   public Double documentSize(@PathVariable Long userNo) {
 	   return documentService.documentSize(userNo);
    }
    

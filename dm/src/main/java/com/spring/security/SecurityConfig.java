@@ -4,6 +4,9 @@ import com.spring.security.exception.JwtAccessDeniedHandler;
 import com.spring.security.exception.JwtAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,6 +18,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -64,10 +68,11 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                
 
                 .and()
                 .authorizeRequests() // 인증절차에 대한 진행
-                .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 .antMatchers("/mail/**").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
@@ -87,11 +92,11 @@ public class SecurityConfig {
                 .logoutUrl("/api/logout")
                 .logoutSuccessUrl("/")
                 .deleteCookies("accessToken")
-                .invalidateHttpSession(true)
                 
-             
                 .and()
                 .apply(securityConfigurerAdapter());
+        
+        		
         
         return http.build();
     }

@@ -1,7 +1,9 @@
 package com.spring.api;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.MailDTO;
@@ -79,9 +82,20 @@ public class MailController {
 	
 //	@CrossOrigin(origins = { "http://localhost:3000"})
 	@GetMapping("/findpassword")
-	public List<UserDTO> findPassword(@RequestParam(value="id") String id, @RequestParam(value="email") String email) {
-		List<UserDTO> UserDTO = userService.findByIdAndEmail(id, email);				
-		return UserDTO;
+	public @ResponseBody Map<String, Boolean> findPassword(@RequestParam(value="id") String id, @RequestParam(value="email")String email){
+		Map<String, Boolean> json = new HashMap<>();
+		boolean pwFindCheck = userService.userEmailCheck(id, email);
+		System.out.println(pwFindCheck);
+		json.put("check", pwFindCheck);
+		return json;
+	}
+	
+	@CrossOrigin(origins = { "http://localhost:3000"})
+	@GetMapping("/sendpw")
+    public @ResponseBody void sendEmail(String email, String id){
+  		MailDTO mailDTO = mailService.createMailAndChangePassword(email, id);
+        System.out.println(mailDTO);
+        mailService.mailSend(mailDTO);
 	}
 }
 

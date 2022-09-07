@@ -24,14 +24,14 @@ public interface NoticeService {
 	
 	public void updateNotice(Long noticeNo, NoticeRequest noticeDTO);
 	
-	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead);
+	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead, String urlParams);
 
-	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead);
+	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead, String urlParams);
 
 	public void deleteAllNotice(Long receiverNo);
 	
 	public void updateAllNotice(Long receiverNo, List<NoticeRequest> noticeDTOList);
 
-	public void sendAddMember(User sender, User receiver, String content, Integer isRead);
+	public void sendAddMember(User sender, User receiver, String content, Integer isRead, String urlParams);
 
 }

@@ -23,5 +23,7 @@ public interface UserService {
 	public List<UserDTO> findByNameAndEmail(String name, String email);
 
 	public List<UserDTO> findByIdList(List<Long> userNoList);
+	
+	public boolean userEmailCheck(String name, String email);
 
 }

@@ -55,6 +55,9 @@ public class Notice {
 	@CreatedDate
 	private LocalDateTime sendDate;
 	
+	@Column(name="url_params")
+	private String urlParams;
+	
 	public void updateNotice(Integer isRead) {
 		this.isRead = isRead;
 	

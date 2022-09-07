@@ -17,6 +17,7 @@ import com.spring.dto.NoticeDTO.NoticeRequest;
 import com.spring.dto.NoticeDTO.NoticeResponse;
 import com.spring.entity.Notice;
 import com.spring.entity.User;
+import com.spring.entity.Workspace;
 import com.spring.repository.NoticeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -98,16 +99,16 @@ public class NoticeServiceImpl implements NoticeService{
 	
 	
 	@Override
-	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead) {
-		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
+	public void sendDocsNotice(User sender, User receiver, String content, Integer isRead, String urlParams) {
+		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead, urlParams);
 		messagingTemplate.convertAndSend("/queue/sharedocs/"+receiver.getId(),newNotice);
 		noticeRepository.save(newNotice.toEntity());		
 		System.out.println("id:"+receiver.getId());
 	}
 	
 	@Override
-	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead) {
-		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
+	public void sendWorkSpaceNotice(User sender, User receiver, String content, Integer isRead, String urlParams) {
+		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead, urlParams);
 		messagingTemplate.convertAndSend("/queue/workspace/"+receiver.getId(),newNotice);
 		noticeRepository.save(newNotice.toEntity());		
 		System.out.println("id:"+receiver.getId());
@@ -121,8 +122,8 @@ public class NoticeServiceImpl implements NoticeService{
 		
 	}
 	@Override
-	public void sendAddMember(User sender, User receiver, String content, Integer isRead) {
-		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead);
+	public void sendAddMember(User sender, User receiver, String content, Integer isRead, String urlParams) {
+		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead, urlParams);
 		messagingTemplate.convertAndSend("/queue/workspace/member/"+receiver.getId(), newNotice);
 		noticeRepository.save(newNotice.toEntity());
 	}
