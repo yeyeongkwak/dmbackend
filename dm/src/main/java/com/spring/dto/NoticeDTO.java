@@ -34,6 +34,8 @@ public class NoticeDTO {
 	
 	private LocalDateTime sendDate;
 	
+	private String urlParams;
+	
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -49,6 +51,8 @@ public class NoticeDTO {
 		
 		private Integer isRead;
 		
+		private String urlParams;
+		
 		
 		public Notice toEntity() {
 			Notice notice = Notice.builder()
@@ -56,6 +60,7 @@ public class NoticeDTO {
 							.receiver(receiver)
 							.content(content)
 							.isRead(isRead)
+							.urlParams(urlParams)
 							.build();
 			return notice;
 			
@@ -75,6 +80,8 @@ public class NoticeDTO {
 		
 		private final Integer isRead;
 		
+		private final String urlParams;
+		
 		@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 		private final LocalDateTime sendDate;
 		
@@ -85,7 +92,9 @@ public class NoticeDTO {
 			this.content=notice.getContent();
 			this.isRead=notice.getIsRead();
 			this.sendDate = notice.getSendDate();
-			}
+			this.urlParams = notice.getUrlParams();
+					
+		}
 	}
 	
 }

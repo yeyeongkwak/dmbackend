@@ -83,18 +83,18 @@ public class NoticeController {
 	
 	@MessageMapping("/sharedocs")
 	public void getDocsNotice(NoticeRequest notice) {
-		noticeService.sendDocsNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+		noticeService.sendDocsNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead(), notice.getUrlParams());
 	}
 	
 	@MessageMapping("/workspace")
 	public void getWorkSpaceMessage(NoticeRequest notice) {
-		noticeService.sendWorkSpaceNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+		noticeService.sendWorkSpaceNotice(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead(),notice.getUrlParams());
 			
 	};
 	
 	@MessageMapping("/workspace/add")
 	public void getExtraMember(NoticeRequest notice) {
-		noticeService.sendAddMember(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead());
+		noticeService.sendAddMember(notice.getSender(), notice.getReceiver(), notice.getContent(), notice.getIsRead(), notice.getUrlParams());
 	}
 	
 	@DeleteMapping("/notice/receiver/{receiverNo}/all")
