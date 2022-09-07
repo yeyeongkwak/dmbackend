@@ -69,6 +69,9 @@ public class Document {
    @Column(name= "file_size")
    private Double fileSize;
    
+   @Column(name= "file_category")
+   private String fileCategory;
+   
    public DocumentDTO toDTO(Document document) {
       User user = document.getUser();
       DocumentDTO documentDTO = DocumentDTO.builder().documentNo(document.getDocumentNo())
@@ -80,6 +83,7 @@ public class Document {
                                           .filePath(document.getFilePath())
                                           .originalName(document.getOriginalName())
                                           .fileSize(document.getFileSize())
+                                          .fileCategory(document.getFileCategory())
                                           .build();
       return documentDTO;
    }

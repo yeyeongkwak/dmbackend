@@ -133,11 +133,9 @@ public class S3Util {
          uploadFile(filename, multipart.getInputStream());
          documentDTO.setOriginalName(originalFileName);
          documentDTO.setFileName(filename);
-         System.out.println(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
-//         documentDTO.setFileSize(Math.round(((((double)multipart.getSize()/1024)/1024))*100)/100.0);
+         documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
          documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
          documentDTO.setFilePath(getFileUrl(filename));
-         System.out.println(documentDTO);
          return documentDTO;
       } catch (Exception e) {
           throw new UploadFailedException(e.getMessage());

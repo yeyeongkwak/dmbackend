@@ -22,6 +22,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
    @Transactional 
    public void deleteDocumentByDocumentNo(Long documentNo);
    
-   @Query(value = "SELECT ROUND(SUM(file_size), 2) FROM document WHERE user_no = :userNo", nativeQuery = true)	
+   @Query(value = "SELECT IFNULL(ROUND(SUM(file_size), 2),0) FROM document WHERE user_no = :userNo", nativeQuery = true)	
    public Double findDocumentSize(Long userNo);
 }

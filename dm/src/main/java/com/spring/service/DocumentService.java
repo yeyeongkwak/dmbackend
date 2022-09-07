@@ -16,13 +16,13 @@ public interface DocumentService {
 //   public List<DocumentDTO> getAllDocuments();
    
    // 내 문서 리스트
-	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO);
+//	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO);
 	
    // 문서 조회 
    public DocumentDTO selectDocument(Long documentNo);
    
    // 문서 작성
-   public Boolean insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
+   public int insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
    
 
    // 문서 수정(파일, 문서 내용)

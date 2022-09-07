@@ -34,17 +34,17 @@ public class DocumentServiceImpl implements DocumentService{
    private final DocumentUserServiceImpl documentUserService;
    private final S3Util s3Util;
     
-   @Override
-	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO) {
-		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-		
-		Page<Document> result =  documentRepository.findDocumentByUser(userNo, pageable);
-		
-		// entity -> dto
-		Function<Document, DocumentDTO> function = (Document -> Document.toDTO(Document));
-		
-		return new PageResultDTO<DocumentDTO, Document>(result, function);
-	}
+//   @Override
+//	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO) {
+//		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
+//		
+//		Page<Document> result =  documentRepository.findDocumentByUser(userNo, pageable);
+//		
+//		// entity -> dto
+//		Function<Document, DocumentDTO> function = (Document -> Document.toDTO(Document));
+//		
+//		return new PageResultDTO<DocumentDTO, Document>(result, function);
+//	}
    
 
    // 문서 조회 
@@ -58,12 +58,10 @@ public class DocumentServiceImpl implements DocumentService{
    @Override
    @Transactional
 
-   public Boolean insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
-	   System.out.println(documentSize(documentDTO.getUser().getUserNo()));
+   public int insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
 	   if(documentSize(documentDTO.getUser().getUserNo()) + Math.round((((double)multipart.getSize()/1024))*100)/100.0 > 10485760.00) {
 //		   10485760
-		   System.out.println(multipart.getContentType());
-		   return false;
+		   return 0;
 	   }
 	   try {
 			s3Util.S3Upload(multipart, documentDTO);
@@ -75,7 +73,7 @@ public class DocumentServiceImpl implements DocumentService{
         documentUserList.forEach(v->v.setDocumentNo(document.toDTO(document)));
         documentUserService.insertDocumentUser(documentUserList);
 	  
-        return true;
+        return 1;
 			
 			
 //			List<DocumentUserDTO> documentUserDTOs = new ArrayList<DocumentUserDTO>();

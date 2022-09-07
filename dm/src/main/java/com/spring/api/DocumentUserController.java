@@ -42,7 +42,7 @@ public class DocumentUserController {
 		// 유저 문서 리스트(내  문서함)
 		@GetMapping("/documents/user/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
-			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(20).build();
+			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
 
 			
 			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getList(userNo, pageRequestDTO, recycle);
@@ -114,7 +114,6 @@ public class DocumentUserController {
 		// 문서 작성
 		@PostMapping(value = "/document/authority",consumes = MediaType.APPLICATION_JSON_VALUE)
 		public void insertDocument(@RequestBody List<DocumentUserDTO> documentUserDTOs) {
-			System.out.println(documentUserDTOs);
 			documentUserService.insertDocumentUser(documentUserDTOs);
 		}
 		
