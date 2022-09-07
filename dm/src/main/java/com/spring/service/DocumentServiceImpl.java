@@ -59,6 +59,7 @@ public class DocumentServiceImpl implements DocumentService{
    @Transactional
 
    public Boolean insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
+	   System.out.println(documentSize(documentDTO.getUser().getUserNo()));
 	   if(documentSize(documentDTO.getUser().getUserNo()) + Math.round((((double)multipart.getSize()/1024))*100)/100.0 > 10485760.00) {
 //		   10485760
 		   System.out.println(multipart.getContentType());
@@ -131,7 +132,7 @@ public class DocumentServiceImpl implements DocumentService{
 
    // 문서 용량
 	@Override
-	public double documentSize(Long userNo) {
+	public Double documentSize(Long userNo) {
 	    return documentRepository.findDocumentSize(userNo);
 		
 	}

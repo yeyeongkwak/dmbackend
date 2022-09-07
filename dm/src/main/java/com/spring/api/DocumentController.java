@@ -89,7 +89,7 @@ public class DocumentController {
    }
    
    @GetMapping(value="/documents/size/{userNo}")
-   public double documentSize(@PathVariable Long userNo) {
+   public Double documentSize(@PathVariable Long userNo) {
 	   return documentService.documentSize(userNo);
    }
    

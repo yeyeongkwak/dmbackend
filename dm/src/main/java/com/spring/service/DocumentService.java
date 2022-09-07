@@ -35,7 +35,7 @@ public interface DocumentService {
    public void deleteDocument(List<Long> documentNo);
    
    // 내 문서 용량
-   public double documentSize(Long userNo);
+   public Double documentSize(Long userNo);
    
    
 }
