@@ -3,8 +3,13 @@ package com.spring.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.spring.entity.User;
@@ -21,8 +26,14 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	public List<User> findAllByIdAndEmail(String id, String email);
 
-	public Object findByid(String id);
+	public User findById(String id);
 
-	public Optional<User> findById(String id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update user set password =:password where id = :id", nativeQuery = true)
+	public void updatePassword(@Param("password")String password, @Param("id")String id);
+
+	public User findByEmail(String email);
 
 }
