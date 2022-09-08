@@ -32,8 +32,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.UserDTO;
 import com.spring.security.JwtAuthToken;
@@ -129,10 +131,9 @@ public class UserController {
 		return userService.getAllUser();
 	}
 
-	@PutMapping(value = "/profile/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateProfile(@RequestBody UserDTO userDTO, @PathVariable Long userNo) {
-		userDTO.setUserNo(userNo);
-		userService.updateUser(userDTO);
+	@PostMapping(value = "/profile/{userNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void updateProfile(@RequestPart("profile") MultipartFile profile, @PathVariable Long userNo) {
+		userService.updateProfile(profile, userNo);
 	}
 
 	@GetMapping(value = "/user/name/{name}")

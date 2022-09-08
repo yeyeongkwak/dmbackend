@@ -1,5 +1,6 @@
 package com.spring.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +10,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.UserDTO;
 import com.spring.entity.User;
 import com.spring.repository.UserRepository;
+import com.spring.util.S3Util;
 
 import lombok.RequiredArgsConstructor;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final S3Util s3util;
 	BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
 
 	@Override
@@ -103,6 +109,23 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+	
+	@Override
+	public void updateProfile(MultipartFile profile, Long userNo) {
+		if(!profile.isEmpty() && "image".equals(profile.getContentType().split("/")[0]) ) {
+			UserDTO userDTO = getUserByUserNo(userNo);
+			if(userDTO != null) {
+				try {
+					s3util.uploadFile("profile/"+userDTO.getUserNo(),profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getUserNo()));
+					userRepository.save(userDTO.toEntity(userDTO));						
+				} catch (AwsServiceException | SdkClientException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 
 	public boolean userPasswordCheck(String id, String oldpw, String pw) {
 		User user = userRepository.findById(id);
