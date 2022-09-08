@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/dm/zip
-    overwrite: yes
+#     overwrite: yes
 
 permissions:
   - object: /
