@@ -42,49 +42,63 @@ public class DocumentUserController {
 		// 유저 문서 리스트(내  문서함)
 		@GetMapping("/documents/user/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
-			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
-
-			
-			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getList(userNo, pageRequestDTO, recycle);
-			
-			System.out.println(pageResultDTO.getTotalPage());
-			if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
-				pageRequestDTO.setPage(pageDTO.getPage()-1);
-				pageResultDTO = documentUserService.getList(userNo, pageRequestDTO, recycle);
-			}
-			
-			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
-			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
-			
-			return pageResultDTO;
+//			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+//
+//			
+//			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getList(userNo, pageRequestDTO, recycle);
+//			
+//			if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+//				pageRequestDTO.setPage(pageDTO.getPage()-1);
+//				pageResultDTO = documentUserService.getList(userNo, pageRequestDTO, recycle);
+//			}
+//			
+//			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+//			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+//			
+//			return pageResultDTO;
+			return documentUserService.getList(userNo, pageDTO, recycle);
 			
 		}
 		
 		// 유저 문서 리스트(공유 문서함)
 		@GetMapping("/documents/user/share/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
-			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
-
-					
-			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getShareList(userNo, pageRequestDTO, recycle);
-					
-			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
-			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
-					
-			return pageResultDTO;	
+//			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+//
+//					
+//			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getShareList(userNo, pageRequestDTO, recycle);
+//					
+//			
+//			if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+//				pageRequestDTO.setPage(pageDTO.getPage()-1);
+//				pageResultDTO = documentUserService.getShareList(userNo, pageRequestDTO, recycle);
+//			}
+//			
+//			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+//			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+//					
+//			return pageResultDTO;	
+			return documentUserService.getShareList(userNo, pageDTO, recycle);
 		}
 		
 		// 유저 중요 문서 리스트
 		@GetMapping("/documents/user/important/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer important, Integer recycle){
-			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
-					
-			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getImportantList(userNo, pageRequestDTO, important, recycle);
-					
-			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
-			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
-					
-			return pageResultDTO;
+//			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+//					
+//			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getImportantList(userNo, pageRequestDTO, important, recycle);
+//					
+//			
+//			if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+//				pageRequestDTO.setPage(pageDTO.getPage()-1);
+//				pageResultDTO = documentUserService.getImportantList(userNo, pageRequestDTO, important, recycle);
+//			}
+//			
+//			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+//			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+//					
+//			return pageResultDTO;
+			return documentUserService.getImportantList(userNo, pageDTO, important, recycle);
 				
 		}
 		
@@ -92,15 +106,21 @@ public class DocumentUserController {
 
 		@GetMapping("/documents/user/recycle/{userNo}")
 		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
-			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
-							
-			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getRecycleList(userNo, pageRequestDTO, recycle);
-							
-			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
-			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
-							
-			return pageResultDTO;
-						
+//			PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+//							
+//			PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = documentUserService.getRecycleList(userNo, pageRequestDTO, recycle);
+//							
+//			
+//			if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+//				pageRequestDTO.setPage(pageDTO.getPage()-1);
+//				pageResultDTO = documentUserService.getRecycleList(userNo, pageRequestDTO, recycle);
+//			}
+//			List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+//			pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+//							
+//			return pageResultDTO;
+//						
+			return documentUserService.getRecycleList(userNo, pageDTO, recycle);
 		}
 		
 		
@@ -140,7 +160,6 @@ public class DocumentUserController {
 		@DeleteMapping(value = "/document/{userNo}", consumes = MediaType.APPLICATION_JSON_VALUE)
 		@Transactional
 		public void deleteDocument(@RequestBody List<DocumentUserDTO> documentDTO, @PathVariable Long userNo) {
-			System.out.println(documentDTO);
 			documentUserService.deleteDocumentUser(documentDTO, userNo);
 		}
 		
@@ -151,25 +170,25 @@ public class DocumentUserController {
 		
 		// 문서 검색
 		@GetMapping(value = "/document/{userNo}/{originalName}")
-		public List<DocumentUserDTO> getDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
-			return documentUserService.getDocumentSearchList(userNo, originalName);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentList(@PathVariable Long userNo, @PathVariable String originalName, PageRequestDTO pageDTO){
+			return documentUserService.getDocumentSearchList(userNo, originalName, pageDTO);
 		}
 		
 		// 공유 문서 검색
 		@GetMapping(value = "/document/share/{userNo}/{originalName}")
-		public List<DocumentUserDTO> getShareDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
-			return documentUserService.getShareDocumentSearchList(userNo, originalName);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentList(@PathVariable Long userNo, @PathVariable String originalName, PageRequestDTO pageDTO){
+			return documentUserService.getShareDocumentSearchList(userNo, originalName, pageDTO);
 		}
 		
 		// 중요 문서 검색
 		@GetMapping(value = "/document/important/{userNo}/{originalName}")
-		public List<DocumentUserDTO> getImportantDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
-			return documentUserService.getImportantDocumentSearchList(userNo, originalName);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentList(@PathVariable Long userNo, @PathVariable String originalName, PageRequestDTO pageDTO){
+			return documentUserService.getImportantDocumentSearchList(userNo, originalName, pageDTO);
 		}
 		
 		@GetMapping(value = "/document/recycle/{userNo}/{originalName}")
-		public List<DocumentUserDTO> getRecycleDocumentList(@PathVariable Long userNo, @PathVariable String originalName){
-			return documentUserService.getRecycleDocumentSearchList(userNo, originalName);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentList(@PathVariable Long userNo, @PathVariable String originalName, PageRequestDTO pageDTO){
+			return documentUserService.getRecycleDocumentSearchList(userNo, originalName, pageDTO);
 		}
 	
 }

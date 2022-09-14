@@ -33,12 +33,12 @@ public interface DocumentUserService {
 
 	public List<DocumentUserDTO> getMemberList(Long documentNo);
 	
-	public List<DocumentUserDTO> getDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
 	
-	public List<DocumentUserDTO> getShareDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO );
 
-	public List<DocumentUserDTO> getImportantDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
 
-	public List<DocumentUserDTO> getRecycleDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
 
 }

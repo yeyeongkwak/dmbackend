@@ -35,25 +35,25 @@ public interface DocumentUserRepository extends JpaRepository<DocumentUser, Long
 	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
 			+ " AND recycle_bin = '0'"
 			+ " AND authority = 'MASTER'"
-			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
-	public List<DocumentUser> findAllByMyBox(Long userNo, String originalName);
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE %:originalName%)", nativeQuery = true) 			
+	public Page<DocumentUser> findAllByMyBox(Long userNo, String originalName, Pageable pageable);
 	
 	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
 			+ " AND recycle_bin = '0'"
 			+ " AND NOT authority = 'MASTER'"
-			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
-	public List<DocumentUser> findAllByShareBox(Long userNo, String originalName);
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE %:originalName%)", nativeQuery = true) 			
+	public Page<DocumentUser> findAllByShareBox(Long userNo, String originalName, Pageable pageable);
 	
 	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
 			+ " AND recycle_bin = '0'"
 			+ " AND important = '1'"
-			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
-	public List<DocumentUser> findAllByImportantBox(Long userNo, String originalName);
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE %:originalName%)", nativeQuery = true) 			
+	public Page<DocumentUser> findAllByImportantBox(Long userNo, String originalName, Pageable pageable);
 	
 	@Query(value = "SELECT * FROM document_user WHERE user_no = :userNo"
 			+ " AND recycle_bin = '1'"
-			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE :originalName%) ORDER BY document_no DESC", nativeQuery = true) 			
-	public List<DocumentUser> findAllByRecycleBox(Long userNo, String originalName);
+			+ " AND document_no IN (SELECT document_no FROM document WHERE original_name LIKE %:originalName%)", nativeQuery = true) 			
+	public Page<DocumentUser>  findAllByRecycleBox(Long userNo, String originalName, Pageable pageable);
 	
 
 }
