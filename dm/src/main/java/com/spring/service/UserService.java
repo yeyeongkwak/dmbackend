@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public List<UserDTO> getAllUser();
 	
-	public void insertUser(UserDTO userDTO);
+	public void insertUser(UserDTO userDTO, MultipartFile profile);
 	
 	public void deleteUserByUserNo(Long userNo);
 

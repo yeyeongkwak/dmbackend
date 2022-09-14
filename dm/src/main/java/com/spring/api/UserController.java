@@ -55,13 +55,10 @@ public class UserController {
 
 	
 	@PostMapping("/signup")
-	public String insertUser(@Valid @RequestBody UserDTO user) {
-		try {
-			userService.insertUser(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void insertUser(@Valid @RequestPart("user") UserDTO user, @RequestPart("profile") MultipartFile profile) {
+		System.out.println(profile.getSize());
+		System.out.println(user);
+		userService.insertUser(user,profile);
 	}
 	@PostMapping("/login")
 	public UserDTO loginUser(@RequestBody UserDTO userDTO, HttpServletResponse response) {

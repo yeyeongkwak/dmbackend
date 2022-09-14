@@ -49,12 +49,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void insertUser(UserDTO userDTO) {
+	public void insertUser(UserDTO userDTO, MultipartFile profile) {
 		System.out.println(userDTO);
 		if (getUserById(userDTO.getId()) == null) {
 			String newPassword = pwEncoder.encode(userDTO.getPassword());
 			userDTO.toEntity(userDTO);
 			userDTO.setPassword(newPassword);
+			if(!profile.isEmpty() && "image".equals(profile.getContentType().split("/")[0]) ) {
+				try {
+					s3util.uploadFile("profile/"+userDTO.getId()+".png",profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getId()+".png"));
+				} catch (AwsServiceException | SdkClientException | IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
 			userRepository.save(userDTO.toEntity(userDTO));
 		}
 	}
@@ -116,8 +125,8 @@ public class UserServiceImpl implements UserService {
 			UserDTO userDTO = getUserByUserNo(userNo);
 			if(userDTO != null) {
 				try {
-					s3util.uploadFile("profile/"+userDTO.getUserNo(),profile.getInputStream());
-					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getUserNo()));
+					s3util.uploadFile("profile/"+userDTO.getId()+".png",profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getId()+".png"));
 					userRepository.save(userDTO.toEntity(userDTO));						
 				} catch (AwsServiceException | SdkClientException | IOException e) {
 					e.printStackTrace();
