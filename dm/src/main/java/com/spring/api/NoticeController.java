@@ -54,6 +54,7 @@ public class NoticeController {
 	//receiver에 해당하는 user번호로 알림 전체 조회하기
 	@GetMapping(value = "/notice/receiver/{receiverNo}")
 	public List<NoticeResponse> findUserNotice(@PathVariable Long receiverNo){
+		System.out.println(receiverNo);
 		return noticeService.findAllNoticeByReceiverUserNo(receiverNo);
 	}
 	

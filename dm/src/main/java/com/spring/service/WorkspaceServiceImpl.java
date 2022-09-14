@@ -33,6 +33,10 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 
 	@Override
 	public void deleteWorkspace(Long workspaceNo) {
+		Workspace workspace = workspaceRepository.getWorkspaceByWorkspaceNo(workspaceNo);
+		if(workspace.getTempFile() != null) {
+			tempFileService.deleteTempFile(workspace.getTempFile().getFileNo());
+		}
 		workspaceRepository.deleteById(workspaceNo);
 	}
 
