@@ -16,7 +16,7 @@ public interface WorkspaceUserService {
 
 	public List<WorkspaceUserDTO> deleteWorkspaceUser(Long userNo, Long workspaceNo);
 
-	public List<WorkspaceUserDTO> deleteAllWorkspaceUser(List<Long> workspaceNoList, Long userNo);
+	public void deleteAllWorkspaceUser(List<WorkspaceDTO> workspaceList, Long userNo);
 
 	public List<WorkspaceUserDTO> getMemberList(Long workspaceNo);
 	
