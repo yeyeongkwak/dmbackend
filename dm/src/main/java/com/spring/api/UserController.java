@@ -65,7 +65,8 @@ public class UserController {
 		UserDTO oldUserDTO = userService.getUserById(userDTO.getId());
 		if (oldUserDTO !=null && passwordEncoder.matches(userDTO.getPassword(), oldUserDTO.getPassword())) {
 			JwtAuthToken jwtAuthToken = jwtAuthProvider.createAuthToken(userDTO.getId(), "MN00001", // 나중에 role바꿔야됨
-					Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()));
+//					Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()));
+			Date.from(LocalDateTime.now().plusHours(1).atZone(ZoneId.systemDefault()).toInstant()));
 			// 위에 이게 토큰 시간
 			Cookie createCookie = new Cookie("accessToken", jwtAuthToken.getToken());
 			createCookie.setMaxAge(24 * 60 * 60); // 쿠키 지속 시간
@@ -102,14 +103,23 @@ public class UserController {
 
 	
 	@GetMapping("/logout")
-	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null && auth.isAuthenticated()) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 			System.out.println("로그아웃");
 		}
-		return null;
 	}
+	
+	
+	@GetMapping("/checkuser")
+	public @ResponseBody Map<String, Boolean> checkUser(@RequestParam(value = "id") String id) {
+		Map<String, Boolean> verifyUser = new HashMap<>();
+	
+			boolean userCheck = userService.userIdCheck(id);
+			verifyUser.put("check", userCheck);
+			return verifyUser;
+		}
 
 	@GetMapping(value = "/user/{userNo}")
 	public UserDTO getUserByUserNo(@PathVariable Long userNo) {

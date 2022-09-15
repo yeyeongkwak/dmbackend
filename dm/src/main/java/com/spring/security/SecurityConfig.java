@@ -73,30 +73,26 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests() // 인증절차에 대한 진행
 //                .antMatchers("/**").permitAll()
-                .antMatchers("/mail/**").permitAll()
+                .antMatchers("/api/mail/**").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/findidpw").permitAll()
+                .antMatchers("/api/mail/checkmail").permitAll()
+                .antMatchers("/api/checkuser").permitAll()
                 .antMatchers("/main").authenticated()
                 .antMatchers("/api/logout").authenticated()
                 .antMatchers("/ws-dm/**").permitAll()
                 .anyRequest().authenticated()
-                
-                .and()
-                .formLogin()
-                .loginPage("/").permitAll()
-                .defaultSuccessUrl("/api/main", true)
-                
-                .and()
-                .logout()
-                .logoutUrl("/api/logout")
-                .logoutSuccessUrl("/")
-                .deleteCookies("accessToken")
+                                
+//                .and()
+//                .logout()
+//                .logoutUrl("/api/logout")
+//                .logoutSuccessUrl("/")
+//                .deleteCookies("accessToken")
                 
                 .and()
                 .apply(securityConfigurerAdapter());
         
-        		
         
         return http.build();
     }

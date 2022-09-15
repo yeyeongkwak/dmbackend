@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.spring.dto.MailDTO;
+import com.spring.entity.User;
 import com.spring.repository.UserRepository;
 
 
@@ -78,4 +79,16 @@ public class MailServiceImpl implements MailService {
 	        message.setText(mailDTO.getMessage());
 	        mailSender.send(message);
 	    }
+	
+	public boolean mailCheck(String email) {
+		User user = userRepository.findByEmail(email);
+		if(email.isEmpty()) {
+			throw new NullPointerException("이메일 검색창 비어있음");
+		}
+		else if(user == null) {
+			return true;
+		}
+		else
+			return false;
+	}
 }

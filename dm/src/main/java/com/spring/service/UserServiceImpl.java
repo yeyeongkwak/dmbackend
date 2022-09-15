@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,9 @@ public class UserServiceImpl implements UserService {
 				
 			}
 			userRepository.save(userDTO.toEntity(userDTO));
+		}
+		else {
+			System.out.println("몰루");
 		}
 	}
 
@@ -147,6 +151,17 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	
+	public boolean userIdCheck(String id) {
+		User user = userRepository.findById(id);
+		if(id.isEmpty()) {
+			throw new NullPointerException("아이디 검색창 비어있음");
+		}
+		else {
+		if(user == null) {
+			return true;
+		}else 
+			return false;
+		}
+	}
 
 }
