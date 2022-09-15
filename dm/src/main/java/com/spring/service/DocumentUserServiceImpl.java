@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -201,10 +203,16 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageDTO) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
-
-		Page<DocumentUser> result = documentUserRepository.findAllByMyBox(userNo, originalName, pageable);
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchMyBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchMyBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchMyBoxUserName(userNo, search, pageable);
+		}
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
@@ -212,7 +220,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getDocumentSearchList(userNo, originalName, pageRequestDTO);
+			pageResultDTO = getDocumentSearchList(userNo, search, pageRequestDTO, type);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -222,10 +230,17 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageDTO) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
 
-		Page<DocumentUser> result = documentUserRepository.findAllByShareBox(userNo, originalName, pageable);
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchShareBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchShareBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchShareBoxUserName(userNo, search, pageable);
+		}
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
@@ -233,7 +248,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getShareDocumentSearchList(userNo, originalName, pageRequestDTO);
+			pageResultDTO = getShareDocumentSearchList(userNo, search, pageRequestDTO, type);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -243,10 +258,17 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageDTO) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
 
-		Page<DocumentUser> result = documentUserRepository.findAllByImportantBox(userNo, originalName, pageable);
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchImportantBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchImportantBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchImportantBoxUserName(userNo, search, pageable);
+		}
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
@@ -254,7 +276,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getImportantDocumentSearchList(userNo, originalName, pageRequestDTO);
+			pageResultDTO = getImportantDocumentSearchList(userNo, search, pageRequestDTO, type);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -264,10 +286,17 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageDTO) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
-
-		Page<DocumentUser> result = documentUserRepository.findAllByRecycleBox(userNo, originalName, pageable);
+		
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchRecycleBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchRecycleBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchRecycleBoxUserName(userNo, search, pageable);
+		}
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
@@ -275,7 +304,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getRecycleDocumentSearchList(userNo, originalName, pageRequestDTO);
+			pageResultDTO = getRecycleDocumentSearchList(userNo, search, pageRequestDTO, type);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -283,5 +312,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		return pageResultDTO;
 	}
+
+	
 
 }

@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.spring.dto.DocumentDTO;
@@ -33,12 +35,13 @@ public interface DocumentUserService {
 
 	public List<DocumentUserDTO> getMemberList(Long documentNo);
 	
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
 	
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO );
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO ,String type);
 
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
 
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String originalName, PageRequestDTO pageRequestDTO);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
+	
 
 }

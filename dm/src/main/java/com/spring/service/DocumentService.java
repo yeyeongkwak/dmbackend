@@ -26,7 +26,7 @@ public interface DocumentService {
    
 
    // 문서 수정(파일, 문서 내용)
-   public void updateDocument(Long documentNo, DocumentDTO documentDTO, MultipartFile multipartFile);
+//   public void updateDocument(Long documentNo, DocumentDTO documentDTO, MultipartFile multipartFile);
 
    // 문서 수정(문서 내용)
    public void updateDocument(Long documentNo, DocumentDTO documentDTO);

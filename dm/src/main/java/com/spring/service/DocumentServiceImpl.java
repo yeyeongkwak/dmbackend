@@ -4,6 +4,7 @@ package com.spring.service;
 
 import java.io.Console;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
@@ -64,7 +65,16 @@ public class DocumentServiceImpl implements DocumentService{
 		   return 0;
 	   }
 	   try {
-			s3Util.S3Upload(multipart, documentDTO);
+		   String originalFileName =  multipart.getOriginalFilename();
+		   String filename = "document/"+UUID.randomUUID().toString() + "_" + originalFileName;
+			
+		   documentDTO.setOriginalName(originalFileName);
+		   documentDTO.setFileName(filename);
+		   documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
+		   documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
+		   documentDTO.setFilePath(s3Util.S3Upload(multipart, filename));
+//		      s3Util.S3Upload(multipart, documentDTO);
+//		         s3Util.S3Upload(multipart, filename);
 		} catch (UploadFailedException e) {
 			e.printStackTrace();
 		}
@@ -90,22 +100,22 @@ public class DocumentServiceImpl implements DocumentService{
       }   
    
    // 문서 수정(파일, 문서 내용)
-   @Override
-   public void updateDocument(Long documentNo, DocumentDTO documentDTO, MultipartFile multipart) {
-      documentDTO.setDocumentNo(documentNo);
-      DocumentDTO orginalDTO = selectDocument(documentDTO.getDocumentNo());
-      if(orginalDTO != null) {
-         s3Util.deleteFile(orginalDTO.getFileName());
-         
-         try {
-			documentDTO = s3Util.S3Upload(multipart, documentDTO);
-			DocumentDTO newDTO = new DocumentDTO(orginalDTO, documentDTO);
-			documentRepository.save(newDTO.toEntity(newDTO));
-		} catch (UploadFailedException e) {
-			e.printStackTrace();
-		}
-      }
-   }
+//   @Override
+//   public void updateDocument(Long documentNo, DocumentDTO documentDTO, MultipartFile multipart) {
+//      documentDTO.setDocumentNo(documentNo);
+//      DocumentDTO orginalDTO = selectDocument(documentDTO.getDocumentNo());
+//      if(orginalDTO != null) {
+//         s3Util.deleteFile(orginalDTO.getFileName());
+//         
+//         try {
+//			documentDTO = s3Util.S3Upload(multipart, documentDTO);
+//			DocumentDTO newDTO = new DocumentDTO(orginalDTO, documentDTO);
+//			documentRepository.save(newDTO.toEntity(newDTO));
+//		} catch (UploadFailedException e) {
+//			e.printStackTrace();
+//		}
+//      }
+//   }
    
    // 문서 수정(문서 내용)
    @Override
