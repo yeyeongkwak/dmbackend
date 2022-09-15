@@ -103,8 +103,19 @@ public class NoticeController {
 		noticeService.deleteAllNotice(receiverNo);
 	}
 	
+	@DeleteMapping("/notice/receiver/{receiverNo}/unread")
+	public void deleteAllUnreadNotice(@PathVariable Long receiverNo) {
+		noticeService.deleteAllUnreadNotice(receiverNo);
+	}
+	
+	@DeleteMapping("/notice/receiver/{receiverNo}/read")
+	public void deleteAllReadNotice(@PathVariable Long receiverNo) {
+		noticeService.deleteAllReadNotice(receiverNo);
+	}
+	
 	@PutMapping("/notice/receiver/{receiverNo}/all")
 	public void updateAllNotices(@PathVariable Long receiverNo, @RequestBody List<NoticeRequest> noticeDTOList) {
 		noticeService.updateAllNotice(receiverNo, noticeDTOList);
 	}
+	
 }

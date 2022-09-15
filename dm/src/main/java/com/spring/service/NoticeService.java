@@ -30,8 +30,12 @@ public interface NoticeService {
 
 	public void deleteAllNotice(Long receiverNo);
 	
+	public void deleteAllUnreadNotice(Long receiverNo);
+	
+	public void deleteAllReadNotice(Long receiverNo);
+	
 	public void updateAllNotice(Long receiverNo, List<NoticeRequest> noticeDTOList);
-
+	
 	public void sendAddMember(User sender, User receiver, String content, Integer isRead, String urlParams);
 
 }
