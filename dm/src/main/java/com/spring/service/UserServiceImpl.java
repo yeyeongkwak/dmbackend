@@ -3,6 +3,7 @@ package com.spring.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -63,7 +64,6 @@ public class UserServiceImpl implements UserService {
 				} catch (AwsServiceException | SdkClientException | IOException e) {
 					e.printStackTrace();
 				}
-				
 			}
 			userRepository.save(userDTO.toEntity(userDTO));
 		}
@@ -125,18 +125,27 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateProfile(MultipartFile profile, Long userNo) {
+		UserDTO userDTO = getUserByUserNo(userNo);
 		if(!profile.isEmpty() && "image".equals(profile.getContentType().split("/")[0]) ) {
-			UserDTO userDTO = getUserByUserNo(userNo);
+			String fileName = "profile/"+UUID.randomUUID().toString()+"_"+userDTO.getId()+".png";
 			if(userDTO != null) {
 				try {
-					s3util.uploadFile("profile/"+userDTO.getId()+".png",profile.getInputStream());
-					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getId()+".png"));
-					userRepository.save(userDTO.toEntity(userDTO));						
+					if(userDTO.getProfile() != null) {
+						s3util.deleteFile("/profile"+userDTO.getProfile().split("profile")[1]);
+					}
+					s3util.uploadFile(fileName,profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl(fileName));
 				} catch (AwsServiceException | SdkClientException | IOException e) {
 					e.printStackTrace();
 				}
 			}
+		}else {
+			if(userDTO.getProfile() != null) {
+				s3util.deleteFile("/profile"+userDTO.getProfile().split("profile")[1]);
+			}
+			userDTO.setProfile(null);
 		}
+		userRepository.save(userDTO.toEntity(userDTO));						
 	}
 	
 

@@ -56,8 +56,6 @@ public class UserController {
 	
 	@PostMapping("/signup")
 	public void insertUser(@Valid @RequestPart("user") UserDTO user, @RequestPart("profile") MultipartFile profile) {
-		System.out.println(profile.getSize());
-		System.out.println(user);
 		userService.insertUser(user,profile);
 	}
 	@PostMapping("/login")
@@ -65,8 +63,8 @@ public class UserController {
 		UserDTO oldUserDTO = userService.getUserById(userDTO.getId());
 		if (oldUserDTO !=null && passwordEncoder.matches(userDTO.getPassword(), oldUserDTO.getPassword())) {
 			JwtAuthToken jwtAuthToken = jwtAuthProvider.createAuthToken(userDTO.getId(), "MN00001", // 나중에 role바꿔야됨
-//					Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()));
-			Date.from(LocalDateTime.now().plusHours(1).atZone(ZoneId.systemDefault()).toInstant()));
+			Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()));
+//			Date.from(LocalDateTime.now().plusHours(1).atZone(ZoneId.systemDefault()).toInstant()));
 			// 위에 이게 토큰 시간
 			Cookie createCookie = new Cookie("accessToken", jwtAuthToken.getToken());
 			createCookie.setMaxAge(24 * 60 * 60); // 쿠키 지속 시간
