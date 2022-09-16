@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.Cookie;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -147,7 +149,7 @@ public class UserServiceImpl implements UserService {
 		}
 		userRepository.save(userDTO.toEntity(userDTO));						
 	}
-	
+
 
 	public boolean userPasswordCheck(String id, String oldpw, String pw) {
 		User user = userRepository.findById(id);
@@ -172,6 +174,4 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
-			
-		
 }

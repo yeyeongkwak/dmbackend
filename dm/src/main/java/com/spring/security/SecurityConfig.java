@@ -74,6 +74,7 @@ public class SecurityConfig {
                 .authorizeRequests() // 인증절차에 대한 진행
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/api/mail/**").permitAll()
+                .antMatchers("/mail/**").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/findidpw").permitAll()
@@ -94,6 +95,8 @@ public class SecurityConfig {
                 .and()
                 .apply(securityConfigurerAdapter());
         
+        		
+
         
         return http.build();
     }
