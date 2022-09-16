@@ -44,27 +44,27 @@ public class DocumentUserController {
 	
 		// 유저 문서 리스트(내  문서함)
 		@GetMapping("/documents/user/{userNo}")
-		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){
-			return documentUserService.getList(userNo, pageDTO, recycle);	
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO){
+			return documentUserService.getList(userNo, pageDTO);	
 		}
 		
 		// 유저 문서 리스트(공유 문서함)
 		@GetMapping("/documents/user/share/{userNo}")
-		public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){	
-			return documentUserService.getShareList(userNo, pageDTO, recycle);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO){	
+			return documentUserService.getShareList(userNo, pageDTO);
 		}
 		
 		// 유저 중요 문서 리스트
 		@GetMapping("/documents/user/important/{userNo}")
-		public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer important, Integer recycle){
-			return documentUserService.getImportantList(userNo, pageDTO, important, recycle);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO){
+			return documentUserService.getImportantList(userNo, pageDTO);
 				
 		}
 		
 		// 유저 휴지통 리스트
 		@GetMapping("/documents/user/recycle/{userNo}")
-		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO, Integer recycle){					
-			return documentUserService.getRecycleList(userNo, pageDTO, recycle);
+		public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocuments(@PathVariable Long userNo, PageRequestDTO pageDTO){					
+			return documentUserService.getRecycleList(userNo, pageDTO);
 		}
 	
 		// 유저 문서 조회

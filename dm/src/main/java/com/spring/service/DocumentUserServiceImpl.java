@@ -36,11 +36,11 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageDTO, Integer recycle) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageDTO) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 0;
+//		recycle = 0;
 		
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(userNo, pageable, recycle, Authority.MASTER);
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(userNo, pageable, 0, Authority.MASTER);
 
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
@@ -49,7 +49,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getList(userNo, pageRequestDTO, recycle);
+			pageResultDTO = getList(userNo, pageRequestDTO);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -61,11 +61,11 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageDTO, Integer recycle) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageDTO) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 0;
+//		recycle = 0;
 		
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(userNo, pageable, recycle, Authority.MASTER);
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(userNo, pageable, 0, Authority.MASTER);
 
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
@@ -75,7 +75,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getShareList(userNo, pageRequestDTO, recycle);
+			pageResultDTO = getShareList(userNo, pageRequestDTO);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -86,11 +86,11 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageDTO, Integer important, Integer recycle) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageDTO) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
-		important = 1;
-		recycle = 0;
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, important, recycle);
+//		important = 1;
+//		recycle = 0;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, 1, 0);
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
@@ -99,7 +99,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getImportantList(userNo, pageRequestDTO,important, recycle);
+			pageResultDTO = getImportantList(userNo, pageRequestDTO);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
@@ -111,10 +111,10 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageDTO, Integer recycle) {
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageDTO) {
 		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 1;
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
+//		recycle = 1;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, 1);
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
@@ -124,7 +124,7 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
 			pageRequestDTO.setPage(pageDTO.getPage()-1);
-			pageResultDTO = getRecycleList(userNo, pageRequestDTO, recycle);
+			pageResultDTO = getRecycleList(userNo, pageRequestDTO);
 		}
 		
 		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 

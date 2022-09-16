@@ -60,9 +60,13 @@ public class DocumentServiceImpl implements DocumentService{
    @Transactional
 
    public int insertDocument(DocumentDTO documentDTO ,List<DocumentUserDTO> documentUserList,MultipartFile multipart) {
-	   if(documentSize(documentDTO.getUser().getUserNo()) + Math.round((((double)multipart.getSize()/1024))*100)/100.0 > 10485760.00) {
+	   double uploadFileSize = Math.round((((double)multipart.getSize()/1024))*100)/100.0;
+	   if(documentSize(documentDTO.getUser().getUserNo()) + uploadFileSize > 10485760.00) {
 //		   10485760
 		   return 0;
+	   }
+	   if(uploadFileSize > 102400.00) {
+		   return 2;
 	   }
 	   try {
 		   String originalFileName =  multipart.getOriginalFilename();
@@ -71,10 +75,9 @@ public class DocumentServiceImpl implements DocumentService{
 		   documentDTO.setOriginalName(originalFileName);
 		   documentDTO.setFileName(filename);
 		   documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
-		   documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
+		   documentDTO.setFileSize(uploadFileSize);
 		   documentDTO.setFilePath(s3Util.S3Upload(multipart, filename));
-//		      s3Util.S3Upload(multipart, documentDTO);
-//		         s3Util.S3Upload(multipart, filename);
+
 		} catch (UploadFailedException e) {
 			e.printStackTrace();
 		}
