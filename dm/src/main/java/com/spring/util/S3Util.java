@@ -125,18 +125,19 @@ public class S3Util {
 	   }
    
    // S3 파일 업로드(문서함)
-   public DocumentDTO S3Upload(MultipartFile multipart, DocumentDTO documentDTO) throws UploadFailedException {   
-      String originalFileName =  multipart.getOriginalFilename();
-      String filename = "document/"+UUID.randomUUID().toString() + "_" + originalFileName;
+   public String S3Upload(MultipartFile multipart, String filename) throws UploadFailedException {   
+//      String originalFileName =  multipart.getOriginalFilename();
+//      String filename = "document/"+UUID.randomUUID().toString() + "_" + originalFileName;
       
       try {
          uploadFile(filename, multipart.getInputStream());
-         documentDTO.setOriginalName(originalFileName);
-         documentDTO.setFileName(filename);
-         documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
-         documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
-         documentDTO.setFilePath(getFileUrl(filename));
-         return documentDTO;
+//         documentDTO.setOriginalName(originalFileName);
+//         documentDTO.setFileName(filename);
+//         documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
+//         documentDTO.setFileSize(Math.round((((double)multipart.getSize()/1024))*100)/100.0);
+//         documentDTO.setFilePath(getFileUrl(filename));
+//         return documentDTO;
+         return getFileUrl(filename);
       } catch (Exception e) {
           throw new UploadFailedException(e.getMessage());
       }

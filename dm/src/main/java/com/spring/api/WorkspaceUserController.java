@@ -45,8 +45,8 @@ public class WorkspaceUserController {
 	}
 	
 	@PostMapping(value = "/workspace/user/all/{userNo}",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<WorkspaceUserDTO> deleteAllWorksapceUser(@RequestBody List<Long> workspaceNoList, @PathVariable Long userNo){
-		return workspaceUserService.deleteAllWorkspaceUser(workspaceNoList,userNo);
+	public void deleteAllWorksapceUser(@RequestBody List<WorkspaceDTO> workspaceList, @PathVariable Long userNo){
+		workspaceUserService.deleteAllWorkspaceUser(workspaceList,userNo);
 		
 	}
 	

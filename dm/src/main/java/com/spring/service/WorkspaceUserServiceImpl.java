@@ -12,6 +12,7 @@ import com.spring.dto.WorkspaceDTO;
 import com.spring.dto.WorkspaceUserDTO;
 import com.spring.entity.WorkspaceUser;
 import com.spring.repository.UserRepository;
+import com.spring.repository.WorkspaceRepository;
 import com.spring.repository.WorkspaceUserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 	
 	private final WorkspaceUserRepository workspaceUserRepository;
 	private final UserRepository userRepository;
+	private final WorkspaceRepository workspaceRepository;
 
 	@Override
 	@Transactional
@@ -61,10 +63,15 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 	
 	@Override
 	@Transactional
-	public List<WorkspaceUserDTO> deleteAllWorkspaceUser(List<Long> workspaceNoList, Long userNo) {
-		workspaceNoList.forEach(workspaceNo-> workspaceUserRepository.deleteByUserNoUserNoAndWorkspaceNoWorkspaceNo(userNo, workspaceNo));
-		
-		return getAllWorkspaceUserByUser(userNo);
+	public void deleteAllWorkspaceUser(List<WorkspaceDTO> workspaceList, Long userNo) {
+		workspaceList.forEach(workspace-> {
+			Long masterNo = workspace.getMaster().getUserNo();
+			if(masterNo == userNo) {
+				workspaceRepository.deleteById(workspace.getWorkspaceNo());
+			}else {
+				workspaceUserRepository.deleteByUserNoUserNoAndWorkspaceNoWorkspaceNo(userNo, workspace.getWorkspaceNo());
+			}
+		});
 	}
 
 	@Override

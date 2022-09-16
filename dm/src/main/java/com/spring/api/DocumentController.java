@@ -70,10 +70,10 @@ public class DocumentController {
 
    
    // 문서 수정(파일, 문서 내용)
-   @PostMapping(value="/document/{documentNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-   public void updateDocument(@PathVariable Long documentNo, DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
-      documentService.updateDocument(documentNo, documentDTO, multipart);
-   }
+//   @PostMapping(value="/document/{documentNo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//   public void updateDocument(@PathVariable Long documentNo, DocumentDTO documentDTO, @RequestPart("file") MultipartFile multipart) {
+//      documentService.updateDocument(documentNo, documentDTO, multipart);
+//   }
    
    // 문서 수정(문서 내용)
    @PutMapping(value="/document/{documentNo}", consumes = MediaType.APPLICATION_JSON_VALUE)

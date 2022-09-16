@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -31,51 +33,105 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	private final DocumentUserRepository documentUserRepository;
 	private final DocumentRepository documentRepository;
 	
+	
+	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
-		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 0;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageDTO) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
+//		recycle = 0;
 		
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(userNo, pageable, recycle, Authority.MASTER);
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthority(userNo, pageable, 0, Authority.MASTER);
 
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
-		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getList(userNo, pageRequestDTO);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
+		
+//		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
-		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 0;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageDTO) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
+//		recycle = 0;
 		
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(userNo, pageable, recycle, Authority.MASTER);
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBinAndAuthorityNot(userNo, pageable, 0, Authority.MASTER);
 
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
-		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getShareList(userNo, pageRequestDTO);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
+//		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageRequestDTO, Integer important, Integer recycle) {
-		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-		important = 1;
-		recycle = 0;
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, important, recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageDTO) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
+//		important = 1;
+//		recycle = 0;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndImportantAndRecycleBin(userNo, pageable, 1, 0);
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
-		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getImportantList(userNo, pageRequestDTO);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
+		
+//		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 	}
 	
 	@Override
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle) {
-		Pageable pageable = pageRequestDTO.getPageable(Sort.by("documentNo").descending());
-		recycle = 1;
-		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageDTO) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("documentNo").descending());
+//		recycle = 1;
+		Page<DocumentUser> result =  documentUserRepository.findDocumentUserByUserNoUserNoAndRecycleBin(userNo, pageable, 1);
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
-		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getRecycleList(userNo, pageRequestDTO);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
+//		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 	}
 	
 	@Override
@@ -147,35 +203,116 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 	}
 
 	@Override
-	public List<DocumentUserDTO> getDocumentSearchList(Long userNo, String originalName) {
-		List<DocumentUser> documentUsers = documentUserRepository.findAllByMyBox(userNo, originalName);
-		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
-		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
-		return documentUserDTOList;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchMyBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchMyBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchMyBoxUserName(userNo, search, pageable);
+		}
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getDocumentSearchList(userNo, search, pageRequestDTO, type);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
 	}
 	
 	@Override
-	public List<DocumentUserDTO> getShareDocumentSearchList(Long userNo, String originalName) {
-		List<DocumentUser> documentUsers = documentUserRepository.findAllByShareBox(userNo, originalName);
-		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
-		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
-		return documentUserDTOList;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
+
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchShareBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchShareBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchShareBoxUserName(userNo, search, pageable);
+		}
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getShareDocumentSearchList(userNo, search, pageRequestDTO, type);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
 	}
 	
 	@Override
-	public List<DocumentUserDTO> getImportantDocumentSearchList(Long userNo, String originalName) {
-		List<DocumentUser> documentUsers = documentUserRepository.findAllByImportantBox(userNo, originalName);
-		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
-		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
-		return documentUserDTOList;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
+
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchImportantBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchImportantBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchImportantBoxUserName(userNo, search, pageable);
+		}
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getImportantDocumentSearchList(userNo, search, pageRequestDTO, type);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
 	}
 	
 	@Override
-	public List<DocumentUserDTO> getRecycleDocumentSearchList(Long userNo, String originalName) {
-		List<DocumentUser> documentUsers = documentUserRepository.findAllByRecycleBox(userNo, originalName);
-		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
-		documentUsers.forEach(v->documentUserDTOList.add(v.toDTO(v)));
-		return documentUserDTOList;
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String search, PageRequestDTO pageDTO, String type) {
+		Pageable pageable = pageDTO.getPageable(Sort.by("document_no").descending());
+		
+		Page<DocumentUser> result = null;
+		if(type.equals("originalName")) {
+			result = documentUserRepository.searchRecycleBox(userNo, search, pageable);
+		}else if(type.equals("content")) {
+			result = documentUserRepository.searchRecycleBoxContent(userNo, search, pageable);
+		}else if(type.equals("userName")) {
+			result = documentUserRepository.searchRecycleBoxUserName(userNo, search, pageable);
+		}
+		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
+
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
+		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
+		
+		if(pageResultDTO.getDtoList().size() == 0 && pageDTO.getPage() != 1 && pageDTO.getPage()-1 == pageResultDTO.getTotalPage()) {
+			pageRequestDTO.setPage(pageDTO.getPage()-1);
+			pageResultDTO = getRecycleDocumentSearchList(userNo, search, pageRequestDTO, type);
+		}
+		
+		List<DocumentUserDTO> resultBoards = new ArrayList<DocumentUserDTO>(); 
+		pageResultDTO.getDtoList().forEach(BoardDTO -> resultBoards.add(BoardDTO));
+		
+		return pageResultDTO;
 	}
+
+	
 
 }

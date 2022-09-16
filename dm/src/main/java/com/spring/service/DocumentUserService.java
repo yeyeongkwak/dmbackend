@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.spring.dto.DocumentDTO;
@@ -12,13 +14,13 @@ import com.spring.entity.User;
 
 public interface DocumentUserService {
 	
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getList(Long userNo, PageRequestDTO pageRequestDTO);
 	
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareList(Long userNo, PageRequestDTO pageRequestDTO);
 
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageRequestDTO, Integer important, Integer recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantList(Long userNo, PageRequestDTO pageRequestDTO);
 
-	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageRequestDTO, Integer recycle);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageRequestDTO);
 	
 	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo);
 	
@@ -33,12 +35,13 @@ public interface DocumentUserService {
 
 	public List<DocumentUserDTO> getMemberList(Long documentNo);
 	
-	public List<DocumentUserDTO> getDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
 	
-	public List<DocumentUserDTO> getShareDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getShareDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO ,String type);
 
-	public List<DocumentUserDTO> getImportantDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getImportantDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
 
-	public List<DocumentUserDTO> getRecycleDocumentSearchList(Long userNo, String originalName);
+	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleDocumentSearchList(Long userNo, String search, PageRequestDTO pageRequestDTO,String type);
+	
 
 }

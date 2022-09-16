@@ -39,19 +39,19 @@ public class GlobalExceptionHandler {
 
         log.info("handleAccessDeniedException");
 
-//        CommonResponse response = CommonResponse.builder()
-//                .code(ErrorCode.ACCESS_DENIED.getCode())
-//                .message(ErrorCode.ACCESS_DENIED.getMessage())
-//                .status(ErrorCode.ACCESS_DENIED.getStatus())
-//                .success(ErrorCode.ACCESS_DENIED.getSuccess())
-//                .build();
-//        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        CommonResponse response = CommonResponse.builder()
+                .code(ErrorCode.ACCESS_DENIED.getCode())
+                .message(ErrorCode.ACCESS_DENIED.getMessage())
+                .status(ErrorCode.ACCESS_DENIED.getStatus())
+                .success(ErrorCode.ACCESS_DENIED.getSuccess())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 
-        URI redirectUri = new URI("/");
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+//        URI redirectUri = new URI("/");
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
+//        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
     }
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
@@ -59,19 +59,19 @@ public class GlobalExceptionHandler {
 
         log.info("handleInsufficientAuthenticationException");
         
-//        CommonResponse response = CommonResponse.builder()
-//                .code(ErrorCode.AUTHENTICATION_FAILED.getCode())
-//                .message(ErrorCode.AUTHENTICATION_FAILED.getMessage())
-//                .status(ErrorCode.AUTHENTICATION_FAILED.getStatus())
-//                .success(ErrorCode.AUTHENTICATION_FAILED.getSuccess())
-//                .build();
-//        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        CommonResponse response = CommonResponse.builder()
+                .code(ErrorCode.AUTHENTICATION_FAILED.getCode())
+                .message(ErrorCode.AUTHENTICATION_FAILED.getMessage())
+                .status(ErrorCode.AUTHENTICATION_FAILED.getStatus())
+                .success(ErrorCode.AUTHENTICATION_FAILED.getSuccess())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 
-        URI redirectUri = new URI("/");
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+//        URI redirectUri = new URI("/");
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
+//        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
     }
 }

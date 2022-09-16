@@ -121,12 +121,26 @@ public class NoticeServiceImpl implements NoticeService{
 		noticeList.forEach((v)->{noticeRepository.delete(v);});
 		
 	}
+	
 	@Override
 	public void sendAddMember(User sender, User receiver, String content, Integer isRead, String urlParams) {
 		NoticeRequest newNotice = new NoticeRequest(sender, receiver, content, isRead, urlParams);
 		messagingTemplate.convertAndSend("/queue/workspace/member/"+receiver.getId(), newNotice);
 		noticeRepository.save(newNotice.toEntity());
 	}
+	
+	@Override
+	public void deleteAllUnreadNotice(Long receiverNo) {
+		List<Notice> noticeList = noticeRepository.findAllUnreadNoticeByReceiverNo(receiverNo);
+		noticeList.forEach((v)->{noticeRepository.delete(v);});
+	}
+	
+	@Override
+	public void deleteAllReadNotice(Long receiverNo) {
+		List<Notice> noticeList = noticeRepository.findAllReadNoticeByReceiverNo(receiverNo);
+		noticeList.forEach((v)->{noticeRepository.delete(v);});
+	}
+	
 	
 	
 }

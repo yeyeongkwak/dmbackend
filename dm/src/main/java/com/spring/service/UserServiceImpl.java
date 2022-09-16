@@ -1,7 +1,12 @@
 package com.spring.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import javax.servlet.http.Cookie;
 
@@ -9,18 +14,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.UserDTO;
 import com.spring.entity.User;
 import com.spring.repository.UserRepository;
+import com.spring.util.S3Util;
 
 import lombok.RequiredArgsConstructor;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final S3Util s3util;
 	BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
 
 	@Override
@@ -43,13 +53,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void insertUser(UserDTO userDTO) {
+	public void insertUser(UserDTO userDTO, MultipartFile profile) {
 		System.out.println(userDTO);
 		if (getUserById(userDTO.getId()) == null) {
 			String newPassword = pwEncoder.encode(userDTO.getPassword());
 			userDTO.toEntity(userDTO);
 			userDTO.setPassword(newPassword);
+			if(!profile.isEmpty() && "image".equals(profile.getContentType().split("/")[0]) ) {
+				try {
+					s3util.uploadFile("profile/"+userDTO.getId()+".png",profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl("profile/"+userDTO.getId()+".png"));
+				} catch (AwsServiceException | SdkClientException | IOException e) {
+					e.printStackTrace();
+				}
+			}
 			userRepository.save(userDTO.toEntity(userDTO));
+		}
+		else {
+			System.out.println("몰루");
 		}
 	}
 
@@ -103,6 +124,32 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+	
+	@Override
+	public void updateProfile(MultipartFile profile, Long userNo) {
+		UserDTO userDTO = getUserByUserNo(userNo);
+		if(!profile.isEmpty() && "image".equals(profile.getContentType().split("/")[0]) ) {
+			String fileName = "profile/"+UUID.randomUUID().toString()+"_"+userDTO.getId()+".png";
+			if(userDTO != null) {
+				try {
+					if(userDTO.getProfile() != null) {
+						s3util.deleteFile("/profile"+userDTO.getProfile().split("profile")[1]);
+					}
+					s3util.uploadFile(fileName,profile.getInputStream());
+					userDTO.setProfile(s3util.getFileUrl(fileName));
+				} catch (AwsServiceException | SdkClientException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}else {
+			if(userDTO.getProfile() != null) {
+				s3util.deleteFile("/profile"+userDTO.getProfile().split("profile")[1]);
+			}
+			userDTO.setProfile(null);
+		}
+		userRepository.save(userDTO.toEntity(userDTO));						
+	}
+
 
 	public boolean userPasswordCheck(String id, String oldpw, String pw) {
 		User user = userRepository.findById(id);
@@ -115,6 +162,16 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	
-
+	public boolean userIdCheck(String id) {
+		User user = userRepository.findById(id);
+		if(id.isEmpty()) {
+			throw new NullPointerException("아이디 검색창 비어있음");
+		}
+		else {
+		if(user == null) {
+			return true;
+		}else 
+			return false;
+		}
+	}
 }

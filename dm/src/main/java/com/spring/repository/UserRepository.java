@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.spring.dto.UserDTO;
+import com.spring.entity.Department;
 import com.spring.entity.User;
 
 @Repository
