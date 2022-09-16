@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.dto.DepartmentDTO;
 import com.spring.dto.UserDTO;
 
 public interface UserService {

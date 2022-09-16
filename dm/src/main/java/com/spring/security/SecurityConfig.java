@@ -77,6 +77,7 @@ public class SecurityConfig {
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/findidpw").permitAll()
+                .antMatchers("/api/alldepartment").permitAll()
                 .antMatchers("/api/mail/checkmail").permitAll()
                 .antMatchers("/api/checkuser").permitAll()
                 .antMatchers("/main").authenticated()

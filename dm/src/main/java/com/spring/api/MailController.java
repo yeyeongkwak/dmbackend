@@ -45,9 +45,9 @@ public class MailController {
 		code += numIndex;
 		mailDTO.setAddress(email);
 		System.out.println(mailDTO.getAddress());
-		mailDTO.setTitle("DM서비스 회원가입을 위한인증코드입니다.");
+		mailDTO.setTitle("DM서비스 회원가입을 위한 인증 코드입니다.");
 		mailDTO.setCode(code);
-		mailDTO.setMessage("인증번호는 :" + code + "입니다");
+		mailDTO.setMessage("인증번호는 " + code + "입니다");
 		String newCode = pwEncoder.encode(code);
 		System.out.println(newCode);
 		

@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.spring.dto.UserDTO;
 import com.spring.security.JwtAuthToken;
 import com.spring.security.JwtAuthTokenProvider;
@@ -150,4 +149,6 @@ public class UserController {
 	public List<UserDTO> getMemberList(@RequestBody List<Long> userNoList) {
 		return userService.findByIdList(userNoList);
 	}
+	
+	
 }
