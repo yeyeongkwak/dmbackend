@@ -1,14 +1,10 @@
 package com.spring.api;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,15 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.ec2.model.EndDateType;
 import com.spring.dto.DocumentDTO;
 import com.spring.dto.DocumentUserDTO;
 import com.spring.dto.PageRequestDTO;
 import com.spring.dto.PageResultDTO;
 import com.spring.dto.UserDTO;
-import com.spring.entity.Document;
 import com.spring.entity.DocumentUser;
-import com.spring.entity.User;
 import com.spring.service.DocumentServiceImpl;
 import com.spring.service.DocumentUserServiceImpl;
 import com.spring.service.UserServiceImpl;
