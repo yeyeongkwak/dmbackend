@@ -32,7 +32,7 @@ public interface DocumentService {
    public void updateDocument(Long documentNo, DocumentDTO documentDTO);
    
    // 문서 삭제
-   public void deleteDocument(List<Long> documentNo);
+   public void deleteDocument(Long documentNo);
    
    // 내 문서 용량
    public Double documentSize(Long userNo);

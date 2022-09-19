@@ -55,4 +55,9 @@ public class WorkspaceUserController {
 		return workspaceUserService.getMemberList(workspaceNo);
 	}
 	
+	@GetMapping(value = "/workspace/check/{workspaceNo}/{userNo}")
+	public boolean checkMember(@PathVariable Long workspaceNo, @PathVariable Long userNo) {
+		return workspaceUserService.checkMember(workspaceNo,userNo);
+	}
+	
 }

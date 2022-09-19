@@ -82,8 +82,8 @@ public class DocumentController {
    }
    
    // 문서 삭제
-   @DeleteMapping(value = "/documents", consumes = MediaType.APPLICATION_JSON_VALUE)
-   public void deleteDocument(@RequestBody List<Long> documentNo) {
+   @DeleteMapping(value = "/documents/{documentNo}")
+   public void deleteDocument(@PathVariable Long documentNo) {
       documentService.deleteDocument(documentNo);
 //	   System.out.println(documentNo);
    }

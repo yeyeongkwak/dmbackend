@@ -93,6 +93,8 @@ public class NoticeServiceImpl implements NoticeService{
 				noticeRepository.save(v);
 			});
 			
+			System.out.println(receiverNo);
+			
 		});
 		
 	}
