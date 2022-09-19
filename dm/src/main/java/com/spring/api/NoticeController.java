@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.dto.NoticeDTO;
 import com.spring.dto.NoticeDTO.NoticeRequest;
 import com.spring.dto.NoticeDTO.NoticeResponse;
 import com.spring.entity.Notice;
@@ -104,13 +105,13 @@ public class NoticeController {
 	}
 	
 	@DeleteMapping("/notice/receiver/{receiverNo}/unread")
-	public void deleteAllUnreadNotice(@PathVariable Long receiverNo) {
-		noticeService.deleteAllUnreadNotice(receiverNo);
+	public List<NoticeResponse> deleteAllUnreadNotice(@PathVariable Long receiverNo) {
+		return noticeService.deleteAllUnreadNotice(receiverNo);
 	}
 	
 	@DeleteMapping("/notice/receiver/{receiverNo}/read")
-	public void deleteAllReadNotice(@PathVariable Long receiverNo) {
-		noticeService.deleteAllReadNotice(receiverNo);
+	public List<NoticeResponse> deleteAllReadNotice(@PathVariable Long receiverNo) {
+		return noticeService.deleteAllReadNotice(receiverNo);
 	}
 	
 	@PutMapping("/notice/receiver/{receiverNo}/all")
