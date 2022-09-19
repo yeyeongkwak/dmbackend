@@ -72,10 +72,13 @@ public class DocumentServiceImpl implements DocumentService{
 	   try {
 		   String originalFileName =  multipart.getOriginalFilename();
 		   String filename = "document/"+UUID.randomUUID().toString() + "_" + originalFileName;
-			
 		   documentDTO.setOriginalName(originalFileName);
 		   documentDTO.setFileName(filename);
-		   documentDTO.setFileCategory(multipart.getContentType().substring(multipart.getContentType().indexOf("/")+1));
+		   if(!"application/octet-stream".equals(multipart.getContentType()) && originalFileName.contains(".")) {
+			   documentDTO.setFileCategory(originalFileName.substring(originalFileName.lastIndexOf("."),originalFileName.length()));			   
+		   }else {
+			   documentDTO.setFileCategory(".ini");
+		   }
 		   documentDTO.setFileSize(uploadFileSize);
 		   documentDTO.setFilePath(s3Util.S3Upload(multipart, filename));
 
