@@ -118,7 +118,6 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 		
 		Function<DocumentUser, DocumentUserDTO> function = (Document -> Document.toDTO(Document));
 		
-		
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(pageDTO.getPage()).size(10).build();
 		PageResultDTO<DocumentUserDTO, DocumentUser> pageResultDTO = new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 		
