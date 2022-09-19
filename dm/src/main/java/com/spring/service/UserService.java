@@ -28,7 +28,7 @@ public interface UserService {
 	public List<UserDTO> findByIdList(List<Long> userNoList);
 	
 	public boolean userEmailCheck(String name, String email);
-
+  
 	public void updateProfile(MultipartFile profile, Long userNo);
 
 }

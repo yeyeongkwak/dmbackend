@@ -93,9 +93,10 @@ public class MailController {
 		System.out.println(pwFindCheck);
 		json.put("check", pwFindCheck);
 		return json;
+
 	}
 
-	@CrossOrigin(origins = { "http://localhost:3000" })
+//	@CrossOrigin(origins = { "http://localhost:3000" })
 	@GetMapping("/sendpw")
 	public @ResponseBody void sendEmail(String email, String id) {
 		MailDTO mailDTO = mailService.createMailAndChangePassword(email, id);
