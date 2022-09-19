@@ -17,7 +17,7 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
    
    public Document findDocumentByDocumentNo(Long documentNo);
    
-   public Page<Document> findDocumentByUser(User userNo, Pageable pageable);
+//   public Page<Document> findDocumentByUser(User userNo, Pageable pageable);
    
    @Transactional 
    public void deleteDocumentByDocumentNo(Long documentNo);

@@ -82,4 +82,9 @@ public class WorkspaceUserServiceImpl implements WorkspaceUserService{
 		return workspaceUserDTOList;
 	}
 
+	@Override
+	public boolean checkMember(Long workspaceNo, Long userNo) {
+		return workspaceUserRepository.existsByWorkspaceNoWorkspaceNoAndUserNoUserNo(workspaceNo,userNo);
+	}
+
 }

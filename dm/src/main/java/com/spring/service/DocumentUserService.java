@@ -22,9 +22,9 @@ public interface DocumentUserService {
 
 	public PageResultDTO<DocumentUserDTO, DocumentUser> getRecycleList(Long userNo, PageRequestDTO pageRequestDTO);
 	
-	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo);
+//	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo);
 	
-	public DocumentUserDTO getDocumentUserByUserNoAndDocumentNo(Long userNo, Long documentNo);
+//	public DocumentUserDTO getDocumentUserByUserNoAndDocumentNo(Long userNo, Long documentNo);
 
 	public void insertDocumentUser(List<DocumentUserDTO> documentUserDTOs);
 

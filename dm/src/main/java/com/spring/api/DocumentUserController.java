@@ -61,18 +61,18 @@ public class DocumentUserController {
 		}
 	
 		// 유저 문서 조회
-		@GetMapping(value = "/document/user/{userNo}")
-		public List<DocumentUserDTO> selectDocumentUser(@PathVariable Long userNo){
-			return documentUserService.getDocumentUserByUserNo(userNo);
-		}
+//		@GetMapping(value = "/document/user/{userNo}")
+//		public List<DocumentUserDTO> selectDocumentUser(@PathVariable Long userNo){
+//			return documentUserService.getDocumentUserByUserNo(userNo);
+//		}
 		
+//		
+//		@GetMapping(value = "/document/user/{userNo}/{documentNo}")
+//		public DocumentUserDTO getDocumentUser(@PathVariable Long userNo,@PathVariable Long documentNo) {
+//			return documentUserService.getDocumentUserByUserNoAndDocumentNo(userNo, documentNo);
+//		}
 		
-		@GetMapping(value = "/document/user/{userNo}/{documentNo}")
-		public DocumentUserDTO getDocumentUser(@PathVariable Long userNo,@PathVariable Long documentNo) {
-			return documentUserService.getDocumentUserByUserNoAndDocumentNo(userNo, documentNo);
-		}
-		
-		// 문서 작성
+		// 공유자 추가
 		@PostMapping(value = "/document/authority",consumes = MediaType.APPLICATION_JSON_VALUE)
 		public void insertDocument(@RequestBody List<DocumentUserDTO> documentUserDTOs) {
 			documentUserService.insertDocumentUser(documentUserDTOs);
@@ -97,7 +97,7 @@ public class DocumentUserController {
 		public void deleteDocument(@RequestBody List<DocumentUserDTO> documentDTO, @PathVariable Long userNo) {
 			documentUserService.deleteDocumentUser(documentDTO, userNo);
 		}
-		
+		// 멤버 검색
 		@GetMapping(value="/document/member/{documentNo}")
 		public List<DocumentUserDTO> getMemberList(@PathVariable Long documentNo){
 			return documentUserService.getMemberList(documentNo);

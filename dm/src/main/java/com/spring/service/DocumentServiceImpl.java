@@ -3,6 +3,7 @@ package com.spring.service;
 
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
@@ -49,7 +50,7 @@ public class DocumentServiceImpl implements DocumentService{
    
 
    // 문서 조회 
-   @Override
+//   @Override
    public DocumentDTO selectDocument(Long documentNo) {
       Document document = documentRepository.findDocumentByDocumentNo(documentNo);
       return document == null ? null : document.toDTO(document);
@@ -133,12 +134,11 @@ public class DocumentServiceImpl implements DocumentService{
    
    // 문서 삭제
    @Override
-   public void deleteDocument(List<Long> documentNo) {
-	   for (int i = 0; i < documentNo.size(); i++) {
-		 s3Util.deleteFile(selectDocument(documentNo.get(i)).getFileName());
-		 documentRepository.deleteById(documentNo.get(i));
-	}
-
+   public void deleteDocument(Long documentNo) {
+//	   for (int i = 0; i < documentNo.size(); i++) {
+	   s3Util.deleteFile(selectDocument(documentNo).getFileName());
+	   documentRepository.deleteById(documentNo);
+	
    }
 
    // 문서 용량

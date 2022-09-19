@@ -50,10 +50,10 @@ public class DocumentController {
 //	}
    
    // 문서 조회
-   @GetMapping(value = "/document/{documentNo}")
-   public DocumentDTO selectDocument(@PathVariable Long documentNo){
-      return documentService.selectDocument(documentNo);
-   }
+//   @GetMapping(value = "/document/{documentNo}")
+//   public DocumentDTO selectDocument(@PathVariable Long documentNo){
+//      return documentService.selectDocument(documentNo);
+//   }
    
    // 문서 다운로드
    @GetMapping(value = "/document/download/{documentNo}")
@@ -82,12 +82,12 @@ public class DocumentController {
    }
    
    // 문서 삭제
-   @DeleteMapping(value = "/documents", consumes = MediaType.APPLICATION_JSON_VALUE)
-   public void deleteDocument(@RequestBody List<Long> documentNo) {
+   @DeleteMapping(value = "/documents/{documentNo}")
+   public void deleteDocument(@PathVariable Long documentNo) {
       documentService.deleteDocument(documentNo);
 //	   System.out.println(documentNo);
    }
-   
+   // 용량 체크
    @GetMapping(value="/documents/size/{userNo}")
    public Double documentSize(@PathVariable Long userNo) {
 	   return documentService.documentSize(userNo);

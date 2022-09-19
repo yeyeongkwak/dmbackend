@@ -19,7 +19,7 @@ public interface DocumentService {
 //	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO);
 	
    // 문서 조회 
-   public DocumentDTO selectDocument(Long documentNo);
+//   public DocumentDTO selectDocument(Long documentNo);
    
    // 문서 작성
    public int insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
@@ -32,7 +32,7 @@ public interface DocumentService {
    public void updateDocument(Long documentNo, DocumentDTO documentDTO);
    
    // 문서 삭제
-   public void deleteDocument(List<Long> documentNo);
+   public void deleteDocument(Long documentNo);
    
    // 내 문서 용량
    public Double documentSize(Long userNo);
