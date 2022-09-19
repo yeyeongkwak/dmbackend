@@ -21,9 +21,11 @@ public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, Lo
 	
 //	public List<WorkspaceUser> findAllByWorkspaceNoWorkspaceNo(Long workspaceNo);
 	
-	@Query(value = "SELECT user_no,name,dept_no FROM user WHERE user_no in(SELECT user_no FROM workspace_user WHERE workspace_no = :workspaceNo)",nativeQuery = true)
+	@Query(value = "SELECT user_no,name,dept_no,id FROM user WHERE user_no in(SELECT user_no FROM workspace_user WHERE workspace_no = :workspaceNo)",nativeQuery = true)
 	public List<String> findUserByWorkspaceUser(Long workspaceNo);
 
 	public List<WorkspaceUser> findAllByWorkspaceNoWorkspaceNo(Long workspaceNo);
+
+	public boolean existsByWorkspaceNoWorkspaceNoAndUserNoUserNo(Long workspaceNo, Long userNo);
 	
 }

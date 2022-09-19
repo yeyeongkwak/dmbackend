@@ -19,6 +19,8 @@ public interface WorkspaceUserService {
 	public void deleteAllWorkspaceUser(List<WorkspaceDTO> workspaceList, Long userNo);
 
 	public List<WorkspaceUserDTO> getMemberList(Long workspaceNo);
+
+	public boolean checkMember(Long workspaceNo, Long userNo);
 	
 	
 	
