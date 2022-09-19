@@ -134,16 +134,16 @@ public class DocumentUserServiceImpl implements DocumentUserService {
 //		return new PageResultDTO<DocumentUserDTO, DocumentUser>(result, function);
 	}
 	
-	@Override
-	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo) {
-		List<DocumentUser> documentUserList = documentUserRepository.findDocumentUserByUserNoUserNo(userNo);
-		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
-		
-		documentUserList.forEach(v->documentUserDTOList.add(v.toDTO(v)));
-		return documentUserDTOList;
-	}
+//	@Override
+//	public List<DocumentUserDTO> getDocumentUserByUserNo(Long userNo) {
+//		List<DocumentUser> documentUserList = documentUserRepository.findDocumentUserByUserNoUserNo(userNo);
+//		List<DocumentUserDTO> documentUserDTOList = new ArrayList<DocumentUserDTO>();
+//		
+//		documentUserList.forEach(v->documentUserDTOList.add(v.toDTO(v)));
+//		return documentUserDTOList;
+//	}
 	
-	@Override
+	
 	public DocumentUserDTO getDocumentUserByUserNoAndDocumentNo(Long userNo,Long documentNo) {
 		DocumentUser documentUser = documentUserRepository.findDocumentUserByUserNoUserNoAndDocumentNoDocumentNo(userNo, documentNo);
 		return documentUser == null ? null : documentUser.toDTO(documentUser);

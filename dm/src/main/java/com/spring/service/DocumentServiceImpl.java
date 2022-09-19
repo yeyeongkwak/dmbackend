@@ -49,7 +49,7 @@ public class DocumentServiceImpl implements DocumentService{
    
 
    // 문서 조회 
-   @Override
+//   @Override
    public DocumentDTO selectDocument(Long documentNo) {
       Document document = documentRepository.findDocumentByDocumentNo(documentNo);
       return document == null ? null : document.toDTO(document);

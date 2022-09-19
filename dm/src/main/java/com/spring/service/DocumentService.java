@@ -19,7 +19,7 @@ public interface DocumentService {
 //	public PageResultDTO<DocumentDTO, Document> getList(User userNo, PageRequestDTO pageRequestDTO);
 	
    // 문서 조회 
-   public DocumentDTO selectDocument(Long documentNo);
+//   public DocumentDTO selectDocument(Long documentNo);
    
    // 문서 작성
    public int insertDocument(DocumentDTO documentDTO,List<DocumentUserDTO> documentUserList ,MultipartFile multipartFile);
