@@ -132,15 +132,17 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 	
 	@Override
-	public void deleteAllUnreadNotice(Long receiverNo) {
+	public List<NoticeResponse> deleteAllUnreadNotice(Long receiverNo) {
 		List<Notice> noticeList = noticeRepository.findAllUnreadNoticeByReceiverNo(receiverNo);
 		noticeList.forEach((v)->{noticeRepository.delete(v);});
+		return findAllNoticeByReceiverUserNo(receiverNo);
 	}
 	
 	@Override
-	public void deleteAllReadNotice(Long receiverNo) {
+	public List<NoticeResponse> deleteAllReadNotice(Long receiverNo) {
 		List<Notice> noticeList = noticeRepository.findAllReadNoticeByReceiverNo(receiverNo);
 		noticeList.forEach((v)->{noticeRepository.delete(v);});
+		return findAllNoticeByReceiverUserNo(receiverNo);
 	}
 	
 	

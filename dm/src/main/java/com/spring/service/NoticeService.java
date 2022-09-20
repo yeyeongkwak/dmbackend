@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.annotations.Sort;
 
+import com.spring.dto.NoticeDTO;
 import com.spring.dto.NoticeDTO.NoticeRequest;
 import com.spring.dto.NoticeDTO.NoticeResponse;
 import com.spring.entity.Notice;
@@ -30,9 +31,9 @@ public interface NoticeService {
 
 	public void deleteAllNotice(Long receiverNo);
 	
-	public void deleteAllUnreadNotice(Long receiverNo);
+	public List<NoticeResponse> deleteAllUnreadNotice(Long receiverNo);
 	
-	public void deleteAllReadNotice(Long receiverNo);
+	public List<NoticeResponse> deleteAllReadNotice(Long receiverNo);
 	
 	public void updateAllNotice(Long receiverNo, List<NoticeRequest> noticeDTOList);
   
