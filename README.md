@@ -33,6 +33,8 @@
   + NoticeRepository
   + TempFileRepository
   + UserRepository
+  + WorkspaceRepository
+  + WorkspaceUserRepository
   
 + #### Service 구조
   + DepartmentService - DepartmentServiceImpl
