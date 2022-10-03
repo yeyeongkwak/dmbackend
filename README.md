@@ -10,3 +10,18 @@ DocsManager-backend
   + WorkspaceUserDTO
   + PageRequestDTO
   + PageResultDTO
+  + MailDTO
+  + TempFileDTO
+  + DepartmentDTO
+ 
+ +Entity 구조
+  + Department
+  + Document
+  + DocumentUser
+  + DocumentUserId
+  + Notice
+  + TempFile
+  + User
+  + Workspace
+  + WorkspaceUser
+  + WorkspaceUserId
