@@ -1,7 +1,7 @@
 # Backend
 DocsManager-backend
 ### 주제 : 조직 맞춤형 파일 드라이브 시스템
-+ DTO 구조
+##### + DTO 구조
   + UserDTO
   + DocumentDTO
   + DocumentUserDTO
@@ -14,7 +14,7 @@ DocsManager-backend
   + TempFileDTO
   + DepartmentDTO
  
-+ Entity 구조
+##### + Entity 구조
   + Department
   + Document
   + DocumentUser
