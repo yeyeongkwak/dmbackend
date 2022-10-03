@@ -44,5 +44,4 @@
   + UserService - UserServiceImpl
   + WorkspaceService - WorkspaceSerivceImpl
   + WorkspaceUserService - WorkspaceUserImpl
-  + WorkspaceRepository
-  + WorkspaceUserRepository
+
