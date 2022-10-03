@@ -1,6 +1,6 @@
 # Backend
 DocsManager-backend
-### 주제 : 조직 맞춤형 파일 드라이브 시스템
+### 주제 : 조직 맞춤형 파일 📁 드라이브 시스템
 + ####  DTO 구조
   + UserDTO
   + DocumentDTO
@@ -25,3 +25,13 @@ DocsManager-backend
   + Workspace
   + WorkspaceUser
   + WorkspaceUserId
+
++ #### Respository 구조
+  + DepartmentRepository
+  + DocumentRepository
+  + DocumentUserRepository
+  + NoticeRepository
+  + TempFileRepository
+  + UserRepository
+  + WorkspaceRepository
+  + WorkspaceUserRepository
