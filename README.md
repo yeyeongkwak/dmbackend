@@ -33,5 +33,16 @@
   + NoticeRepository
   + TempFileRepository
   + UserRepository
+  
++ #### Service 구조
+  + DepartmentService - DepartmentServiceImpl
+  + DocumnetService - DocumentServiceImpl
+  + DocumentUserService - DocumentUserServiceImpl
+  + MailService - MailServiceImpl
+  + NoticeService - NoticeServiceImpl
+  + TempFileService - TempFileServiceImpl
+  + UserService - UserServiceImpl
+  + WorkspaceService - WorkspaceSerivceImpl
+  + WorkspaceUserService - WorkspaceUserImpl
   + WorkspaceRepository
   + WorkspaceUserRepository
