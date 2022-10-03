@@ -14,7 +14,7 @@ DocsManager-backend
   + TempFileDTO
   + DepartmentDTO
  
- + Entity 구조
++ Entity 구조
   + Department
   + Document
   + DocumentUser
